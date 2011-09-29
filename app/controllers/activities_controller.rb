@@ -29,5 +29,8 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
+    activity = Activity.find(params[:id])
+    activity.destroy
+    respond_with true
   end
 end

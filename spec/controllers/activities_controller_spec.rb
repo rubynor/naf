@@ -33,4 +33,11 @@ describe ActivitiesController do
     ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode([activity1, activity2].to_json)
   end
   
+  it "should destroy an activity" do
+    activity = Activity.create(:title => "Learn to navigate in indonesian traffic")
+    Activity.all.size.should == 1
+    delete :destroy, {:id => activity.id }
+    Activity.all.size.should == 0
+  end
+  
 end
