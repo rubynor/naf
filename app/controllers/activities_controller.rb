@@ -3,10 +3,11 @@ class ActivitiesController < ApplicationController
   respond_to :json
 
   def show
-
+    respond_with Activity.find(params[:id])
   end
 
   def index
+    respond_with Activity.all
   end
 
   def create
