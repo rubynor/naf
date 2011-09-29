@@ -1,0 +1,22 @@
+defaults: &defaults
+  host: localhost
+  # slaves:
+  #   - host: slave1.local
+  #     port: 27018
+  #   - host: slave2.local
+  #     port: 27019
+
+development:
+  <<: *defaults
+  database: naf_development
+
+test:
+  <<: *defaults
+  database: naf_test
+
+# set these environment variables on your prod server
+staging:
+  uri: <%= ENV['MONGOHQ_URL'] %>
+
+production:
+  uri: <%= ENV['MONGOHQ_URL'] %>
