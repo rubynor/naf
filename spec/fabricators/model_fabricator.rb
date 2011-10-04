@@ -1,5 +1,5 @@
 Fabricator :activity do
-  name "Activity"
+  summary "Activity"
   location_id {Fabricate(:location).id}
   category_id {Fabricate(:category).id}
 end
