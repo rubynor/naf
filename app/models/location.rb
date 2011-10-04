@@ -5,5 +5,4 @@ class Location
   field :latitude, :type => Float
 
   validates_presence_of :longitude, :latitude
-
 end

@@ -17,6 +17,7 @@ gem 'jquery-rails'
 
 gem 'nokogiri'
 gem 'rest-client'
+gem 'awesome_print'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
@@ -25,4 +26,5 @@ end
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'fabrication'
 end
