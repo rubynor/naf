@@ -1,3 +1,3 @@
 Naf::Application.routes.draw do
-  resources :activities, :locations
+  resources :activities, :locations, :categories
 end
