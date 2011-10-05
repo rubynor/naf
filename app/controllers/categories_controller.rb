@@ -1,9 +1,7 @@
 class CategoriesController < ApplicationController
 
-  respond_to :json
-
   def index
-    respond_with Category.all
+    render :json => {:categories => Category.all}, :callback => params[:callback]
   end
 
 end
