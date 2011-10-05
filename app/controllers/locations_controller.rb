@@ -3,7 +3,7 @@ class LocationsController < ApplicationController
   respond_to :json
 
   def index
-    render :json => {:locations => Location.all}
+    respond_with :success => "true", :locations => Location.all
   end
 
 end
