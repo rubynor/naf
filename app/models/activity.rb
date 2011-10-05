@@ -2,11 +2,6 @@ class Activity
   include Mongoid::Document
   include Sunspot::Mongoid
 
-  searchable do
-    text :summary
-    text :description
-  end
-
   #x-cal fields
   field :summary, :type => String #summary of the event
   field :description, :type => String #description of the event
@@ -31,6 +26,11 @@ class Activity
   embeds_many :categories
 
   before_validation :embedd_the_location, :embedd_the_category
+
+  searchable do
+    text :summary
+    text :description
+  end
 
   def embedd_the_location
     self.location = Location.find(self.location_id)
