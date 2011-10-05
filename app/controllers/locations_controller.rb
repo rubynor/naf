@@ -1,9 +1,8 @@
 class LocationsController < ApplicationController
 
-  respond_to :json
 
   def index
-    respond_with :success => "true", :locations => Location.all, :callback => params[:callback]
+    render :json => { :locations => Location.all },  :callback => params[:callback]
   end
 
 end
