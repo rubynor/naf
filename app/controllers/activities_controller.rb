@@ -1,36 +1,36 @@
 class ActivitiesController < ApplicationController
 
-  respond_to :json
+
 
   def show
-    respond_with Activity.find(params[:id])
+    render :json => Activity.find(params[:id]), :callback => params[:callback]
   end
 
   def index
-    respond_with Activity.all
+    render :json => { :activities => Activity.all }, :callback => params[:callback]
   end
 
   def create
     @activity = Activity.new(params[:activity])
     if @activity.save
-      respond_with @activity, :status => :ok
+      render :json => @activity, :callback => params[:callback], :status => :ok
     else
-      respond_with @activity.errors, status => :unprocessable_entity
+      render :json => @activity.errors, :callback => params[:callback], status => :unprocessable_entity
     end
   end
 
   def update
     @activity = Activity.find(params[:id])
     if @activity.update_attributes(params[:activity])
-      respond_with @activity, :status => :ok
+      render :json => @activity, :callback => params[:callback], :status => :ok
     else
-      respond_with @activity.errors, status => :unprocessable_entity
+      render :json => @activity.errors, :status => :unprocessable_entity
     end
   end
 
   def destroy
     activity = Activity.find(params[:id])
     activity.destroy
-    respond_with true
+    render :json => "true", :callback => params[:callback]
   end
 end
