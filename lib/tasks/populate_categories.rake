@@ -9,6 +9,3 @@ task :populate_categories => :environment do
     Category.create(:name => cat)
   end
 end
-
-
-
