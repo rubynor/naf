@@ -3,8 +3,8 @@ class Activity
   include Sunspot::Mongoid
 
   searchable do
-      text :summary
-      text :description
+    text :summary
+    text :description
   end
 
   #x-cal fields
@@ -41,4 +41,9 @@ class Activity
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
+
+  def self.perform_search(params)
+    search = Activity.search { keywords params[:text] }
+    return search.results
+  end
 end

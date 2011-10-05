@@ -1,6 +1,8 @@
 class ActivitiesController < ApplicationController
 
-
+  def search
+    render :json => {:activities => Activity.perform_search(params)}, :callback => params[:callback]
+  end
 
   def show
     render :json => Activity.find(params[:id]), :callback => params[:callback]

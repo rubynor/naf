@@ -1,3 +1,6 @@
 Naf::Application.routes.draw do
-  resources :activities, :locations, :categories
+  resources :activities do
+    get :search, :on => :collection
+  end
+  resources :locations, :categories
 end

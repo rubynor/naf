@@ -1,6 +1,8 @@
 require 'spec_helper'
 
+
 describe ActivitiesController do
+  disconnect_sunspot
   
   before(:each) do
     @request.env["HTTP_ACCEPT"] = "application/json"
@@ -35,6 +37,7 @@ describe ActivitiesController do
     ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode([activity1, activity2].to_json)
   end
   
+  
   it "should destroy an activity" do
     activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")
     Activity.all.size.should == 1
@@ -42,4 +45,11 @@ describe ActivitiesController do
     Activity.all.size.should == 0
   end
   
+  it "should find activity based on search" do
+    get :search
+    ActiveSupport::JSON.decode(response.body).should == {"activities" => []}
+    activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")
+    get :search, :text => "dance"
+    ActiveSupport::JSON.decode(response.body).should == {"activities" => []} #sunspot is mimiced with no results
+  end
 end

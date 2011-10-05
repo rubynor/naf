@@ -24,7 +24,6 @@ gem 'awesome_print'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
-  gem 'sunspot_solr'
 end
 
 group :test do
