@@ -5,6 +5,9 @@ gem 'rails', '3.1.0'
 gem 'mongoid'
 gem 'bson_ext'
 
+gem 'sunspot_rails' #searching
+gem 'sunspot_mongoid' #for search in mongoid
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -21,6 +24,7 @@ gem 'awesome_print'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
+  gem 'sunspot_solr'
 end
 
 group :test do

@@ -1,5 +1,11 @@
 class Activity
   include Mongoid::Document
+  include Sunspot::Mongoid
+
+  searchable do
+      text :summary
+      text :description
+  end
 
   #x-cal fields
   field :summary, :type => String #summary of the event

@@ -11,4 +11,3 @@ task :populate_categories => :environment do
     end
   end
 end
-
