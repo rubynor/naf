@@ -42,8 +42,10 @@ class Activity
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
 
-  def self.perform_search(params)
-    search = Activity.search { keywords params[:text] }
-    return search.results
+  class << self
+    def perform_search(params)
+      search = Activity.search { keywords params[:text] }
+      return search.results
+    end
   end
 end
