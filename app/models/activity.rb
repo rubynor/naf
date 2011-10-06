@@ -34,6 +34,7 @@ class Activity
     text :summary, :description, :tags, :vehicle
     string :target
     string :category_id
+    time :dtstart, :trie => true
   end
 
   def embedd_the_location
@@ -54,7 +55,12 @@ class Activity
         end
         with(:category_id).any_of params[:category_ids] if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:target] if params[:target] && !params[:target].empty?
+        if params[:dtstart]
+          start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
+          with(:dtstart).greater_than(start)
+        end
       end
+      order_by :dtstart, :desc
       return search.results
     end
 
