@@ -10,7 +10,7 @@ describe CategoriesController do
     category1 = Category.create(:name => "Cat1")
     category2 = Category.create(:name => "Cat2")
     get :index
-    ActiveSupport::JSON.decode(response.body) == ActiveSupport::JSON.decode([category1, category2].to_json)
+    ActiveSupport::JSON.decode(response.body).should == ActiveSupport::JSON.decode({:categories => [category1, category2]}.to_json)
   end
 
 end
