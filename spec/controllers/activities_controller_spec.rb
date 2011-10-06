@@ -44,8 +44,8 @@ describe ActivitiesController do
     delete :destroy, {:id => activity.id }
     Activity.all.size.should == 0
   end
-  
-  it "should find activity based on search" do
+
+  it "search actions should work (no real search performed here - se activities_search_spec)" do
     get :search
     ActiveSupport::JSON.decode(response.body).should == {"activities" => []}
     activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")

@@ -31,8 +31,7 @@ class Activity
   before_validation :embedd_the_location, :embedd_the_category
 
   searchable do
-    text :summary
-    text :description
+    text :summary, :description
     string :target
     string :category_id
   end
@@ -50,8 +49,10 @@ class Activity
   class << self
     def perform_search(params)
       search = Activity.search do
-        keywords params[:text] if params[:text]
-        with(:category_id).any_of params[:category_ids] if params[:category_ids]
+        keywords params[:text] do
+            highlight :summary, :description
+        end
+        with(:category_id).any_of params[:category_ids] if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:target] if params[:target]
       end
       return search.results
