@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe Activity do
-
+  disconnect_sunspot
+  
   it "should embed a location" do
     relation = Activity.relations['location']
     relation.klass.should == (Location)

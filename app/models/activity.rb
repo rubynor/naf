@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Activity
   include Mongoid::Document
   include Sunspot::Mongoid
@@ -46,6 +48,26 @@ class Activity
     def perform_search(params)
       search = Activity.search { keywords params[:text] }
       return search.results
+    end
+
+    def fields_schema
+      [
+        {:nb => "Navn", :en => "summary", :type => "text_field"},
+        {:nb => "Sted", :en => "location_id", :type => "select_box"},
+        {:nb => "Kategori", :en => "category_id", :type => "select_box", :values => Category.all.map{|c|{:_id => c.id.to_s, :name => c.name}}},
+        {:nb => "Beskrivelse", :en => "description", :type => "text_area"},
+        {:nb => "Kontaktinformasjon", :en => "contact", :type => "text_area"},
+        {:nb => "Link til registrering", :en => "attendee", :type => "text_field"},
+        {:nb => "Link til nettside", :en => "url", :type => "text_field"},
+        {:nb => "Starter", :en => "dtstart", :type => "datepicker"},
+        {:nb => "Avslutter", :en => "dtend", :type => "datepicker"},
+        {:nb => "Pris", :en => "price", :type => "text_field"},
+        {:nb => "Link til video (Youtube)", :en => "video", :type => "text_field"},
+        {:nb => "Deltakerene må huske", :en => "responsibility", :type => "text_area"},
+        {:nb => "Kjøretøy", :en => "veichle", :type => "select_box", :values => ['Bil', 'MC', 'Trailer', 'Buss']},
+        {:nb => "Deltaker trenger eget kjøretøy", :en => "own_veichle", :type => "check_box"},
+        {:nb => "Instruktør på stedet", :en => "supervisor_included", :type => "check_box"},
+        {:nb => "Tags", :en => "tags", :type => "text_field"}]
     end
   end
 end
