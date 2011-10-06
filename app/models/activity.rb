@@ -23,6 +23,7 @@ class Activity
   field :location_id, :type => String #ref to #Location
   field :category_id, :type => String #ref to #Category
   field :tags, :type => String
+  field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
 
   embeds_one :location
   embeds_many :categories
@@ -54,6 +55,7 @@ class Activity
       [
         {:nb => "Navn", :en => "summary", :type => "text_field"},
         {:nb => "Sted", :en => "location_id", :type => "select_box"},
+        {:nb => "Målgruppe", :en => "target", :type => "select_box", :values => targets},
         {:nb => "Kategori", :en => "category_id", :type => "select_box", :values => Category.all.map{|c|{:_id => c.id.to_s, :name => c.name}}},
         {:nb => "Beskrivelse", :en => "description", :type => "text_area"},
         {:nb => "Kontaktinformasjon", :en => "contact", :type => "text_area"},
@@ -64,10 +66,19 @@ class Activity
         {:nb => "Pris", :en => "price", :type => "text_field"},
         {:nb => "Link til video (Youtube)", :en => "video", :type => "text_field"},
         {:nb => "Deltakerene må huske", :en => "responsibility", :type => "text_area"},
-        {:nb => "Kjøretøy", :en => "veichle", :type => "select_box", :values => ['Bil', 'MC', 'Trailer', 'Buss']},
+        {:nb => "Kjøretøy", :en => "veichle", :type => "select_box", :values => veichles},
         {:nb => "Deltaker trenger eget kjøretøy", :en => "own_veichle", :type => "check_box"},
         {:nb => "Instruktør på stedet", :en => "supervisor_included", :type => "check_box"},
         {:nb => "Tags", :en => "tags", :type => "text_field"}]
+    end
+
+    #list of possible targets an activity can be for
+    def targets
+      ['Barn 0 - 14', 'Ung 15 - 24', 'Voksen 25 - 65', 'Eldre 65 +']
+    end
+    #list of possible veichles to choose from
+    def veichles
+      ['Bil', 'MC', 'Trailer', 'Buss']
     end
   end
 end
