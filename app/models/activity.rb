@@ -22,7 +22,7 @@ class Activity
   field :supervisor_included, :type => Boolean, :default => false
   field :location_id, :type => String #ref to #Location
   field :category_id, :type => String #ref to #Category
-  field :tags, :type => String
+  field :tags, :type => String, :default => ""
   field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
 
   embeds_one :location
@@ -31,7 +31,7 @@ class Activity
   before_validation :embedd_the_location, :embedd_the_category
 
   searchable do
-    text :summary, :description
+    text :summary, :description, :tags
     string :target
     string :category_id
   end
@@ -50,10 +50,10 @@ class Activity
     def perform_search(params)
       search = Activity.search do
         keywords params[:text] do
-            highlight :summary, :description
+          highlight :summary, :description, :tags
         end
         with(:category_id).any_of params[:category_ids] if params[:category_ids] && !params[:category_ids].empty?
-        with(:target).any_of params[:target] if params[:target]
+        with(:target).any_of params[:target] if params[:target] && !params[:target].empty?
       end
       return search.results
     end
