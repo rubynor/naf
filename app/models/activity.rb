@@ -33,6 +33,8 @@ class Activity
   searchable do
     text :summary
     text :description
+    string :target
+    string :category_id
   end
 
   def embedd_the_location
@@ -47,7 +49,11 @@ class Activity
 
   class << self
     def perform_search(params)
-      search = Activity.search { keywords params[:text] }
+      search = Activity.search do
+        keywords params[:text] if params[:text]
+        with(:category_id).any_of params[:category_ids] if params[:category_ids]
+        with(:target).any_of params[:target] if params[:target]
+      end
       return search.results
     end
 
@@ -78,7 +84,7 @@ class Activity
     end
     #list of possible veichles to choose from
     def veichles
-      ['Bil', 'MC', 'Trailer', 'Buss']
+      ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel']
     end
   end
 end
