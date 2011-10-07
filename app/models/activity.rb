@@ -38,7 +38,7 @@ class Activity
   end
 
   def embedd_the_location
-    self.location = Location.find(self.location_id)
+    #self.location = Location.find(self.location_id)
   end
 
   def embedd_the_category
