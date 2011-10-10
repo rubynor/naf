@@ -34,6 +34,9 @@ class Activity
     string :target
     string :category_id
     time :dtstart, :trie => true
+    text :location_name do
+      location.name
+    end
   end
 
   def embedd_the_location

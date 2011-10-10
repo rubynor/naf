@@ -102,4 +102,16 @@ describe ActivitiesController do
     get :search, :text => ""
     search_results_for(response).should == json_decoded([activity2, activity1].to_json)
   end
+  
+  it "should find activities based on name of location", :solr => true do
+    location1 = Fabricate(:location, :name => "Oslo")
+    location2 = Fabricate(:location, :name => "Trondheim")
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :location_id => location1.id.to_s)
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :location_id => location2.id.to_s)
+    Sunspot.commit
+    get :search, :text => "Oslo"
+    search_results_for(response).should == json_decoded([activity1].to_json)
+    get :search, :text => "Trondheim"
+    search_results_for(response).should == json_decoded([activity2].to_json)
+  end
 end
