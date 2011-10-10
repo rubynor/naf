@@ -3,7 +3,7 @@ require 'spec_helper'
 describe LocationsController do
   
   before(:each) do
-    @request.env["HTTP_ACCEPT"] = "application/js"
+    @request.env["HTTP_ACCEPT"] = "application/json"
   end
   
   it "should find all locations" do

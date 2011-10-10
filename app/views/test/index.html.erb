@@ -1,0 +1,84 @@
+<style type='text/css'>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#map_canvas {
+  height: 100%;
+}
+
+@media print {
+  html, body {
+    height: auto;
+  }
+
+  #map_canvas {
+    height: 650px;
+  }
+}
+</style>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script type='text/javascript'>
+
+var MYMAP = {
+  bounds: null,
+  map: null
+}
+
+MYMAP.init = function(selector, latLng, zoom) {
+  var myOptions = {
+    zoom:zoom,
+    center: latLng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  this.map = new google.maps.Map($(selector)[0], myOptions);
+  this.bounds = new google.maps.LatLngBounds();
+}
+
+
+MYMAP.placeMarkers = function(filename) {
+  $.get(filename, function(xml){
+    $(xml).find("marker").each(function(){
+      var name = $(this).find('name').text();
+      var address = $(this).find('address').text();
+      // create a new LatLng point for the marker
+      var lat = $(this).find('lat').text();
+      var lng = $(this).find('lng').text();
+      var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
+
+      // extend the bounds to include the new point
+      MYMAP.bounds.extend(point);
+      // add the marker itself
+      var marker = new google.maps.Marker({
+        position: point,
+        map: MYMAP.map
+      });
+      // create the tooltip and its text
+      var infoWindow = new google.maps.InfoWindow();
+      var html='<b>'+name+'</b><br />'+address;
+      // add a listener to open the tooltip when a user clicks on one of the markers
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(MYMAP.map, marker);
+      });
+    });
+    // Fit the map around the markers we added:
+    MYMAP.map.fitBounds(MYMAP.bounds);
+  });
+}
+
+
+$(document).ready(function(){
+    var myLatLng = new google.maps.LatLng(59.9, 10.7);
+    MYMAP.init('#map_canvas', myLatLng, 6);
+    MYMAP.placeMarkers('/locations.xml');
+})
+       // google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+<div id="map_canvas"></div>
