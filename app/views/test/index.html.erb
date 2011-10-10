@@ -71,11 +71,121 @@ MYMAP.placeMarkers = function(filename) {
   });
 }
 
+MYMAP.setRegion = function(){
+  var south;
+  var southCoords = [
+      new google.maps.LatLng(59.877912,5.273438),
+    new google.maps.LatLng(59.344395,10.590820),
+      new google.maps.LatLng(57.657158,7.822266),
+      new google.maps.LatLng(57.868132,5.866699),
+    new google.maps.LatLng(59.512029,4.570313),
+    new google.maps.LatLng(59.877912,5.273438)
+
+    ];
+
+  var westCoords = [
+        new google.maps.LatLng(59.400365,7.954102),
+      new google.maps.LatLng(59.422728,3.295898),
+        new google.maps.LatLng(63.411198,3.471680),
+        new google.maps.LatLng(63.391522,8.569336),
+      new google.maps.LatLng(59.400365,7.954102)
+
+      ];
+
+    var eastCoords = [
+          new google.maps.LatLng(63.233627,12.744141),
+        new google.maps.LatLng(63.332413,8.613281),
+          new google.maps.LatLng(59.489726,7.910156),
+          new google.maps.LatLng(59.467408,12.919922),
+        new google.maps.LatLng(63.233627,12.744141)
+
+        ];
+
+
+      var northCoords = [
+            new google.maps.LatLng(71.130988,32.783203),
+          new google.maps.LatLng(68.815927,30.102539),
+            new google.maps.LatLng(63.273182,12.832031),
+            new google.maps.LatLng(63.430860,6.767578),
+          new google.maps.LatLng(71.705093,16.303711),
+        new google.maps.LatLng(71.130988,32.783203)
+          ];
+
+
+
+        var oslofjordCoords = [
+              new google.maps.LatLng(60.108670,9.931641),
+            new google.maps.LatLng(58.927334,8.876953),
+              new google.maps.LatLng(58.263287,7.514648),
+              new google.maps.LatLng(57.891497,12.172852),
+            new google.maps.LatLng(  59.288332,12.128906),
+          new google.maps.LatLng(60.108670,9.931641)
+            ];
+
+
+
+
+
+
+
+
+
+
+
+    south = new google.maps.Polygon({
+      paths: southCoords,
+      strokeColor: "blue",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "blue",
+      fillOpacity: 0.35
+    });
+
+  west = new google.maps.Polygon({
+      paths: westCoords,
+      strokeColor: "yellow",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "yellow",
+      fillOpacity: 0.35
+    });
+
+  east = new google.maps.Polygon({
+      paths: eastCoords,
+      strokeColor: "green",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "green",
+      fillOpacity: 0.35
+    });
+  north = new google.maps.Polygon({
+      paths: northCoords,
+      strokeColor: "brown",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "brown",
+      fillOpacity: 0.35
+    });
+  oslofjord = new google.maps.Polygon({
+      paths: oslofjordCoords,
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      fillColor: "#FF0000",
+      fillOpacity: 0.35
+    });
+    south.setMap(this.map);
+  east.setMap(this.map);
+  west.setMap(this.map);
+  north.setMap(this.map);
+  oslofjord.setMap(this.map);
+}
 
 $(document).ready(function(){
     var myLatLng = new google.maps.LatLng(59.9, 10.7);
     MYMAP.init('#map_canvas', myLatLng, 6);
     MYMAP.placeMarkers('/locations.xml');
+  MYMAP.setRegion();
 })
        // google.maps.event.addDomListener(window, 'load', initialize);
 
