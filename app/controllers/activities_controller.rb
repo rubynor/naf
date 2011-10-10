@@ -17,7 +17,7 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    render :json => { :activities => Activity.all }, :callback => params[:callback]
+    render :json => { :activities => Activity.page(params[:page]).per(params[:limit]) }, :callback => params[:callback]
   end
 
   def create

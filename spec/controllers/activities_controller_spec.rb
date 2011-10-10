@@ -37,6 +37,15 @@ describe ActivitiesController do
     ActiveSupport::JSON.decode(response.body).should ==  ActiveSupport::JSON.decode({:activities => [activity1, activity2]}.to_json)
   end
   
+  it "should find all activities and use will paginate" do
+    #{}"page"=>"1", "start"=>"0", "limit"=>"25"
+    5.times{Fabricate(:activity, :summary => "Learn to slow dance")}
+    get :index, :page => 1, :limit => 3
+    ActiveSupport::JSON.decode(response.body)["activities"].size.should == 3
+    get :index, :page => 1, :limit => 5
+    ActiveSupport::JSON.decode(response.body)["activities"].size.should == 5
+  end
+  
   
   it "should destroy an activity" do
     activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")
