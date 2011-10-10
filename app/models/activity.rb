@@ -57,8 +57,9 @@ class Activity
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
           with(:dtstart).greater_than(start)
         end
+        order_by :dtstart, :asc
+        paginate :page => params[:page], :per_page => params[:limit]
       end
-      order_by :dtstart, :desc
       return search.results
     end
 

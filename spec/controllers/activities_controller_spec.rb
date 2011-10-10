@@ -34,16 +34,18 @@ describe ActivitiesController do
     activity1 = Fabricate(:activity, :summary => "Learn to slow dance")
     activity2 = Fabricate(:activity, :summary => "Learn to slow dance fast")
     get :index
-    ActiveSupport::JSON.decode(response.body).should ==  ActiveSupport::JSON.decode({:activities => [activity1, activity2]}.to_json)
+    ActiveSupport::JSON.decode(response.body).should ==  ActiveSupport::JSON.decode({:activities => [activity1, activity2], :pages => 1}.to_json)
   end
   
-  it "should find all activities and use will paginate" do
+  it "should find all activities with pagination and return page count" do
     #{}"page"=>"1", "start"=>"0", "limit"=>"25"
     5.times{Fabricate(:activity, :summary => "Learn to slow dance")}
     get :index, :page => 1, :limit => 3
     ActiveSupport::JSON.decode(response.body)["activities"].size.should == 3
+    ActiveSupport::JSON.decode(response.body)["pages"].should == 2
     get :index, :page => 1, :limit => 5
     ActiveSupport::JSON.decode(response.body)["activities"].size.should == 5
+    ActiveSupport::JSON.decode(response.body)["pages"].should == 1
   end
   
   

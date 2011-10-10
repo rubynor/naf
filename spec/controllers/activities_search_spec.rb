@@ -95,7 +95,7 @@ describe ActivitiesController do
     search_results_for(response).should == json_decoded([activity2].to_json)
   end
   
-  pending "should order the search with closest in time first", :solr => true do
+  it "should order the search with closest in time first", :solr => true do
     activity1 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 4, 5))
     activity2 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 2, 5))
     Sunspot.commit

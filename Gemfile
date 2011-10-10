@@ -4,9 +4,10 @@ gem 'rails', '3.1.0'
 
 gem 'mongoid'
 gem 'bson_ext'
-gem 'kaminari'
+gem 'kaminari' #for pagination
 gem 'sunspot_rails' #searching
 gem 'sunspot_mongoid' #for search in mongoid
+gem 'mongoid_spacial'
 
 # Gems used only for assets and not required
 # in production environments by default.
