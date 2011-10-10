@@ -60,7 +60,7 @@ class Activity
         order_by :dtstart, :asc
         paginate :page => params[:page], :per_page => params[:limit]
       end
-      return search.results
+      return search.results, search.total
     end
 
     def fields_schema

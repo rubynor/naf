@@ -9,8 +9,8 @@ class ActivitiesController < ApplicationController
   end
 
   def search
-    @activities = Activity.perform_search(params)
-    render :json => {:activities => @activities }, :callback => params[:callback]
+    @activities, @total = Activity.perform_search(params)
+    render :json => {:activities => @activities, :total => @total }, :callback => params[:callback]
   end
 
   def show
@@ -19,7 +19,7 @@ class ActivitiesController < ApplicationController
 
   def index
     @activities = Activity.page(params[:page]).per(params[:limit])
-    render :json => { :activities => @activities, :pages => @activities.num_pages }, :callback => params[:callback]
+    render :json => { :activities => @activities, :total => @activities.total_count }, :callback => params[:callback]
   end
 
   def create

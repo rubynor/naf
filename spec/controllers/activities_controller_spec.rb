@@ -34,7 +34,7 @@ describe ActivitiesController do
     activity1 = Fabricate(:activity, :summary => "Learn to slow dance")
     activity2 = Fabricate(:activity, :summary => "Learn to slow dance fast")
     get :index
-    ActiveSupport::JSON.decode(response.body).should ==  ActiveSupport::JSON.decode({:activities => [activity1, activity2], :pages => 1}.to_json)
+    ActiveSupport::JSON.decode(response.body).should ==  ActiveSupport::JSON.decode({:activities => [activity1, activity2], :total => 2}.to_json)
   end
   
   it "should find all activities with pagination and return page count" do
@@ -42,10 +42,9 @@ describe ActivitiesController do
     5.times{Fabricate(:activity, :summary => "Learn to slow dance")}
     get :index, :page => 1, :limit => 3
     ActiveSupport::JSON.decode(response.body)["activities"].size.should == 3
-    ActiveSupport::JSON.decode(response.body)["pages"].should == 2
     get :index, :page => 1, :limit => 5
     ActiveSupport::JSON.decode(response.body)["activities"].size.should == 5
-    ActiveSupport::JSON.decode(response.body)["pages"].should == 1
+    ActiveSupport::JSON.decode(response.body)["total"].should == 5
   end
   
   
@@ -58,9 +57,9 @@ describe ActivitiesController do
 
   it "search actions should work (no real search performed here - se activities_search_spec)" do
     get :search
-    ActiveSupport::JSON.decode(response.body).should == {"activities" => []}
+    ActiveSupport::JSON.decode(response.body).should == {"activities" => [], "total" => 0}
     activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")
     get :search, :text => "dance"
-    ActiveSupport::JSON.decode(response.body).should == {"activities" => []} #sunspot is mimiced with no results
+    ActiveSupport::JSON.decode(response.body).should == {"activities" => [], "total" => 0} #sunspot is mimiced with no results
   end
 end
