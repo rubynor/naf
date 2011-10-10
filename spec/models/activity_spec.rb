@@ -14,15 +14,15 @@ describe Activity do
     activity.location.name.should == "NAF track Oslo"
   end
   
-  it "should embed a category" do
-    relation = Activity.relations['categories']
+  it "should belongs to a" do
+    relation = Activity.relations['category']
     relation.klass.should == (Category)
-    relation.relation.should == (Mongoid::Relations::Embedded::Many)
+    relation.relation.should == Mongoid::Relations::Referenced::In
   end
   
   it "should embedd the category upon creation" do
     activity = Fabricate(:activity)
-    activity.categories.first.name.should == "Tracks"
+    activity.category.name.should == "Tracks"
   end
   
   it "sets dtend automatically if duration and dtstart is set"

@@ -21,14 +21,13 @@ class Activity
   field :own_vehicle, :type => Boolean, :default => false #the attendee needs veichle
   field :supervisor_included, :type => Boolean, :default => false
   field :location_id, :type => String #ref to #Location
-  field :category_id, :type => String #ref to #Category
   field :tags, :type => String, :default => ""
   field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
 
   embeds_one :location
-  embeds_many :categories
+  belongs_to :category
 
-  before_validation :embedd_the_location, :embedd_the_category
+  before_validation :embedd_the_location
 
   searchable do
     text :summary, :description, :tags, :vehicle
@@ -39,10 +38,6 @@ class Activity
 
   def embedd_the_location
     self.location = Location.find(self.location_id)
-  end
-
-  def embedd_the_category
-    self.categories << Category.find(self.category_id) if self.categories.empty?
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
