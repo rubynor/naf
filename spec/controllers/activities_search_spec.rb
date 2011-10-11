@@ -59,11 +59,11 @@ describe ActivitiesController do
     activity2 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle2", :target => "Voksne 25 - 40")
     activity3 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :target => "Eldre 65 +")
     Sunspot.commit
-    get :search, :text => "no match", :target => []
+    get :search, :text => "no match", :targets => []
     search_results_for(response).should == json_decoded([].to_json)
-    get :search, :text => "", :target => ["Barn 0 - 14"]
+    get :search, :text => "", :targets => ["Barn 0 - 14"]
     search_results_for(response).should == json_decoded([activity1].to_json)
-    get :search, :text => "", :target => ["Barn 0 - 14", "Voksne 25 - 40"]
+    get :search, :text => "", :targets => ["Barn 0 - 14", "Voksne 25 - 40"]
     search_results_for(response).should == json_decoded([activity1, activity2].to_json)
   end
   

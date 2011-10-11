@@ -54,8 +54,8 @@ class Activity
           highlight :summary, :description, :tags, :vehicle
         end
         with(:region).any_of params[:regions].to_a if params[:regions] && !params[:regions].empty?
-        with(:category_id).any_of params[:category_ids] if params[:category_ids] && !params[:category_ids].empty?
-        with(:target).any_of params[:target] if params[:target] && !params[:target].empty?
+        with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
+        with(:target).any_of params[:targets].to_a if params[:targets] && !params[:targets].empty?
         if params[:dtstart]
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
           with(:dtstart).greater_than(start)
