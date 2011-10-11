@@ -5,6 +5,7 @@ html, body {
   padding: 0;
 }
 
+#searchbar{float:left; width:260px; padding:20px;}
 #map_canvas {
   height: 100%;
 }
@@ -181,4 +182,66 @@ $(document).ready(function(){
 
 </script>
 
+<div id='searchbar'>
+  <div class="clearfix">
+              <div class="input">
+                <div class="input-prepend">
+                  <span class="add-on">Søk</span>
+                  <input class="large" id="prependedInput" name="prependedInput" size="16" type="text" x-webkit-speech="disabled">
+                </div>
+              </div>
+            </div>
+
+<div class="clearfix">&nbsp;</div>
+
+<h3>Tema</h3>
+      <div class="clearfix">
+
+                  <div class="input">
+                    <ul class="inputs-list">
+                      <li>
+                        <label>
+                          <input type="checkbox" name="optionsCheckboxes" value="option1">
+                          <span>Politisk påvirkning</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label>
+                          <input type="checkbox" name="optionsCheckboxes" value="option2">
+                          <span>Forbedre ferdigheter</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label>
+                          <input type="checkbox" name="optionsCheckboxes" value="option2">
+                          <span>Øk kunnskapen</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="disabled">
+                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
+                          <span>Opplevelse</span>
+                        </label>
+                      </li>
+              <li>
+                        <label class="disabled">
+                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
+                          <span>Trygt kjøretøy</span>
+                        </label>
+                      </li>
+              <li>
+                        <label class="disabled">
+                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
+                          <span>Miljø øko</span>
+                        </label>
+                      </li>
+
+                    </ul>
+                    <span class="help-block">
+                      <strong>NB:</strong> Du kan velge flere tema
+                    </span>
+
+                </div>
+</div>
+</div>
 <div id="map_canvas"></div>
