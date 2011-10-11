@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 #
 # All specs for search on activities (sunspot is turned of in activities controller specs - here it is not)
 #
@@ -113,5 +115,18 @@ describe ActivitiesController do
     search_results_for(response).should == json_decoded([activity1].to_json)
     get :search, :text => "Trondheim"
     search_results_for(response).should == json_decoded([activity2].to_json)
+  end
+  
+  it "should find activities based on region", :solr => true do
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :region => "Nord")
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :region => "Sør")
+    activity3 = Fabricate(:activity, :summary => "Learn stuff", :region => "Øst")
+    Sunspot.commit
+    get :search, :text => "", :regions => "Nord"
+    search_results_for(response).should == json_decoded([activity1].to_json)
+    get :search, :text => "", :regions => "Sør"
+    search_results_for(response).should == json_decoded([activity2].to_json)
+    get :search, :text => "", :regions => ["Nord", "Øst"]
+    search_results_for(response).should == json_decoded([activity1, activity3].to_json)
   end
 end

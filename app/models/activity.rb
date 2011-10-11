@@ -14,6 +14,7 @@ class Activity
   field :dtend, :type => DateTime #end of event
 
   #additional fields
+  field :region, :type => String
   field :price, :type => Float
   field :video, :type => String #link to youtube
   field :responsibility, :type => String #what the attendee needs to be responsible for
@@ -32,6 +33,7 @@ class Activity
   searchable do
     text :summary, :description, :tags, :vehicle
     string :target
+    string :region
     string :category_id
     time :dtstart, :trie => true
     text :location_name do
@@ -51,6 +53,7 @@ class Activity
         keywords params[:text] do
           highlight :summary, :description, :tags, :vehicle
         end
+        with(:region).any_of params[:regions].to_a if params[:regions] && !params[:regions].empty?
         with(:category_id).any_of params[:category_ids] if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:target] if params[:target] && !params[:target].empty?
         if params[:dtstart]
@@ -91,6 +94,10 @@ class Activity
     #list of possible veichles to choose from
     def veichles
       ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel']
+    end
+
+    def regions
+      ["Nord", "Sør", "Øst", "Vest", "Oslofjord"]
     end
   end
 end
