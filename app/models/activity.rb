@@ -57,7 +57,7 @@ class Activity
           highlight :summary, :description, :tags, :vehicle
         end
 
-        if params[:admin]
+        if params[:admin] && params[:admin].to_s == "true"
           with(:active).any_of [true, false]
         else
           with(:active, true)
