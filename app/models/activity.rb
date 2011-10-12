@@ -56,7 +56,13 @@ class Activity
         keywords params[:text] do
           highlight :summary, :description, :tags, :vehicle
         end
-        with(:active, true) unless params[:admin] && params[:admin] == true #admin wants both active and inactive
+
+        if params[:admin] && params[:admin] == true
+          with(:active).any_of [true, false]
+        else
+          with(:active, true)
+        end
+
         with(:region).any_of params[:regions].to_a if params[:regions] && !params[:regions].empty?
         with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:targets].to_a if params[:targets] && !params[:targets].empty?
