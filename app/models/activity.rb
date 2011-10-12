@@ -25,6 +25,8 @@ class Activity
   field :tags, :type => String, :default => ""
   field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
 
+  field :active, :type => Boolean, :default => false
+
   embeds_one :location
   belongs_to :category
 
@@ -35,6 +37,7 @@ class Activity
     string :target
     string :region
     string :category_id
+    boolean :active
     time :dtstart, :trie => true
     text :location_name do
       location.name
@@ -53,6 +56,7 @@ class Activity
         keywords params[:text] do
           highlight :summary, :description, :tags, :vehicle
         end
+        with(:active, true) unless params[:admin] && params[:admin] == true #admin wants both active and inactive
         with(:region).any_of params[:regions].to_a if params[:regions] && !params[:regions].empty?
         with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:targets].to_a if params[:targets] && !params[:targets].empty?

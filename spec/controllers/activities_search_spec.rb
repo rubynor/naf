@@ -129,4 +129,21 @@ describe ActivitiesController do
     get :search, :text => "", :regions => ["Nord", "Øst"]
     search_results_for(response).should == json_decoded([activity1, activity3].to_json)
   end
+  
+  it "finds only active activities", :solr => true do
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :active => true)
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :active => false)
+    Sunspot.commit
+    get :search, :text => ""
+    search_results_for(response).should == json_decoded([activity1].to_json)
+  end
+  
+  it "includes inactive activities if admin flag is true", :solr => true do
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :active => true)
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :active => false)
+    Sunspot.commit
+    get :search, :text => "", :admin => true
+    search_results_for(response).should == json_decoded([activity1, activity2].to_json)
+  end
+  
 end
