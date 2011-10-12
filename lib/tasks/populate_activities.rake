@@ -24,7 +24,7 @@ task :populate_activities => :environment do
     :location_id => Location.all[rand(Location.all.size)].id,
     :target => Activity.targets[rand(Activity.targets.size)],
     :tags => "kurs, norge",
-    :region => Activity.regions[rand(Activity.region.size)],
+    :region => Activity.regions[rand(Activity.regions.size)],
     :active => true
   )
   end
