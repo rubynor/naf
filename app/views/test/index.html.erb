@@ -1,46 +1,22 @@
-<style type='text/css'>
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#searchbar{float:left; width:260px; padding:20px;}
-#loading_container{
-  position:absolute;
-  top:10px;
-  left:300px;
-  padding:10px;
-  background:#fff;
-  z-index:1000;
-  border: 1px solid #EEE;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-  display:none;
-}
-#map_canvas {
-  height: 100%;
-}
-
-@media print {
-  html, body {
-    height: auto;
-  }
-
-  #map_canvas {
-    height: 650px;
-  }
-}
-</style>
 
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
 <script type='text/javascript'>
+  Backbone.Model.prototype.idAttribute = "_id";
+
+  $(document).ready(function(){
+        window.activities = new window.Activities()
+        window.categories = new window.Categories()
+        new window.App().initialize()
+        window.activities.reset(<%=@activities.to_json.html_safe%>)
+        window.categories.reset(<%=@categories.to_json.html_safe%>)
+        window.activities.showInMap()
+        window.categories.render()
+        window.targets = new window.Targets()
+        window.targets.reset(<%=Activity.targets.map{|t| {:name => t}}.to_json.html_safe%>)
+        window.targets.render()
+  })
+
 
 var MYMAP = {
   bounds: null,
@@ -190,10 +166,10 @@ MYMAP.setRegion = function(){
 }
 
 $(document).ready(function(){
-    var myLatLng = new google.maps.LatLng(59.9, 10.7);
-    MYMAP.init('#map_canvas', myLatLng, 6);
-    MYMAP.placeMarkers('/locations.xml');
-  MYMAP.setRegion();
+   // var myLatLng = new google.maps.LatLng(59.9, 10.7);
+   // MYMAP.init('#map_canvas', myLatLng, 6);
+   // MYMAP.placeMarkers('/locations.xml');
+  // MYMAP.setRegion();
 })
        // google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -219,56 +195,64 @@ $(document).ready(function(){
   <div id='loading_container'>
   <%=image_tag "loader.gif", :alt => ""%>
   </div>
-<div class="clearfix">&nbsp;</div>
+<div class="clearfix"><h3 id='status'></h3></div>
+
 
 <h3>Tema</h3>
-      <div class="clearfix">
+<div class="clearfix">
+   <div class="input">
+      <ul class="inputs-list" id='category_list'></ul>
+   </div>
+</div>
 
-                  <div class="input">
-                    <ul class="inputs-list">
-                      <li>
-                        <label>
-                          <input type="checkbox" name="optionsCheckboxes" value="option1">
-                          <span>Politisk påvirkning</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" name="optionsCheckboxes" value="option2">
-                          <span>Forbedre ferdigheter</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label>
-                          <input type="checkbox" name="optionsCheckboxes" value="option2">
-                          <span>Øk kunnskapen</span>
-                        </label>
-                      </li>
-                      <li>
-                        <label class="disabled">
-                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
-                          <span>Opplevelse</span>
-                        </label>
-                      </li>
-              <li>
-                        <label class="disabled">
-                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
-                          <span>Trygt kjøretøy</span>
-                        </label>
-                      </li>
-              <li>
-                        <label class="disabled">
-                          <input type="checkbox" name="optionsCheckboxes" value="option2" disabled="">
-                          <span>Miljø øko</span>
-                        </label>
-                      </li>
-
-                    </ul>
-                    <span class="help-block">
-                      <strong>NB:</strong> Du kan velge flere tema
-                    </span>
-
-                </div>
+<h3>Målgruppe</h3>
+<div class="clearfix">
+   <div class="input">
+      <ul class="inputs-list" id='target_list'></ul>
+   </div>
 </div>
 
 </script>
+
+<script type='template', id='activity_tmpl'>
+    <div id="modal" class="modal hide fade">
+      <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>{{summary}}</h3>
+      </div>
+      <div class="modal-body">
+        <p>{{description}}</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn secondary" id='close'>Lukk</a>
+      </div>
+    </div>
+</script>
+
+<script type='template', id='activity_info_tmpl'>
+  <div class="popover left">
+            <div class="arrow"></div>
+            <div class="inner">
+              <h3 class="title">{{summary}}</h3>
+              <div class="content">
+                <p>{{description}}</p>
+              </div>
+            </div>
+          </div>
+</script>
+
+<script type='template' id='category_tmpl'>
+    <label>
+      <input type="checkbox" name="optionsCheckboxes" _id="{{_id}}">
+      <span>{{name}}</span>
+    </label>
+</script>
+
+<script type='template' id='target_tmpl'>
+    <label>
+      <input type="checkbox" name="{{name}}">
+      <span>{{name}}</span>
+    </label>
+</script>
+
+<div id='popover'></div>

@@ -4,6 +4,8 @@
 class TestController < ApplicationController
 
   def index
+    @activities = Activity.all
+    @categories = Category.all
   end
 
 end
