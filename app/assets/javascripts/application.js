@@ -6,6 +6,9 @@
 //
 
 //= require jquery
+//= require vendor/jquery.ui
+//= require vendor/range_slider
+//= require vendor/date_range_slider
 //= require vendor/underscore
 //= require vendor/backbone
 //= require vendor/handlebars

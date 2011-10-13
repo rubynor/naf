@@ -2,18 +2,15 @@ class window.ActivityView extends Backbone.View
 	initialize: (model) ->
 		@model = model
 		@template = Handlebars.compile $("#activity_tmpl").html()
-		@info_template = Handlebars.compile $("#activity_info_tmpl").html()
+		$(@el).html @template(@model.toJSON())
 		
 	render: ->
-		$(@el).html @template(@model.toJSON())
 		$(@el).find("#modal").modal({show: true, backdrop: true})
 		@
 	
 	showInfo: ->
-		$("#popover").html @info_template(@model.toJSON())
-		$("#popover").popover({show: true})
-		console.log "Pung"
-			
+
+		
 class window.Activity extends Backbone.Model
 	url: "/activities"
 	initialize: ->

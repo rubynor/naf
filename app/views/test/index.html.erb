@@ -3,7 +3,6 @@
 
 <script type='text/javascript'>
   Backbone.Model.prototype.idAttribute = "_id";
-
   $(document).ready(function(){
         window.activities = new window.Activities()
         window.categories = new window.Categories()
@@ -15,170 +14,26 @@
         window.targets = new window.Targets()
         window.targets.reset(<%=Activity.targets.map{|t| {:name => t}}.to_json.html_safe%>)
         window.targets.render()
+    $("#date_selector").dateRangeSlider({
+      defaultValues:{min:new Date(2010,1,111), max:new Date(2011,1,11)},
+      bounds:{min:new Date(2010,0,1), max:new Date(2012,0,1)},
+      wheelMode: null,
+      wheelSpeed: 8,
+      arrows: true,
+      valueLabels: "show",
+      formatter: function(value){
+        var month = value.getMonth() + 1;
+        var day = value.getDate();
+        return "" + value.getFullYear() + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+      },
+      durationIn: 0,
+      durationOut: 400,
+      delayOut: 200
+    });
   })
-
-
-var MYMAP = {
-  bounds: null,
-  map: null
-}
-
-MYMAP.init = function(selector, latLng, zoom) {
-  var myOptions = {
-    zoom:zoom,
-    center: latLng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
-  this.map = new google.maps.Map($(selector)[0], myOptions);
-  this.bounds = new google.maps.LatLngBounds();
-}
-
-
-MYMAP.placeMarkers = function(filename) {
-  $.get(filename, function(xml){
-    $(xml).find("marker").each(function(){
-      var name = $(this).find('name').text();
-      var address = $(this).find('address').text();
-      // create a new LatLng point for the marker
-      var lat = $(this).find('lat').text();
-      var lng = $(this).find('lng').text();
-      var point = new google.maps.LatLng(parseFloat(lat),parseFloat(lng));
-
-      // extend the bounds to include the new point
-      MYMAP.bounds.extend(point);
-      // add the marker itself
-      var marker = new google.maps.Marker({
-        position: point,
-        map: MYMAP.map
-      });
-      // create the tooltip and its text
-      var infoWindow = new google.maps.InfoWindow();
-      var html='<b>'+name+'</b><br />'+address;
-      // add a listener to open the tooltip when a user clicks on one of the markers
-      google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(html);
-        infoWindow.open(MYMAP.map, marker);
-      });
-    });
-    // Fit the map around the markers we added:
-    MYMAP.map.fitBounds(MYMAP.bounds);
-  });
-}
-
-MYMAP.setRegion = function(){
-  var south;
-  var southCoords = [
-      new google.maps.LatLng(59.877912,5.273438),
-    new google.maps.LatLng(59.344395,10.590820),
-      new google.maps.LatLng(57.657158,7.822266),
-      new google.maps.LatLng(57.868132,5.866699),
-    new google.maps.LatLng(59.512029,4.570313),
-    new google.maps.LatLng(59.877912,5.273438)
-
-    ];
-
-  var westCoords = [
-        new google.maps.LatLng(59.400365,7.954102),
-      new google.maps.LatLng(59.422728,3.295898),
-        new google.maps.LatLng(63.411198,3.471680),
-        new google.maps.LatLng(63.391522,8.569336),
-      new google.maps.LatLng(59.400365,7.954102)
-
-      ];
-
-    var eastCoords = [
-          new google.maps.LatLng(63.233627,12.744141),
-        new google.maps.LatLng(63.332413,8.613281),
-          new google.maps.LatLng(59.489726,7.910156),
-          new google.maps.LatLng(59.467408,12.919922),
-        new google.maps.LatLng(63.233627,12.744141)
-
-        ];
-
-
-      var northCoords = [
-            new google.maps.LatLng(71.130988,32.783203),
-          new google.maps.LatLng(68.815927,30.102539),
-            new google.maps.LatLng(63.273182,12.832031),
-            new google.maps.LatLng(63.430860,6.767578),
-          new google.maps.LatLng(71.705093,16.303711),
-        new google.maps.LatLng(71.130988,32.783203)
-          ];
-
-
-
-        var oslofjordCoords = [
-              new google.maps.LatLng(60.108670,9.931641),
-            new google.maps.LatLng(58.927334,8.876953),
-              new google.maps.LatLng(58.263287,7.514648),
-              new google.maps.LatLng(57.891497,12.172852),
-            new google.maps.LatLng(  59.288332,12.128906),
-          new google.maps.LatLng(60.108670,9.931641)
-            ];
-
-    south = new google.maps.Polygon({
-      paths: southCoords,
-      strokeColor: "blue",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "blue",
-      fillOpacity: 0.35
-    });
-
-  west = new google.maps.Polygon({
-      paths: westCoords,
-      strokeColor: "yellow",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "yellow",
-      fillOpacity: 0.35
-    });
-
-  east = new google.maps.Polygon({
-      paths: eastCoords,
-      strokeColor: "green",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "green",
-      fillOpacity: 0.35
-    });
-  north = new google.maps.Polygon({
-      paths: northCoords,
-      strokeColor: "brown",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "brown",
-      fillOpacity: 0.35
-    });
-  oslofjord = new google.maps.Polygon({
-      paths: oslofjordCoords,
-      strokeColor: "#FF0000",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      fillColor: "#FF0000",
-      fillOpacity: 0.35
-    });
-    south.setMap(this.map);
-  east.setMap(this.map);
-  west.setMap(this.map);
-  north.setMap(this.map);
-  oslofjord.setMap(this.map);
-}
-
-$(document).ready(function(){
-   // var myLatLng = new google.maps.LatLng(59.9, 10.7);
-   // MYMAP.init('#map_canvas', myLatLng, 6);
-   // MYMAP.placeMarkers('/locations.xml');
-  // MYMAP.setRegion();
-})
-       // google.maps.event.addDomListener(window, 'load', initialize);
-
 </script>
 
-<div id='searchbar'>
-
-</div>
-
+<div id='searchbar'></div>
 <div id="map_canvas"></div>
 
 
@@ -212,6 +67,19 @@ $(document).ready(function(){
    </div>
 </div>
 
+<h3>Region</h3>
+<select name="normalSelect" id="normalSelect">
+      <option>Nord</option>
+      <option>Sør</option>
+      <option>Øst</option>
+      <option>Vest</option>
+      <option>Oslofjord</option>
+</select>
+
+<br/>
+<h3>Når</h3>
+<br/><br/>
+<div id='date_selector'></div>
 </script>
 
 <script type='template', id='activity_tmpl'>
@@ -224,21 +92,10 @@ $(document).ready(function(){
         <p>{{description}}</p>
       </div>
       <div class="modal-footer">
-        <a href="#" class="btn secondary" id='close'>Lukk</a>
+        <a href="#" class="btn secondary primary">Les mer</a>
       </div>
     </div>
-</script>
-
-<script type='template', id='activity_info_tmpl'>
-  <div class="popover left">
-            <div class="arrow"></div>
-            <div class="inner">
-              <h3 class="title">{{summary}}</h3>
-              <div class="content">
-                <p>{{description}}</p>
-              </div>
-            </div>
-          </div>
+  <a href="#" class="btn danger" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">hover for popover</a>
 </script>
 
 <script type='template' id='category_tmpl'>
@@ -255,4 +112,4 @@ $(document).ready(function(){
     </label>
 </script>
 
-<div id='popover'></div>
+
