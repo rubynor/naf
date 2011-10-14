@@ -1,6 +1,7 @@
+
 require 'spec_helper'
 
-describe AdminController do
+describe Admin::ActivitiesController do
   
   it "redirects if there is no user" do
     get :index
@@ -10,8 +11,8 @@ describe AdminController do
   it "grant access when user is logged in" do
     sign_in Fabricate(:user)
     get :index
-    response.should render_template "admin/index"
-    response.should render_template "layouts/admin"
+    response.should render_template "admin/activities/index"
+    response.should render_template "layouts/activities"
   end
   
 end

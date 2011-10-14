@@ -10,4 +10,8 @@ class User
 
   belongs_to :location
   belongs_to :region
+
+  def is_super_admin?
+    super_admin
+  end
 end

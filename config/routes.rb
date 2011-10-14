@@ -2,8 +2,13 @@ Naf::Application.routes.draw do
   devise_for :user
 
   root :to => "test#index"
-  match "/admin", :to => "admin#index"
-  match "/admin/users", :to => "admin#users"
+
+  match "/admin", :to => "admin/activities#index"
+
+  #scope for admin
+  namespace :admin do
+    resources :users, :activities
+  end
 
   #scope used by the ext.js app
   scope "/rest" do
