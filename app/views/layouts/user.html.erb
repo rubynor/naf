@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>NAF 0-100 Admin</title>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+  <%= stylesheet_link_tag "application" %>
+  <style>
+    .content{padding-top:100px;}
+  </style>
+  </head>
+
+  <body>
+
+    <%=render :partial => "/shared/topbar"%>
+
+    <div class="container">
+      <div class="content">
+         <%=yield%>
+      </div>
+
+      <footer>
+        <p>&copy; NAF 2011</p>
+      </footer>
+
+    </div>
+
+  </body>
+</html>

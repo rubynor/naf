@@ -3,6 +3,7 @@ Naf::Application.routes.draw do
 
   root :to => "test#index"
   match "/admin", :to => "admin#index"
+  match "/admin/users", :to => "admin#users"
 
   #scope used by the ext.js app
   scope "/rest" do
