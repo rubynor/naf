@@ -7,7 +7,8 @@ class Location
 
   validates_presence_of :longitude, :latitude
 
-
+  belongs_to :region
+  belongs_to :location
 
   def to_marker
     {

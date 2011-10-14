@@ -14,3 +14,9 @@ end
 Fabricator :category do
   name "Tracks"
 end
+
+Fabricator :user do
+  email "persson.hager@gmail.com"
+  password "secret"
+  password_confirmation "secret"
+end
