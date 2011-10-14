@@ -4,7 +4,6 @@ class Activity
   include Mongoid::Document
   include Sunspot::Mongoid
 
-  #x-cal fields
   field :summary, :type => String #summary of the event
   field :description, :type => String #description of the event
   field :contact, :type => String #contact info
@@ -12,8 +11,6 @@ class Activity
   field :url, :type => String #link to website
   field :dtstart, :type => DateTime #start of event
   field :dtend, :type => DateTime #end of event
-
-  #additional fields
   field :region, :type => String
   field :price, :type => Float
   field :video, :type => String #link to youtube
@@ -24,7 +21,8 @@ class Activity
   field :location_id, :type => String #ref to #Location
   field :tags, :type => String, :default => ""
   field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
-
+  field :age_from, :type => Integer, :default => 0
+  field :age_to, :type => Integer, :default => 100
   field :active, :type => Boolean, :default => false
 
   embeds_one :location

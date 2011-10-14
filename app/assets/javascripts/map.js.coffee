@@ -1,7 +1,7 @@
 class window.Map extends Backbone.View
 	
 	mapOptions: ->
-		{zoom:6, center: new google.maps.LatLng(59.9, 10.7), mapTypeId: google.maps.MapTypeId.ROADMAP}
+		{zoom:10, center: new google.maps.LatLng(59.9, 10.7), mapTypeId: google.maps.MapTypeId.ROADMAP}
 
 	initialize: ->
 		@selector = $("#map_canvas")[0]
@@ -26,3 +26,5 @@ class window.Map extends Backbone.View
 	clear: ->
 		_.each @markers, (marker) ->
 			marker.setMap(null)
+	
+	

@@ -22,7 +22,7 @@ class window.Activities extends Backbone.Collection
 	showInMap: ->
 		_.each @models, (activity) ->
 			window.map.placeActivity(activity)
-			
+		
 	search: (params) ->
 		window.searcher.showLoader()
 		$.ajax({
