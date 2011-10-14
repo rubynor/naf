@@ -1,12 +1,14 @@
 <div class="topbar">
   <div class="fill">
     <div class="container">
-      <a class="brand" href="#">NAF 0-100 Admin</a>
+      <a class="brand" href="/admin">NAF 0-100 Admin</a>
+   <%if current_user && current_user.is_super_admin?%>
       <ul class="nav">
+      <li><a href="/admin">Aktiviteter</a></li>
         <li><a href="/admin/users">Brukere</a></li>
         <li><a href="/admin/locations">Lokasjoner</a></li>
-      <li><a href="/admin/regions">Regioner</a></li>
       </ul>
+  <%end%>
     </div>
   </div>
 </div>
