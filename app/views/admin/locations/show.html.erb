@@ -1,0 +1,16 @@
+<%=link_to "Tilbake til oversikt", admin_locations_url%>
+
+<div class="page-header">
+      <h1><%=@location.name%> <small>Lokasjon</small></h1>
+    </div>
+
+    <div class="row">
+      <div class="span10">
+    <table>
+      <tr><td>Navn</td><td><%=@location.name%></td></tr>
+      <tr><td>Region</td><td><%=@location.region.name rescue nil%></td></tr>
+      <tr><td>Underlagt lokasjon</td><td><%=@location.location.name rescue nil%></td></tr>
+      <tr><td>&nbsp;</td><td><%=link_to "Endre lokasjon", edit_admin_location_url(@location)%></td></tr>
+    </table>
+    </div>
+  </div>

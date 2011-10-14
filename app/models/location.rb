@@ -5,10 +5,12 @@ class Location
   field :longitude, :type => Float
   field :latitude, :type => Float
 
-  validates_presence_of :longitude, :latitude
+  validates_presence_of :longitude, :latitude, :name, :region
 
   belongs_to :region
   belongs_to :location
+
+  has_many :locations
 
   def to_marker
     {

@@ -7,8 +7,9 @@ describe LocationsController do
   end
   
   it "should find all locations" do
-    location1 = Location.create(:name => "NAF center Oslo", :longitude => 30.3, :latitude => 6.5)
-    location2 = Location.create(:name => "NAF center Trondheim", :longitude => 30.3, :latitude => 6.5)
+    region = Fabricate(:region)
+    location1 = Location.create(:name => "NAF center Oslo", :longitude => 30.3, :latitude => 6.5, :region => region)
+    location2 = Location.create(:name => "NAF center Trondheim", :longitude => 30.3, :latitude => 6.5, :region => region)
     get :index
     ActiveSupport::JSON.decode(response.body).should == ActiveSupport::JSON.decode({locations: [location1, location2]}.to_json)
   end

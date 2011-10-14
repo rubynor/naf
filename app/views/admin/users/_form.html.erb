@@ -1,0 +1,56 @@
+<%= form_for(@user, :url => @user.new_record? ? admin_users_url : admin_user_url(@user)) do |f| %>
+
+
+  <% if @user.errors.any? %>
+      <div class="alert-message block-message error">
+        <p><strong><%= pluralize(@user.errors.count, "feil") %> hindret brukeren fra å bli lagret:</strong></p>
+
+          <ul>
+          <% @user.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+          <% end %>
+        </ul>
+
+       </div>
+      <% end %>
+
+  <div class="clearfix">
+       <%= f.label :email %>
+       <div class="input"><%= f.email_field :email %></div>
+  </div>
+
+  <div class="clearfix">
+       <%= f.label :password %>
+       <div class="input"><%= f.password_field :password %></div>
+  </div>
+
+  <div class="clearfix">
+       <%= f.label :password_confirmation %>
+       <div class="input"><%= f.password_field :password_confirmation %></div>
+  </div>
+
+  <div class="clearfix">
+       <%= f.label :region %>
+       <div class="input"><%= f.select :region_id, Region.all.collect{|region| [region.name, region.id.to_s]}, :include_blank => true %></div>
+  </div>
+
+  <div class="clearfix">
+     <%= f.label :location %>
+     <div class="input"><%= f.select :location_id, Location.all.collect{|location| [location.name, location.id.to_s]}, :include_blank => true %></div>
+  </div>
+
+  <div class="clearfix">
+      <%= f.label :super_admin, "Super Admin" %>
+      <div class="input">
+        <ul class="inputs-list">
+          <li>
+            <label>
+            <%= f.check_box :super_admin %>
+            </label>
+           </li>
+          </ul>
+       </div>
+    </div>
+
+  <div class='actions'><%=f.submit "Lagre", :class => 'btn'%></div>
+<%end%>

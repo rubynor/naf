@@ -1,0 +1,33 @@
+<%= form_for(@location, :url => @location.new_record? ? admin_locations_url : admin_location_url(@location)) do |f| %>
+
+
+  <% if @location.errors.any? %>
+      <div class="alert-message block-message error">
+        <p><strong><%= pluralize(@location.errors.count, "feil") %> hindret lokasjonen fra å bli lagret:</strong></p>
+
+          <ul>
+          <% @location.errors.full_messages.each do |msg| %>
+             <li><%= msg %></li>
+          <% end %>
+        </ul>
+
+       </div>
+      <% end %>
+
+  <div class="clearfix">
+       <%= f.label :name %>
+       <div class="input"><%= f.text_field :name %></div>
+  </div>
+
+<div class="clearfix">
+       <%= f.label :longitude %>
+       <div class="input"><%= f.text_field :longitude %></div>
+  </div>
+
+<div class="clearfix">
+       <%= f.label :latitude %>
+       <div class="input"><%= f.text_field :latitude %></div>
+  </div>
+
+  <div class='actions'><%=f.submit "Lagre", :class => 'btn'%></div>
+<%end%>

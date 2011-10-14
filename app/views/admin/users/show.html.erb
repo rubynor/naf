@@ -1,0 +1,18 @@
+
+  <%=link_to "Vis all brukere", admin_users_url%>
+
+<div class="page-header">
+      <h1><%=@user.email%> <small>Bruker</small></h1>
+    </div>
+
+    <div class="row">
+      <div class="span10">
+    <table>
+      <tr><td>E-post</td><td><%=@user.email%></td></tr>
+    <tr><td>Super admin</td><td><%=@user.is_super_admin?%></td></tr>
+      <tr><td>Region</td><td><%=@user.region.name rescue nil%></td></tr>
+      <tr><td>Lokasjon</td><td><%=@user.location.name rescue nil%></td></tr>
+      <tr><td>&nbsp;</td><td><%=link_to "Endre bruker", edit_admin_user_url(@user)%></td></tr>
+    </table>
+    </div>
+  </div>

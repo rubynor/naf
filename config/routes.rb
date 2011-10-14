@@ -4,10 +4,12 @@ Naf::Application.routes.draw do
   root :to => "test#index"
 
   match "/admin", :to => "admin/activities#index"
+  match "/admin/access", :to => "admin/access#index"
+
 
   #scope for admin
   namespace :admin do
-    resources :users, :activities
+    resources :users, :activities, :locations
   end
 
   #scope used by the ext.js app
@@ -19,5 +21,6 @@ Naf::Application.routes.draw do
     get :search, :on => :collection
     get :fields, :on => :collection
   end
+
   resources :locations, :categories
 end

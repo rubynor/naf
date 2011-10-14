@@ -37,7 +37,7 @@ module Naf
     # config.i18n.default_locale = :de
 
     config.to_prepare {
-      Devise::SessionsController.layout "user"
+      Devise::SessionsController.layout "admin"
     }
 
     config.i18n.default_locale = :nb
