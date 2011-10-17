@@ -36,6 +36,8 @@ class ActivitiesController < ApplicationController
     if @activity.update_attributes(params[:activity])
       render :json => @activity, :callback => params[:callback], :status => :ok
     else
+      ap @activity
+      ap @activity.errors
       render :json => @activity.errors, :status => :unprocessable_entity
     end
   end

@@ -1,4 +1,5 @@
 task :post_test do
-  res = RestClient.post "http://naf.herokuapp.com/activities", {"activity"=>{"attendee"=>"Julebrus", "category_id"=>"4e8c42014eea890006000001", "contact"=>"Kontaktinfo for aktivitet 0", "description"=>"Beskrivelse aktivitet 0", "dtstart"=>"2011-10-15T01:22:37+02:00", "dtend"=>"2011-10-17T11:22:37+02:00", "location_id"=>"4e89af11381db8000600008b", "own_vehicle"=>"false", "price"=>"500", "responsibility"=>"Bring helmet to aktivitet 0", "summary"=>"Kopi av Oppsummering aktivitet 0", "supervisor_included"=>"true", "tags"=>"kurs, norge", "url"=>"http://www.naf.no/#aktivitet0", "vehicle"=>"Buss", "video"=>"http://youtu.be/T4yjrkdOxfw"}}
+  res = RestClient.put "http://naf.herokuapp.com/activities/4e955c5d31bd8a0006000008", :activity => {:symmary => "hei"}
+
   ap res
 end
