@@ -17,7 +17,7 @@ task :scrape_locations => :environment do
    lng = string.content.match(/longitude:[-+]?[0-9]*\.?[0-9]*/)[0].split(":")[1] rescue nil
    name = string.content.match(/toolTip:.*"/)[0].split(":")[1].gsub(/"/, '').gsub(/\\/, '').gsub(/\s\s/, " ") rescue nil
    if !lat.blank? && !lng.blank? && !name.blank?
-     Location.create(:name => name, :longitude => lng, :latitude => lat)
+     Location.create(:name => name, :longitude => lng, :latitude => lat, :region => Activity.regions[rand(Activity.regions.size)])
    end
   end
 
