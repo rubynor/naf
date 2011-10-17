@@ -22,7 +22,6 @@ class window.Category extends Backbone.Model
 
 	icon: ->
 		name = @get("name")
-		console.log name
 
 		if name.indexOf("bane") > -1
 			return "baner"	

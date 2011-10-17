@@ -22,7 +22,7 @@ class window.Map extends Backbone.View
 		google.maps.event.addListener marker, 'click', () ->
 			activity.view.render()
 		google.maps.event.addListener marker, 'mouseover', () ->
-			activity.view.showInfo()
+			activity.view.showToolTip()
 			
 	clear: ->
 		_.each @markers, (marker) ->

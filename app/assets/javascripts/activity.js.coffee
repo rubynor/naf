@@ -2,14 +2,18 @@ class window.ActivityView extends Backbone.View
 	initialize: (model) ->
 		@model = model
 		@template = Handlebars.compile $("#activity_tmpl").html()
-		$(@el).html @template(@model.toJSON())
 		
 	render: ->
-		$(@el).find("#modal").modal({show: true, backdrop: true})
+		$(@el).html @template(@model.toJSON())
+		$(@el).find(".modal").modal({backdrop: true})
+		@showModal()
 		@
+		
+	showModal: ->
+    $(@el).find(".modal").modal('show')
 	
-	showInfo: ->
-
+	showToolTip: ->
+				
 		
 class window.Activity extends Backbone.Model
 	url: "/activities"
