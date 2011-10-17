@@ -56,7 +56,7 @@ class Activity
   end
 
   def embedd_the_location
-    self.location = Location.find(self.location_id) if self.location_id
+    self.location = Location.find(self.location_id)
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
