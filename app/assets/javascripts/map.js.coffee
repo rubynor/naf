@@ -16,6 +16,7 @@ class window.Map extends Backbone.View
 		point = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude))
 		@bounds.extend(point)
 		marker = new google.maps.Marker({position: point,map: window.map.map})
+		marker.setIcon("assets/icons/#{@iconByCategory(activity.get("category_id"))}.png")
 		@markers.push marker
 		@map.fitBounds(@bounds)
 		google.maps.event.addListener marker, 'click', () ->
@@ -27,4 +28,6 @@ class window.Map extends Backbone.View
 		_.each @markers, (marker) ->
 			marker.setMap(null)
 	
-	
+	iconByCategory: (category_id) -> 
+		category = window.categories.get(category_id)
+		return category.icon()

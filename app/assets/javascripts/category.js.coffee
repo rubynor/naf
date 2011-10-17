@@ -19,6 +19,27 @@ class window.CategoryView extends Backbone.View
 class window.Category extends Backbone.Model
 	initialize: ->
 		@view = new window.CategoryView(@)
+
+	icon: ->
+		name = @get("name")
+		console.log name
+
+		if name.indexOf("bane") > -1
+			return "baner"	
+		
+		if name.indexOf("NAF motorsport") > -1
+			return "motorsport"	
+		
+		if name.indexOf("Trafikksenter") > -1
+			return "naf-senter"
+		
+		if name.indexOf("NAF MC") > -1
+			return "mc"
+		
+		if name.toLowerCase().indexOf("avdeling") > -1
+			return "lokalavdeling"
+							
+		return null
 		
 class window.Categories extends Backbone.Collection
 	model: window.Category
