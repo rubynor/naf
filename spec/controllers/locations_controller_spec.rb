@@ -13,5 +13,5 @@ describe LocationsController do
     get :index
     ActiveSupport::JSON.decode(response.body).should == ActiveSupport::JSON.decode({locations: [location1, location2]}.to_json)
   end
-
+  
 end
