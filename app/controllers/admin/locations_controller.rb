@@ -5,7 +5,7 @@ class Admin::LocationsController < ApplicationController
   layout 'admin'
 
   def index
-    @locations = Location.all
+    @locations = Location.by_region
   end
 
   def edit
