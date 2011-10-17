@@ -19,14 +19,19 @@
        <div class="input"><%= f.text_field :name %></div>
   </div>
 
-<div class="clearfix">
+  <div class="clearfix">
        <%= f.label :longitude %>
        <div class="input"><%= f.text_field :longitude %></div>
   </div>
 
-<div class="clearfix">
-       <%= f.label :latitude %>
-       <div class="input"><%= f.text_field :latitude %></div>
+  <div class="clearfix">
+       <%= f.label :region %>
+       <div class="input"><%= f.select :region_id, Region.all.map{|reg| [reg.name, reg.id]} %></div>
+  </div>
+
+  <div class="clearfix">
+       <%= f.label :location, "Underlagt lokasjon" %>
+       <div class="input"><%= f.select :location, Location.by_region.map{|lok| [lok.name, lok.id]}, :include_blank => true %></div>
   </div>
 
   <div class='actions'><%=f.submit "Lagre", :class => 'btn'%></div>
