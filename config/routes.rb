@@ -22,5 +22,5 @@ Naf::Application.routes.draw do
     get :fields, :on => :collection
   end
 
-  resources :locations, :categories
+  resources :locations, :categories, :activities
 end
