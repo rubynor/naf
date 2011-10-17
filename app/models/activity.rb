@@ -43,6 +43,8 @@ class Activity
 
   before_validation :embedd_the_location
 
+  validates_presence_of :summary
+
   searchable do
     text :summary, :description, :tags, :vehicle
     string :target
