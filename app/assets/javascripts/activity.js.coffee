@@ -1,11 +1,12 @@
 class window.ActivityView extends Backbone.View
+	
 	initialize: (model) ->
 		@model = model
 		@template = Handlebars.compile $("#activity_tmpl").html()
 		
 	render: ->
 		$(@el).html @template(@model.toJSON())
-		$(@el).find(".modal").modal({backdrop: true})
+		$(@el).find(".modal").modal({backdrop: true}) #used when clicking on a marker
 		@showModal()
 		@
 		
@@ -13,7 +14,10 @@ class window.ActivityView extends Backbone.View
     $(@el).find(".modal").modal('show')
 	
 	showToolTip: ->
-				
+		$(@el).find(".popover").popover('show')
+		
+	hideToolTip: ->
+		$(@el).find(".popover").popover('hide')
 		
 class window.Activity extends Backbone.Model
 	url: "/activities"
