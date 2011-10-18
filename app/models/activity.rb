@@ -22,6 +22,7 @@ class Activity
   #arrangør - må du ha?
   #sted optional
   field :location_id, :type => String #ref to #Location
+  field :organizer_id, :type => String #ref to #Location
   field :tags, :type => String, :default => ""
   field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
   field :age_from, :type => Integer, :default => 0
@@ -42,9 +43,11 @@ class Activity
   field :media_url, :type => String
 
   embeds_one :location
+  embeds_one :organizer, :class_name => "Location"
   belongs_to :category
 
-  before_validation :embedd_the_location
+
+  before_validation :embedd_the_location_and_organizer
 
   validates_presence_of :summary
 
@@ -65,8 +68,9 @@ class Activity
     end
   end
 
-  def embedd_the_location
+  def embedd_the_location_and_organizer
     self.location = Location.find(self.location_id)
+    self.organizer = Location.find(self.organizer_id) if self.organizer_id
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
