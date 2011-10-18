@@ -14,6 +14,7 @@
       <th>E-post</th>
       <th>Region</th>
       <th>Lokasjon</th>
+    <th>Super Admin</th>
       <th>&nbsp;</th>
       </thead>
       <tbody>
@@ -22,6 +23,7 @@
           <td><%=link_to user.email, admin_user_url(user)%></td>
           <td><%=user.region.name rescue nil%></td>
           <td><%=user.location.name rescue nil%></td>
+          <td><%=user.is_super_admin? ? 'Ja' : 'Nei'%></td>
           <td><%=link_to "Endre bruker", "/admin/users/#{user.id}/edit"%></td>
         </tr>
       <%end%>
