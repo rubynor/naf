@@ -9,7 +9,7 @@ Fabricator :location do
   name "NAF track Oslo"
   latitude 60.4
   longitude 3.4
-  region {Fabricate(:region)}
+  region {Fabricate(:region) }
 end
 
 Fabricator :category do

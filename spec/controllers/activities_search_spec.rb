@@ -118,16 +118,23 @@ describe ActivitiesController do
   end
   
   it "should find activities based on region", :solr => true do
-    activity1 = Fabricate(:activity, :summary => "Learn stuff", :region => "Nord")
-    activity2 = Fabricate(:activity, :summary => "Learn stuff", :region => "Sør")
-    activity3 = Fabricate(:activity, :summary => "Learn stuff", :region => "Øst")
+    
+    region1 = Fabricate(:region, :name => "Nord")
+    region2 = Fabricate(:region, :name => "Sør")
+    
+    location1 = Fabricate(:location, :region => region1)
+    location2 = Fabricate(:location, :region => region2)
+    location3 = Fabricate(:location, :region => region2)
+    
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :location_id => location1.id)
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :location_id => location2.id)
+    activity3 = Fabricate(:activity, :summary => "Learn stuff", :location_id => location2.id)
+    
     Sunspot.commit
-    get :search, :text => "", :regions => "Nord"
+    get :search, :text => "", :region_id => region1.id.to_s
     search_results_for(response).should == json_decoded([activity1].to_json)
-    get :search, :text => "", :regions => "Sør"
-    search_results_for(response).should == json_decoded([activity2].to_json)
-    get :search, :text => "", :regions => ["Nord", "Øst"]
-    search_results_for(response).should == json_decoded([activity1, activity3].to_json)
+    get :search, :text => "", :region_id => region2.id.to_s
+    search_results_for(response).should == json_decoded([activity2, activity3].to_json)
   end
   
   it "finds only active activities", :solr => true do

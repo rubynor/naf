@@ -25,6 +25,11 @@
   </div>
 
   <div class="clearfix">
+       <%= f.label :latitude %>
+       <div class="input"><%= f.text_field :latitude %></div>
+  </div>
+
+  <div class="clearfix">
        <%= f.label :region %>
        <div class="input"><%= f.select :region_id, Region.all.map{|reg| [reg.name, reg.id]} %></div>
   </div>

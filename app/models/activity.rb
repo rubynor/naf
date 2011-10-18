@@ -11,7 +11,6 @@ class Activity
   field :url, :type => String #link to website
   field :dtstart, :type => DateTime #start of event
   field :dtend, :type => DateTime #end of event
-  field :region, :type => String
   field :price, :type => Float
   field :video, :type => String #link to youtube
   field :responsibility, :type => String #what the attendee needs to be responsible for
@@ -48,12 +47,17 @@ class Activity
   searchable do
     text :summary, :description, :tags, :vehicle
     string :target
-    string :region
     string :category_id
+
     boolean :active
     time :dtstart, :trie => true
+
     text :location_name do
       location.name
+    end
+
+    string :region_id do
+      self.location.region_id.to_s
     end
   end
 
@@ -65,10 +69,9 @@ class Activity
 
   class << self
     def perform_search(params)
+
       search = Activity.search do
-        keywords params[:text] do
-          highlight :summary, :description, :tags, :vehicle
-        end
+        fulltext params[:text]
 
         if params[:admin] && params[:admin].to_s == "true"
           with(:active).any_of [true, false]
@@ -76,13 +79,18 @@ class Activity
           with(:active, true)
         end
 
-        with(:region).any_of params[:regions].to_a if params[:regions] && !params[:regions].empty?
+        if params[:region_id] && !params[:region_id].blank?
+          with(:region_id, params[:region_id])
+        end
+
         with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
         with(:target).any_of params[:targets].to_a if params[:targets] && !params[:targets].empty?
+
         if params[:dtstart]
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
           with(:dtstart).greater_than(start)
         end
+
         order_by :dtstart, :asc
         paginate :page => params[:page], :per_page => params[:limit] if params[:page] && params[:limit] #pagination is optional
       end
