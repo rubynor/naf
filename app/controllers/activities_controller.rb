@@ -1,13 +1,6 @@
 # encoding: UTF-8
 class ActivitiesController < ApplicationController
 
-  # returns fields used in view
-  # this will be refactored into its own logic when all the fields are set
-  #
-  def fields
-    render :json => Activity.fields_schema, :callback => params[:callback]
-  end
-
   def search
     @activities, @total = Activity.perform_search(params)
     render :json => {:activities => @activities, :total => @total }, :callback => params[:callback]
@@ -18,7 +11,7 @@ class ActivitiesController < ApplicationController
   end
 
   def index
-    @activities = Activity.page(params[:page]).per(params[:limit])
+    @activities = Activity.by_start_date.page(params[:page]).per(params[:limit])
     render :json => { :activities => @activities, :total => @activities.total_count }, :callback => params[:callback]
   end
 
