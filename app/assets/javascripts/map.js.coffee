@@ -17,7 +17,9 @@ class window.Map extends Backbone.View
 		point = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude))
 		@bounds.extend(point)
 		marker = new google.maps.Marker({position: point,map: window.map.map, title: summary})
-		marker.setIcon("assets/icons/#{@iconByCategory(activity.get("category_id"))}.png")
+		icon_name = @iconByCategory(activity.get("category_id"))
+		console.log icon_name
+		marker.setIcon("assets/icons/#{icon_name}.png") if icon_name
 		@markers.push marker
 		@map.fitBounds(@bounds)
 		

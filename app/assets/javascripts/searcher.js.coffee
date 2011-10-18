@@ -23,7 +23,7 @@ class window.Searcher extends Backbone.View
 	
 	search: (forced) ->
 		return if (!forced && window.searcher.searchString().length < 3)
-		options = {text: window.searcher.searchString(), limit:2000}
+		options = {text: window.searcher.searchString(), limit:2000, page:1}
 		options["category_ids"] = @category_criteria unless window.searcher.category_criteria.length == 0
 		options["targets"] = @target_criteria unless window.searcher.target_criteria.length == 0
 		options["region_id"] = @region_id unless @region_id == ""

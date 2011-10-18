@@ -8,7 +8,7 @@ defaults: &defaults
 
 development:
   <<: *defaults
-  database: naf_development
+  database: naf
 
 test:
   <<: *defaults
