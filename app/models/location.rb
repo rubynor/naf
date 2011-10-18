@@ -13,6 +13,7 @@ class Location
   has_many :locations
 
   scope :by_region, all(sort: [[ :region_id, :asc ]])
+  scope :by_name, all(sort: [[ :name, :asc ]])
 
   def to_marker
     {
