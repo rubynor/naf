@@ -22,7 +22,7 @@ class window.Category extends Backbone.Model
 
 	icon: ->
 		name = @get("name")
-		name = name.toLoverCase()
+		name = name.toLowerCase()
 		if name.indexOf("bane") > -1
 			console.log "fuck"
 			return "baner"	
