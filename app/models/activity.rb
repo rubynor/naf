@@ -12,6 +12,8 @@ class Activity
   field :dtstart, :type => DateTime #start of event
   field :dtend, :type => DateTime #end of event
   field :price, :type => Float
+  field :free, :type => Boolean, :default => false
+  field :mva, :type => Boolean, :default => false
   field :video, :type => String #link to youtube
   field :responsibility, :type => String #what the attendee needs to be responsible for
   field :vehicle, :type => String #what kind of veichle is needed (predefined)
@@ -35,7 +37,7 @@ class Activity
   field :potential_improvements, :type => String
   field :media_title, :type => String
   field :media_outlet, :type => String
-  field :medial_url, :type => String
+  field :media_url, :type => String
 
   embeds_one :location
   belongs_to :category
@@ -124,7 +126,7 @@ class Activity
     end
     #list of possible veichles to choose from
     def veichles
-      ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel']
+      ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel', 'Annet']
     end
 
     def regions
