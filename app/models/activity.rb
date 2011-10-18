@@ -12,6 +12,7 @@ class Activity
   field :dtstart, :type => DateTime #start of event
   field :dtend, :type => DateTime #end of event
   field :price, :type => Float
+  field :member_price, :type => Float
   field :free, :type => Boolean, :default => false
   field :mva, :type => Boolean, :default => false
   field :video, :type => String #link to youtube
