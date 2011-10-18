@@ -19,6 +19,7 @@
 //= require map
 //= require activity
 //= require category
+//= require region
 //= require target
 //= require searcher
 //= require app

@@ -6,14 +6,20 @@
   $(document).ready(function(){
         window.activities = new window.Activities()
         window.categories = new window.Categories()
+        window.regions = new window.Regions()
         new window.App().initialize()
         window.activities.reset(<%=@activities.to_json.html_safe%>)
         window.categories.reset(<%=@categories.to_json.html_safe%>)
+        window.regions.reset(<%=@regions.to_json.html_safe%>)
         window.activities.showInMap()
         window.categories.render()
         window.targets = new window.Targets()
         window.targets.reset(<%=Activity.targets.map{|t| {:name => t}}.to_json.html_safe%>)
         window.targets.render()
+        window.regions.render()
+      $("#region_select").change(function(e){
+      window.searcher.setRegion($(e.currentTarget).val())
+      });
     $("#date_selector").dateRangeSlider({
       defaultValues:{min:new Date(2010,1,111), max:new Date(2011,1,11)},
       bounds:{min:new Date(2010,0,1), max:new Date(2012,0,1)},
@@ -66,14 +72,12 @@
       <ul class="inputs-list" id='target_list'></ul>
    </div>
 </div>
+
 <br/>
 <h3>Region</h3>
+
 <select name="regionSelect" id="region_select">
-      <option>Nord</option>
-      <option>Sør</option>
-      <option>Øst</option>
-      <option>Vest</option>
-      <option>Oslofjord</option>
+  <option value=''>Velg region</option>
 </select>
 
 <br/><br/>

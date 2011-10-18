@@ -3,6 +3,7 @@ class window.Searcher extends Backbone.View
 		@template = Handlebars.compile $("#searchbar_tmpl").html()
 		@category_criteria = new Array()
 		@target_criteria = new Array()
+		@region_id = ""
 		
 	render: ->
 		$(@el).html @template()
@@ -25,6 +26,7 @@ class window.Searcher extends Backbone.View
 		options = {text: window.searcher.searchString(), limit:2000}
 		options["category_ids"] = @category_criteria unless window.searcher.category_criteria.length == 0
 		options["targets"] = @target_criteria unless window.searcher.target_criteria.length == 0
+		options["region_id"] = @region_id unless @region_id == ""
 		window.activities.search(options)
 	
 	searchString: ->
@@ -39,6 +41,10 @@ class window.Searcher extends Backbone.View
 	setStatus: (status) ->
 		$(@el).find("#status").html(status)
 	
+	setRegion: (id) ->
+		@region_id = id
+		@search(true)
+		
 	toggleCategory: (id) ->
 		if _.indexOf(@category_criteria, id) > -1
 			@category_criteria = _.without(@category_criteria, id)

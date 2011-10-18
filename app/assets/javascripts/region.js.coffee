@@ -2,16 +2,15 @@ class window.RegionView extends Backbone.View
 	tagName: "option"
 	
 	initialize: (model) ->
-		@template = Handlebars.compile $("#region_tmpl").html()
 		@model = model
 	
 	render: ->
 		$(@el).attr('value', @model.get('_id')).html(@model.get('name'))
 		$("#region_select").append $(@el)
 		@
-		
+
 class window.Region extends Backbone.Model
-	initialze: ->
+	initialize: ->
 		@view = new window.RegionView(@)
 		
 class window.Regions extends Backbone.Collection
@@ -19,3 +18,10 @@ class window.Regions extends Backbone.Collection
 	render: ->
 		_.each @models, (model) ->
 			model.view.render()
+	setRegion: (e) ->
+		e.preventDefault()
+		target = $(e.currentTarget)
+		console.log target.attr("id")
+
+
+	

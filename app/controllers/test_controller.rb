@@ -6,6 +6,7 @@ class TestController < ApplicationController
   def index
     @activities = Activity.all
     @categories = Category.all
+    @regions = Region.all
   end
 
 end

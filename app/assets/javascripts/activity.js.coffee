@@ -3,7 +3,6 @@ class window.ActivityView extends Backbone.View
 	initialize: (model) ->
 		@model = model
 		@template = Handlebars.compile $("#activity_tmpl").html()
-		console.log model
 		
 	render: ->
 		$(@el).html @template(@model.toJSON())
