@@ -69,7 +69,7 @@ class Activity
   end
 
   def embedd_the_location_and_organizer
-    self.location = Location.find(self.location_id)
+    self.location = Location.find(self.location_id) if self.location_id
     self.organizer = Location.find(self.organizer_id) if self.organizer_id
   end
 
