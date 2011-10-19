@@ -21,7 +21,6 @@ class window.Regions extends Backbone.Collection
 	setRegion: (e) ->
 		e.preventDefault()
 		target = $(e.currentTarget)
-		console.log target.attr("id")
 
 
 	

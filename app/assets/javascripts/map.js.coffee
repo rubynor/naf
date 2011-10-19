@@ -18,7 +18,6 @@ class window.Map extends Backbone.View
 		@bounds.extend(point)
 		marker = new google.maps.Marker({position: point,map: window.map.map, title: summary})
 		icon_name = @iconByCategory(activity.get("category_id"))
-		console.log icon_name
 		marker.setIcon("assets/icons/#{icon_name}.png") if icon_name
 		@markers.push marker
 		@map.fitBounds(@bounds)

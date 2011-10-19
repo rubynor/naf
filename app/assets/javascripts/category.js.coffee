@@ -24,7 +24,6 @@ class window.Category extends Backbone.Model
 		name = @get("name")
 		name = name.toLowerCase()
 		if name.indexOf("bane") > -1
-			console.log "fuck"
 			return "baner"	
 		else if name.indexOf("NAF motorsport") > -1
 			return "motorsport"	
