@@ -33,10 +33,10 @@ describe Activity do
   
   it "should embedd the organizer if organizer id is set" do
     activity = Fabricate(:activity)
-    activity.organizer.should be_nil
-    location = Fabricate(:location)
+
+    location = Fabricate(:location, :name => "hello")
     activity.update_attributes(:organizer_id => location.id)
-    activity.organizer.name.should == location.name
+    activity.organizer.name.should == "hello"
   end
   
   it "sets dtend automatically if duration and dtstart is set"

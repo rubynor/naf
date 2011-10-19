@@ -1,6 +1,7 @@
 Fabricator :activity do
   summary "Activity"
   location_id {Fabricate(:location).id}
+  organizer_id {Fabricate(:location).id}
   category_id {Fabricate(:category).id}
   active true
 end

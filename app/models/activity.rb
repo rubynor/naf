@@ -49,7 +49,7 @@ class Activity
 
   before_validation :embedd_the_location_and_organizer
 
-  validates_presence_of :summary
+  validates_presence_of :summary, :organizer
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
@@ -73,7 +73,7 @@ class Activity
 
   def embedd_the_location_and_organizer
     self.location = Location.find(self.location_id) unless self.location_id.blank?
-    self.organizer = Location.find(self.organizer_id) unless self.organizer_id.blank?
+    self.organizer = Location.find(self.organizer_id)
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,

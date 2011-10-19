@@ -11,7 +11,7 @@ describe ActivitiesController do
   end
   
   it "creates an activity and return it as JSON" do
-    post :create, {:activity => {:summary => "Learn to ride a car", :location_id => @location.id, :category_id => @category.id} }
+    post :create, {:activity => {:summary => "Learn to ride a car", :organizer_id => @location.id, :location_id => @location.id, :category_id => @category.id} }
     Activity.first.summary.should == "Learn to ride a car"
     ActiveSupport::JSON.decode(response.body).should == ActiveSupport::JSON.decode(Activity.first.to_json)
   end
