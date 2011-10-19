@@ -9,7 +9,7 @@ class window.Searcher extends Backbone.View
 		
 	render: ->
 		$(@el).html @template()
-		$("#searchbar").append($(@el))
+		$("#searchbar_inner").append($(@el))
 		@
 	
 	events: 

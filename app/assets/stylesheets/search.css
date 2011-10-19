@@ -3,8 +3,11 @@ html, body {
   margin: 0;
   padding: 0;
 }
-
-#searchbar{float:left; width:260px; padding:20px;}
+#map_topbar{
+ padding-left:10px;background:#FFDE00;
+}
+#searchbar{float:left; width:300px;}
+#searchbar_inner{padding:20px;}
 #loading_container{
   position:absolute;
   top:10px;
