@@ -87,7 +87,7 @@ class Activity
     def perform_search(params)
 
       search = Activity.search do
-        fulltext params[:text]
+        fulltext params[:text] || ""
 
         if params[:admin] && params[:admin].to_s == "true"
           with(:active).any_of [true, false]
