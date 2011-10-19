@@ -6,9 +6,12 @@ class Activity
 
   field :summary, :type => String #summary of the event
   field :description, :type => String #description of the event
+
+  field :contact_name, :type => String
   field :contact_email, :type => String
   field :contact_phone, :type => String
   field :contact, :type => String #contact info
+
   field :attendee, :type => String #link to booking
   field :url, :type => String #link to website
   field :dtstart, :type => DateTime #start of event
