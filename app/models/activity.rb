@@ -6,7 +6,7 @@ class Activity
 
   field :summary, :type => String #summary of the event
   field :description, :type => String #description of the event
-
+  field :address, :type => String
   field :contact_name, :type => String
   field :contact_email, :type => String
   field :contact_phone, :type => String
