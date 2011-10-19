@@ -1,8 +1,8 @@
 Ext.define('NAF.controller.Activities', {
     extend: 'Ext.app.Controller',
 
-    stores: ['Activities','ActivitiesSearch', 'Locations', 'Categories', 'Vehicles', 'Regions'],
-    models: ['Activity', 'Location', 'Category', 'Vehicle', 'Region'],
+    stores: ['Categories','Locations','Activities','ActivitiesSearch','Vehicles'],
+    models: ['Category', 'Activity', 'Location', 'Vehicle'],
 
     views: [
         'activity.List',
@@ -24,8 +24,12 @@ Ext.define('NAF.controller.Activities', {
             selector: '#vehicleCombo'
         },
         {
-            ref: 'regionCombo',
-            selector: '#regionCombo'
+            ref: 'dateEnd',
+            selector: '#dtend'
+        },
+        {
+            ref: 'summary',
+            selector: '#activitiesSearchComboSummary'
         },
         {
             ref: 'fileUpload',
@@ -34,30 +38,27 @@ Ext.define('NAF.controller.Activities', {
     ],
 
     init: function() {
-
-//        var dt = new Date('2011-10-10T09:05:25+00:00');
-//        console.log(Ext.Date.format(dt, 'Y-m-d'));                          // 2007-01-10
-//        console.log(Ext.Date.format(dt, 'F j, Y, g:i a'));                  // January 10, 2007, 3:05 pm
-//        console.log(Ext.Date.format(dt, 'l, \\t\\he jS \\of F Y h:i:s A')); // Wednesday, the 10th of January 2007 03:05:01 PM
-//        console.log(Ext.Date.format(dt, 'Y-m-d\\TG:m:sP')); // Wednesday, the 10th of January 2007 03:05:01 PM
-
-
-        //        console.log('Initialized Activities! This happens before the Application launch function is called');
         this.control({
             'activitylist': {
                 select: this.changeDetail
             },
-            'activitydetail button[action=save]':{
-                click: this.updateActivity
+            'activitylist button[action=save]':{
+                click: this.saveActivities
             },
-            'activitydetail button[action=create]':{
+            'activitylist button[action=copy]':{
+                click: this.copyActivity
+            },
+            'activitylist button[action=delete]':{
+                click: this.confirmDeleteActivity
+            },
+            'activitylist button[action=create]':{
                 click: this.createActivity
-            },
-            'activitydetail button[action=remove]':{
-                click: this.removeActivity
             },
             'activitydetail #uploadBtn':{
                 click: this.uploadPhoto
+            },
+            'activitydetail #dtstart':{
+                change: this.changeMinValueForDtend
             },
             'activitydetail #categoryCombo':{
                 select: this.selectCategory
@@ -68,38 +69,61 @@ Ext.define('NAF.controller.Activities', {
             'activitydetail #locationCombo':{
                 select: this.selectLocation
             },
-            'activitydetail #regionCombo':{
-                select: this.selectRegion
+            'activitydetail #organizerCombo':{
+                select: this.selectOrganizer
             },
-            'activitydetail #activitiesSearchCombo':{
-                select: this.selectActivity
+            'activitylist #activitiesSearchCombo':{
+                select: this.selectActivity,
+                keyup : this.updateList
+            },
+            'activitydetail #activitiesSearchComboSummary':{
+                blur: this.setSummaryBlur
             },
             'activitydetail #vehicleCombo':{
                 select: this.selectVehicle
             }
-
-
         });
+    },
+
+    createActivity: function() {
+        var ad = this.getActivityDetail();
+        var activity = Ext.create('NAF.model.Activity');
+        var summaryCmp = this.getSummary();
+        summaryCmp.setRawValue('');
+        ad.getForm().loadRecord(activity);
+
+        ad.setDisabled(false);
+
+
+        this.getActivitiesStore().add(activity);
     },
 
     selectActivity: function(combo, records) {
         var record = records[0];
-        var title = record.get('summary');
+        var summary = record.get('summary');
         var ad = this.getActivityDetail();
-        var di = ad.getDockedItems();
-        var tbar = di[0];
-        var tbInfo = tbar.getComponent('tbInfo');
-        tbInfo.setText('Mer informasjon om ' + title);
+        ad.setDisabled(false);
         ad.loadRecord(record);
+        var summaryCmp = this.getSummary();
+        summaryCmp.setRawValue(summary);
         var cat = ad.getComponent('categoryCombo');
         cat.setValue(record.get('category_id'));
         var loc = ad.getComponent('locationCombo');
         loc.setValue(record.get('location_id'));
         var v = this.getVehicleCombo();
         v.setValue(record.get('vehicle'));
-        var r = this.getRegionCombo();
-        r.setValue(record.get('region'));
 
+
+    },
+
+    setSummaryBlur: function(field) {
+        var summary = field.getRawValue();
+        var ad = this.getActivityDetail();
+        var activeActivity = ad.getForm().getRecord();
+        activeActivity.set('summary', summary);
+        var values = ad.getForm().getValues();
+        values.push('summary', summary);
+        activeActivity.commit();
     },
 
     updateList: function(field) {
@@ -112,7 +136,7 @@ Ext.define('NAF.controller.Activities', {
         record.set(id, val);
     },
 
-    uploadPhoto: function(button){
+    uploadPhoto: function(button) {
 
         console.log('hallo!?');
         var win = button.up('activitydetail');
@@ -134,29 +158,55 @@ Ext.define('NAF.controller.Activities', {
 //        });
 
 
-
     },
 
-    updateActivity: function (button) {
-        var win = button.up('activitydetail');
-        var form = win.getForm();
-        var record = form.getRecord();
+    saveActivities: function (button) {
+        var ad = this.getActivityDetail();
+        var form = ad.getForm();
+        var activity = form.getRecord();
         var values = form.getValues();
-        record.set(values);
+        activity.set(values);
+
+        var dtstartForm = values['dtstart'];
+//        console.log(dtstartForm);
+        if (typeof dtstartForm !== 'undefined' && dtstartForm !== null) {
+            var dtstartTimeForm = values['dtstart-time'];
+            var d = Ext.Date.parse(dtstartForm + ' ' + dtstartTimeForm, 'd.m.Y H.i');
+            activity.set('dtstart', d);
+        }
+
+        var dtendForm = values['dtend'];
+//        console.log(dtstartForm);
+        if (typeof dtstartForm !== 'undefined' && dtstartForm !== null) {
+            var dtendTimeForm = values['dtend-time'];
+            var d = Ext.Date.parse(dtendForm + ' ' + dtendTimeForm, 'd.m.Y H.i');
+            activity.set('dtend', d);
+        }
+
+
+//        this.getActivitiesStore().update(activity);
         this.getActivitiesStore().sync();
+
+        activity.commit();
+
+        Ext.Msg.alert('Lagret', activity.get('summary') + ' er lagret.');
     },
 
-    removeActivity: function (button) {
-        var win = button.up('activitydetail');
-        var form = win.getForm();
-        var record = form.getRecord();
-        var values = form.getValues();
-        record.set(values);
-        this.getActivitiesStore().remove(record);
-        this.getActivitiesStore().sync();
+    confirmDeleteActivity: function(button) {
+        Ext.Msg.confirm('Bekreft sletting', 'Bekreft at du ønsker å slette aktiviteten for godt?', this.deleteActivity, this);
     },
 
-    createActivity: function (button) {
+    deleteActivity: function (button) {
+        if (button === 'yes') {
+            var ad = this.getActivityDetail();
+            var form = ad.getForm();
+            var record = form.getRecord();
+            this.getActivitiesStore().remove(record);
+            this.getActivitiesStore().sync();
+        }
+    },
+
+    copyActivity: function (button) {
         var ad = this.getActivityDetail();
         var form = ad.getForm();
         var record = form.getRecord();
@@ -172,28 +222,59 @@ Ext.define('NAF.controller.Activities', {
         newActivity.set('id', id);
         newActivity.set('summary', 'Kopi av ' + record.get('summary'));
 
-        this.getActivitiesStore().insert(index+1,newActivity);
+        this.getActivitiesStore().insert(index + 1, newActivity);
         this.getActivitiesStore().sync();
         this.changeDetail(null, newActivity)
     },
 
     changeDetail: function(grid, record) {
-        var title = record.get('summary');
+        var summary = record.get('summary');
         var ad = this.getActivityDetail();
+        //todo få inn sjekk på om bruker har lov å editere aktivitet
+        ad.setDisabled(false);
         var di = ad.getDockedItems();
         var tbar = di[0];
-        var tbInfo = tbar.getComponent('tbInfo');
-        tbInfo.setText('Mer informasjon om ' + title);
+//        var tbInfo = tbar.getComponent('tbInfo');
+//        tbInfo.setText('Mer informasjon om ' + summary);
+
+        var summaryCmp = this.getSummary();
+        summaryCmp.setRawValue(summary);
+
+
         ad.loadRecord(record);
+        record.set('summary', summary);
+
+        var dtstart = record.get('dtstart');
+
+        if (dtstart != null) {
+            var dtstartTime = new Date(dtstart.getTime());
+            record.set('dtstart-time', dtstartTime);
+            this.getDateEnd().setMinValue(dtstart);
+        }
+
+        var dtend = record.get('dtend');
+
+        if (dtend != null) {
+            var dtendTime = new Date(dtend.getTime());
+            record.set('dtend-time', dtendTime);
+        }
+
         var cat = ad.getComponent('categoryCombo');
         cat.setValue(record.get('category_id'));
         var loc = ad.getComponent('locationCombo');
         loc.setValue(record.get('location_id'));
         var v = this.getVehicleCombo();
         v.setValue(record.get('vehicle'));
-        var r = this.getRegionCombo();
-        r.setValue(record.get('region'));
     },
+
+    changeMinValueForDtend: function(field, newValue) {
+        var dtstart = newValue;
+        if (dtstart != null) {
+            var dtstartTime = new Date(dtstart.getTime());
+            this.getDateEnd().setMinValue(dtstart);
+        }
+    },
+
 
     selectCategory: function(combo, selectedRecords) {
         var ad = combo.up();
@@ -203,7 +284,6 @@ Ext.define('NAF.controller.Activities', {
             var newCategory = selectedRecords[0].get('name');
             activity.set('category_id', newId);
             activity.set('category', newCategory);
-
         }
     },
 
@@ -218,6 +298,17 @@ Ext.define('NAF.controller.Activities', {
 
         }
     },
+    selectOrganizer: function(combo, selectedRecords) {
+        var ad = combo.up();
+        if (ad != null) {
+            var activity = ad.getRecord();
+            var newId = selectedRecords[0].get('_id');
+            var newLocationName = selectedRecords[0].get('name');
+            activity.set('organizer_id', newId);
+            activity.set('organizer', newLocationName);
+
+        }
+    },
 
     selectVehicle: function(combo, selectedRecords) {
         var ad = this.getActivityDetail();
@@ -226,15 +317,6 @@ Ext.define('NAF.controller.Activities', {
             var vehicle = selectedRecords[0].get('name');
             activity.set('vehicle', vehicle);
 
-        }
-    },
-
-    selectRegion: function(combo, selectedRecords) {
-        var ad = this.getActivityDetail();
-        if (ad != null) {
-            var activity = ad.getRecord();
-            var region = selectedRecords[0].get('name');
-            activity.set('region', region);
         }
     }
 

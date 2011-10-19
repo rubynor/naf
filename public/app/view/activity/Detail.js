@@ -1,85 +1,37 @@
 Ext.define('NAF.view.activity.Detail', {
     extend: 'Ext.form.Panel',
-    bodyPadding: 5,  // Don't want content to crunch against the borders
+    bodyPadding: 5,
     alias: 'widget.activitydetail',
     preventHeader: true,
     autoScroll: true,
-
-    videoTpl: [
-        '{video}'
-
-    ],
+    disabled: true,
 
     defaultType: 'textfield',
 
-    tbar: [
-        {
-            xtype    : 'tbtext',
-            id       : 'tbInfo',
-            text     : 'Mer informasjon om ',
-            style    : {'font-weight': 'bold', 'color': '#04408C !important'}
-        },
-        '->',
-
+    items: [
         {
             xtype: 'combo',
             store: 'ActivitiesSearch',
-            id: 'activitiesSearchCombo',
+            id: 'activitiesSearchComboSummary',
             displayField: 'summary',
             typeAhead: false,
             hideLabel: true,
             hideTrigger:true,
+            emptyText: 'Aktivitets navn',
+            width: 350,
+            enableKeyEvents: true,
             queryParam: 'admin:true&text',
-            emptyText: 'Søk etter aktiviteter...',
-//            matchFieldWidth: false,
-
+            allowBlank: false,
+            invalidText: 'Feltet må være utfylt.',
+            fieldStyle: {'font-weight': 'bold', 'height' : 30, 'color' : 'black'},
             listConfig: {
                 loadingText: 'Søker...',
-                emptyText: 'Ingen treff.',
-//                maxHeight: 400,
+                emptyText: 'Finner ikke aktivitet med angitt navn. Tryck "ESC" tast for å gå videre.',
                 width: 400,
                 minHeight: 200,
                 autoScroll: true
-
             }
         },
-        {
-            xtype: 'button',
-            id: 'removeButton',
-            text:'Slett',
-            tooltip: 'Sletter valgt aktivitet',
-            action: 'remove'
-        },
-        {
-            xtype: 'button',
-            id: 'createButton',
-            text:'Kopier',
-            tooltip: 'Kopier valgte aktivitet',
-            action: 'create'
-        },
-        {
-            xtype: 'button',
-            id: 'activityDetailSaveButton',
-            text:'Lagre',
-//            disabled:true,
-            action: 'save'
-        }
-    ],
-
-    items: [
-
-        {
-            name: 'summary',
-            id: 'summary',
-            dataIndex: 'summary',
-            emptyText: 'Aktivitets navn',
-            height: 30,
-            width: 400,
-            enableKeyEvents: true,
-            fieldStyle: {'font-weight': 'bold'}
-        }
-        ,
-
 
         {
             xtype: 'fieldcontainer',
@@ -87,40 +39,49 @@ Ext.define('NAF.view.activity.Detail', {
             items: [
                 {
                     name: 'dtstart',
-                    dataIndex: 'dtstart',
-                    xtype: 'datefield',
-                    format: 'c'
+                    id: 'dtstart',
+                    width: 95,
+                    xtype: 'datefield'
+                    ,
+                    format: 'd.m.Y',
+                    altFormats: 'c'
                 },
                 {
                     xtype: 'splitter'
                 },
                 {
                     xtype: 'timefield',
-                    dataIndex: 'dtstart',
-                    width: 70,
-                    name: 'in',
+                    width: 65,
+                    name: 'dtstart-time',
+                    minValue: '06.00',
                     increment: 30,
-                    format: 'H:i'
+                    format: 'H.i',
+                    altFormats: 'c'
                 },
                 {
-                    xtype: 'splitter'
+                    xtype: 'splitter',
+                    width: 20
                 },
                 {
                     name: 'dtend',
-                    dataIndex: 'dtend',
+                    id: 'dtend',
+                    width: 95,
                     xtype: 'datefield',
-                    format: 'c'
-                },
+                    format: 'd.m.Y',
+                    altFormats: 'c'
+                }
+                ,
                 {
                     xtype: 'splitter'
-                },
+                }
+                ,
                 {
                     xtype: 'timefield',
-                    dataIndex: 'dtend',
-                    width: 70,
-                    name: 'out',
+                    width: 65,
+                    name: 'dtend-time',
                     increment: 30,
-                    format: 'H:i'
+                    format: 'H.i',
+                    altFormats: 'c'
                 }
             ]
         }
@@ -134,7 +95,6 @@ Ext.define('NAF.view.activity.Detail', {
                     xtype: 'checkboxfield',
                     fieldLabel  : 'Aktiv',
                     name      : 'active',
-                    dataIndex : 'active',
                     inputValue: 'true',
                     uncheckedValue : 'false',
                     id        : 'active'
@@ -154,10 +114,9 @@ Ext.define('NAF.view.activity.Detail', {
                 {
                     id: 'ageFrom',
                     xtype: 'numberfield',
-                    valueField: 'ageFrom',
+                    name : 'age_from',
                     minValue:0,
                     maxValue:100,
-                    value:18,
                     width: 50
                 }
                 ,
@@ -177,10 +136,9 @@ Ext.define('NAF.view.activity.Detail', {
                 {
                     id: 'ageTo',
                     xtype: 'numberfield',
-                    valueField: 'ageTo',
+                    name : 'age_to',
                     minValue:0,
                     maxValue:100,
-                    value:67,
                     width: 50
                 }
             ]
@@ -204,7 +162,6 @@ Ext.define('NAF.view.activity.Detail', {
             xtype: 'textareafield',
             grow: 'true',
             width: 350,
-            dataIndex: 'description',
             fieldLabel: 'Beskrivelse'
         }
         ,
@@ -213,7 +170,6 @@ Ext.define('NAF.view.activity.Detail', {
             xtype: 'textareafield',
             grow: 'true',
             width: 350,
-            dataIndex: 'contact',
             fieldLabel: 'Kontakt informasjon'
         }
         ,
@@ -221,7 +177,6 @@ Ext.define('NAF.view.activity.Detail', {
             name: 'attendee',
             xtype: 'textfield',
             width: 350,
-            dataIndex: 'attendee',
             fieldLabel: 'Påmeldingslink'
         }
         ,
@@ -243,15 +198,16 @@ Ext.define('NAF.view.activity.Detail', {
         }
         ,
         {
-            id: 'regionCombo',
+            name: 'organizer2',
+            id: 'organizerCombo',
             xtype: 'combo',
             width: 350,
-            valueField: 'name',
-            store: 'Regions',
+            valueField: '_id',
+            store: 'Locations',
             displayField: 'name',
             typeAhead: false,
 
-            fieldLabel: 'Region',
+            fieldLabel: 'Arrangør',
 
             listConfig: {
                 loadingText: 'Leter...'
@@ -262,39 +218,41 @@ Ext.define('NAF.view.activity.Detail', {
             name: 'tags',
             fieldLabel: 'Stikkord',
             id: 'tags',
-            dataIndex: 'tags',
             emptyText: 'Stikkord',
             width: 350
         },
         {
-            xtype: 'fieldcontainer',
-            layout: 'hbox',
-            items: [
-                {
-                    name: 'price',
-                    fieldLabel: 'Pris',
-                    xtype: 'textfield',
-                    id: 'price',
-                    dataIndex: 'price',
-                    emptyText: 'Pris',
-                    width: 350
-                }
-                ,
-                {
-                    xtype: 'splitter'
-                },
-                {
-                    xtype: 'checkboxfield',
-                    boxLabel  : 'Veileder  inkl',
-                    name      : 'supervisor_included',
-                    dataIndex : 'supervisor_included',
-                    inputValue: 'true',
-                    uncheckedValue : 'false',
-                    id        : 'supervisor_included'
-                }
-            ]
+            name: 'price',
+            fieldLabel: 'Pris',
+            xtype: 'textfield',
+            id: 'price',
+            emptyText: 'Pris',
+            width: 350
+        }
+
+        ,
+        {
+            name: 'member_price',
+            fieldLabel: 'Medlemspris',
+            xtype: 'textfield',
+            emptyText: 'Medlemspris',
+            width: 350
         }
         ,
+
+        {
+            xtype: 'checkboxgroup',
+            fieldLabel: 'Annet',
+            // Arrange radio buttons into two columns, distributed vertically
+            columns: 1,
+            width: 350,
+            vertical: true,
+            items: [
+                { boxLabel: 'Inkl veileder', name: 'supervisor_included', inputValue: true, uncheckedValue: false },
+                { boxLabel: 'Gratis', name: 'free', inputValue: true, uncheckedValue: false },
+                { boxLabel: 'Inkl mva', name: 'mva', inputValue: true, uncheckedValue: false }
+            ]
+        },
 
         {
             xtype: 'fieldcontainer',
@@ -307,7 +265,6 @@ Ext.define('NAF.view.activity.Detail', {
                     xtype: 'combo',
                     width: 350,
                     valueField: 'name',
-                    dataIndex: 'vehicle',
                     store: 'Vehicles',
                     displayField: 'name',
                     typeAhead: true,
@@ -320,7 +277,6 @@ Ext.define('NAF.view.activity.Detail', {
                     xtype: 'checkboxfield',
                     boxLabel  : 'Eget kjøretøy',
                     name      : 'own_vehicle',
-                    dataIndex : 'own_vehicle',
                     uncheckedValue : 'false',
                     inputValue: 'true',
                     id        : 'own_vehicle'
@@ -333,7 +289,6 @@ Ext.define('NAF.view.activity.Detail', {
             xtype: 'textareafield',
             grow: 'true',
             width: 350,
-            dataIndex: 'responsibility',
             fieldLabel: 'Brukeren har selv ansvar for'
         }
         ,
@@ -341,7 +296,6 @@ Ext.define('NAF.view.activity.Detail', {
             name: 'url',
             xtype: 'textfield',
             width: 350,
-            dataIndex: 'url',
             fieldLabel: 'Link til aktiviteten'
 
         }
@@ -350,7 +304,6 @@ Ext.define('NAF.view.activity.Detail', {
             name: 'video',
             xtype: 'textfield',
             width: 350,
-            dataIndex: 'video',
             fieldLabel: 'Link til video'
 
         }
@@ -393,116 +346,114 @@ Ext.define('NAF.view.activity.Detail', {
         }
         ,
         {
-            xtype: 'splitter',
-            height: 40
-        }
-        ,
-        {
-            xtype: 'splitbutton',
-            id: 'addBtn',
-            text: 'Legg til',
-            scope: this,
-            margin: '0 0 0 50' ,
-            menu : [
+            xtype: 'form',
+            title: 'Politisk aktivitet',
+            bodyPadding: 5,
+            collapsible: true,
+            collapsed: true,
+            items: [
                 {
-                    text: 'Navn',
-                    handler: function() {
-                        console.log('abc')
-                    }
+                    name: 'political_contact',
+                    xtype: 'textareafield',
+                    width: 350,
+                    fieldLabel: 'Kontakt med'
+
                 },
                 {
-                    text: 'Sted',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Målgruppe',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Kategori',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Beskrivelse',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Kontaktinformasjon',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Link til registrering',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Link til nettside',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Starter',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Avslutter',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Pris',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Link til video (youtupe)',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Kjøretøy',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Deltager trenger eget kjøretøy',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Instruktør på stedet',
-                    handler: function() {
-                        console.log('abc')
-                    }
-                },
-                {
-                    text: 'Tags',
-                    handler: function() {
-                        console.log('abc')
-                    }
+                    name: 'response_result',
+                    xtype: 'textareafield',
+                    width: 350,
+                    fieldLabel: 'Respons/Resultat'
+
                 }
             ]
         }
 
+        ,
+        {
+            xtype: 'form',
+            title: 'Interninformasjon',
+            bodyPadding: 5,
+            collapsible: true,
+            collapsed: true,
+
+            items: [
+                {
+                    name: 'volunteers_involved_count',
+                    xtype: 'numberfield',
+                    width: 350,
+                    fieldLabel: 'Antall frivillige involvert'
+
+                },
+                {
+                    name: 'volunteers_used_count',
+                    xtype: 'numberfield',
+                    width: 350,
+                    fieldLabel: 'Antall frivilligtimer brukt'
+
+                },
+                {
+                    name: 'competence_needs',
+                    xtype: 'textareafield',
+                    width: 350,
+                    fieldLabel: 'Kompetansebehov'
+
+                },
+                {
+                    name: 'participants_count',
+                    xtype: 'numberfield',
+                    width: 350,
+                    fieldLabel: 'Antall deltakere'
+
+                },
+                {
+                    name: 'result',
+                    xtype: 'textareafield',
+                    width: 350,
+                    fieldLabel: 'Dette gikk bra'
+
+                },
+                {
+                    name: 'potential_improvements',
+                    xtype: 'textareafield',
+                    width: 350,
+                    fieldLabel: 'Enda bedre om'
+
+                }
+            ]
+        }
+
+        ,
+        {
+            xtype: 'form',
+            title: 'Media',
+            bodyPadding: 5,
+            collapsible: true,
+            collapsed: true,
+            items: [
+                {
+                    name: 'media_title',
+                    xtype: 'textfield',
+                    width: 350,
+                    fieldLabel: 'Tittel på sak'
+
+                },
+                {
+                    name: 'media_outlet',
+                    xtype: 'textfield',
+                    width: 350,
+                    fieldLabel: 'Medie'
+
+                },
+                {
+                    name: 'media_url',
+                    xtype: 'textfield',
+                    width: 350,
+                    fieldLabel: 'Link til sak'
+
+                }
+            ]
+        }
     ]
 
 
