@@ -101,13 +101,13 @@ class Activity
 
         with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
 
-        if params[:targets] && !params[:targets].empty?
-          range = Activity.total_range_for_targets(params[:targets])
-          min_age = range[0]
-          max_age = range[1]
-          with(:age_from).greater_than min_age
-          with(:age_to).less_than max_age
-        end
+        #if params[:targets] && !params[:targets].empty?
+        #  range = Activity.total_range_for_targets(params[:targets])
+        #  min_age = range[0]
+        #  max_age = range[1]
+        #  with(:age_from).greater_than min_age
+        #  with(:age_to).less_than max_age
+        #end
 
         if params[:dtstart]
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)

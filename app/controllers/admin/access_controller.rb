@@ -9,9 +9,9 @@ class Admin::AccessController < ApplicationController
       render :nothing => true
     else
       if current_user.is_super_admin?
-        render :json => "super"
+        render :json => {:access_id => "super"}.to_json
       else
-        render :json => current_user.editable_locations
+        render :json => current_user.editable_locations.map{|id| {:access_id => id}}.to_json
       end
     end
   end

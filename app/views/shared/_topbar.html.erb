@@ -1,12 +1,15 @@
-<div class="topbar" style='background-color:#222;background-color:#222222;'>
+<div class="topbar" style='background-color:#222;background-color:#222222;padding-left:10px;'>
   <div class="fill">
 
       <a class="brand" href="/admin">NAF 0-100 Admin</a>
-   <%if current_user && current_user.is_super_admin?%>
+   <%if current_user%>
       <ul class="nav">
-      <li><a href="/admin">Aktiviteter</a></li>
-        <li><a href="/admin/users">Brukere</a></li>
-        <li><a href="/admin/locations">Lokasjoner</a></li>
+        <li><a href="/admin">Aktiviteter</a></li>
+    <%if current_user.is_super_admin?%>
+          <li><a href="/admin/users">Brukere</a></li>
+          <li><a href="/admin/locations">Lokasjoner</a></li>
+    <%end%>
+    <li><%=link_to "Logg ut", destroy_user_session_path, :method => :delete%></li>
       </ul>
   <%end%>
 

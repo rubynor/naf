@@ -6,6 +6,7 @@
 //
 
 //= require jquery
+//= require jquery_ujs
 //= require vendor/jquery.ui
 //= require vendor/range_slider
 //= require vendor/date_range_slider
