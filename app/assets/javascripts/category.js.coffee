@@ -14,7 +14,7 @@ class window.CategoryView extends Backbone.View
 
 	toggle: (e) ->
 		category_id = $(e.currentTarget).attr("_id")
-		window.searcher.toggleCategory(category_id)
+		window.searcher.toggleCategories()
 		
 class window.Category extends Backbone.Model
 	initialize: ->

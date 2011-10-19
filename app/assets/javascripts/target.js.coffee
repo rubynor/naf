@@ -11,7 +11,7 @@ class window.TargetView extends Backbone.View
 
 	toggle: (e) ->
 		target_name = $(e.currentTarget).attr("name")
-		window.searcher.toggleTarget(target_name)
+		window.searcher.toggleTargets()
 			
 class window.Target extends Backbone.Model
 	initialize: (name) ->

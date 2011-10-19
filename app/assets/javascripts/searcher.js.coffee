@@ -45,18 +45,18 @@ class window.Searcher extends Backbone.View
 		@region_id = id
 		@search(true)
 		
-	toggleCategory: (id) ->
-		if _.indexOf(@category_criteria, id) > -1
-			@category_criteria = _.without(@category_criteria, id)
-		else
-			@category_criteria.push(id)
-
+	toggleCategories: (id) ->
+		@category_criteria = new Array()
+		that = @
+		_.each $(".category_box:checked"), (check_box) ->
+			if $(check_box).val() != undefined
+				that.category_criteria.push $(check_box).attr("_id")
 		@search(true)
 
-	toggleTarget: (name) ->
-		if _.indexOf(@target_criteria, name) > -1
-			@target_criteria = _.without(@target_criteria, name)
-		else
-			@target_criteria.push(name)
-
+	toggleTargets: (name) ->
+		@target_criteria = new Array()
+		that = @
+		_.each $(".target_box:checked"), (check_box) ->
+			if $(check_box).val() != undefined
+				that.target_criteria.push $(check_box).attr("name")
 		@search(true)
