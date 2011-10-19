@@ -12,6 +12,7 @@ class window.ActivityView extends Backbone.View
 		
 	showModal: ->
     $(@el).find(".modal").modal('show')
+	
 		
 class window.Activity extends Backbone.Model
 	url: "/activities"

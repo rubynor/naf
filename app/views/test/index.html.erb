@@ -24,6 +24,17 @@
         var dayNamesMin = ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
         $("#dtstart").datepicker({dateFormat: 'dd.mm.yy', dayNamesMin: dayNamesMin, monthNames: monthNames, onSelect: function(dateText, inst) { window.searcher.setStartDate(dateText)}})
         $("#dtend").datepicker({dateFormat: 'dd.mm.yy', dayNamesMin: dayNamesMin, monthNames: monthNames, onSelect: function(dateText, inst) { window.searcher.setEndDate(dateText)}})
+    Handlebars.registerHelper('downcase', function(string) {
+      return string.toLowerCase()
+    });
+        Handlebars.registerHelper('formatted_time', function(date_time) {
+      var d = new Date(date_time);
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth() + 1; //months are zero based
+        var curr_year = d.getFullYear();
+        return curr_date + "." + curr_month + "." + curr_year;
+
+        });
   })
 </script>
 
@@ -84,16 +95,70 @@
         <h3>{{summary}}</h3>
       </div>
       <div class="modal-body">
-        <p>{{description}}</p>
-      </div>
+      <ul class="tabs" data-tabs="tabs">
+          <li class="active"><a href="#info">Informasjon</a></li>
+          <li><a href="#contact">Kontaktinformasjon</a></li>
+          <li><a href="#price">Pris</a></li>
+      </ul>
+
+      <div class="pill-content">
+          <div class="active" id="info" style='overflow:none;'>
+      <table>
+        <tr><td>{{description}}</td></tr>
+      <tr>
+        <td><b>Hvor og når:</b> {{location.name}}
+        <div>{{address}} <i>{{formatted_time dtstart}} - {{formatted_time dtend}}</i></div>
+        </td>
+      </tr>
+
+      <tr><td><b>Viktig:</b> {{responsibility}} Ta med {{downcase vehicle}}.</td></tr>
+      <tr><td colspan=2><a href={{video}} target='_blank'>Video</a></td></tr>
+      </table>
+
+
+          </div>
+          <div id="contact">
+          <table>
+          <tr><td>Kontaktperson: </td><td>{{contact_name}}</td></tr>
+          <tr><td>Telefon: </td><td>{{contact_phone}}</td></tr>
+          <tr><td>E-post: </td><td>{{contact_mail}}</td></tr>
+          </table>
+          {{contact}}
+          </div>
+
+          <div id="price">
+      {{#if free}}
+        Aktiviteten er gratis.
+      {{else}}
+            <table>
+
+            <tr>
+              <td>Pris:</td><td>{{price}},-</td>
+            </tr>
+
+          {{#if member_price}}
+            <tr>
+              <td>Medlemspris:</td><td>{{member_price}},-</td>
+            </tr>
+          {{/if}}
+            <tr>
+              <td>MVA:</td><td>{{#if mva}}inkludert{{else}}kommer i tillegg{{/if}}</td>
+            </tr>
+
+            </table>
+      {{/if}}
+        </div>
+
+    </div>
+
+     </div>
       <div class="modal-footer">
-        <a href="#" class="btn primary">Les mer</a>
+        <a href="{{url}}" class="btn primary" target="_blank">Påmelding og mer informasjon</a>
       </div>
     </div>
 
 
-<div class='popover'>Hey</div>
-  <a href="#" class="btn danger" rel="popover" data-content="And here's some amazing content. It's very engaging. right?" data-original-title="A Title">hover for popover</a>
+
 </script>
 
 <script type='template' id='category_tmpl'>

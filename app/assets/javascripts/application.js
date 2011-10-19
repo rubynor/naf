@@ -14,6 +14,7 @@
 //= require vendor/backbone
 //= require vendor/handlebars
 //= require vendor/modal
+//= require vendor/tabs
 //= require vendor/twipsy
 //= require vendor/popover
 
