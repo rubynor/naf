@@ -33,12 +33,21 @@ describe Activity do
   
   it "should embedd the organizer if organizer id is set" do
     activity = Fabricate(:activity)
-
     location = Fabricate(:location, :name => "hello")
     activity.update_attributes(:organizer_id => location.id)
     activity.organizer.name.should == "hello"
   end
   
+  it "can find range based on many targets" do
+    Activity.total_range_for_targets(['Barn 0 - 14']).should == [0, 14]
+    Activity.total_range_for_targets(['Barn 0 - 14', 'Ung 15 - 24']).should == [0, 24]
+    Activity.total_range_for_targets(['Barn 0 - 14', 'Ung 15 - 24', 'Voksen 25 - 65']).should == [0, 65]
+    Activity.total_range_for_targets(['Barn 0 - 14', 'Ung 15 - 24', 'Voksen 25 - 65', 'Eldre 65 +']).should == [0, 100]
+    Activity.total_range_for_targets(['Ung 15 - 24', 'Voksen 25 - 65', 'Eldre 65 +']).should == [15, 100]
+    Activity.total_range_for_targets(['Voksen 25 - 65', 'Eldre 65 +']).should == [25, 100]
+    Activity.total_range_for_targets(['Eldre 65 +']).should == [65, 100]
+  end
+      
   it "sets dtend automatically if duration and dtstart is set"
   
 end

@@ -55,15 +55,15 @@ describe ActivitiesController do
   end
   
   it "finds activities based on target audience", :solr => true do
-    activity1 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle1",:target => "Barn 0 - 14")
-    activity2 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle2", :target => "Voksne 25 - 40")
-    activity3 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :target => "Eldre 65 +")
+    activity1 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle1",:age_from => 0, :age_to => 14)
+    activity2 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle2", :age_from => 25, :age_to => 40)
+    activity3 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :age_from => 65, :age_to => 100)
     Sunspot.commit
     get :search, :text => "no match", :targets => []
     search_results_for(response).should == json_decoded([].to_json)
     get :search, :text => "", :targets => ["Barn 0 - 14"]
     search_results_for(response).should == json_decoded([activity1].to_json)
-    get :search, :text => "", :targets => ["Barn 0 - 14", "Voksne 25 - 40"]
+    get :search, :text => "", :targets => ["Barn 0 - 14", "Voksen 25 - 65"]
     search_results_for(response).should == json_decoded([activity1, activity2].to_json)
   end
   

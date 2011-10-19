@@ -24,7 +24,7 @@ class Activity
   field :location_id, :type => String #ref to #Location
   field :organizer_id, :type => String #ref to #Location
   field :tags, :type => String, :default => ""
-  field :target, :type => String #represents who this activity is for .i.e "Barn 0-14" or "Eldre 65+"
+
   field :age_from, :type => Integer, :default => 0
   field :age_to, :type => Integer, :default => 100
   field :active, :type => Boolean, :default => false
@@ -56,7 +56,10 @@ class Activity
 
   searchable do
     text :summary, :description, :tags, :vehicle
-    string :target
+
+    integer :age_from
+    integer :age_to
+
     string :category_id
 
     boolean :active
@@ -95,7 +98,14 @@ class Activity
         end
 
         with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
-        with(:target).any_of params[:targets].to_a if params[:targets] && !params[:targets].empty?
+
+        if params[:targets] && !params[:targets].empty?
+          range = Activity.total_range_for_targets(params[:targets])
+          min_age = range[0]
+          max_age = range[1]
+          with(:age_from).greater_than min_age
+          with(:age_to).less_than max_age
+        end
 
         if params[:dtstart]
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
@@ -112,6 +122,34 @@ class Activity
     def targets
       ['Barn 0 - 14', 'Ung 15 - 24', 'Voksen 25 - 65', 'Eldre 65 +']
     end
+
+    def total_range_for_targets(targets)
+      min = 100
+      max = 0
+      targets.to_a.each do |target|
+        range = Activity.range_from_target(target)
+        floor = range[0]
+        ceil = range[1]
+        min = floor if floor < min
+        max = ceil if ceil > max
+      end
+      return [min, max]
+    end
+
+    def range_from_target(target)
+      res = [0, 100]
+      if target == 'Barn 0 - 14'
+        res = [0, 14]
+      elsif target == 'Ung 15 - 24'
+        res = [15, 24]
+      elsif target == 'Voksen 25 - 65'
+        res = [25, 65]
+      elsif target == 'Eldre 65 +'
+        res = [65, 100]
+      end
+      return res
+    end
+
     #list of possible veichles to choose from
     def veichles
       ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel', 'Annet']
