@@ -52,6 +52,7 @@ class Activity
   validates_presence_of :summary
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
+  scope :active, where(:active => true)
 
   searchable do
     text :summary, :description, :tags, :vehicle

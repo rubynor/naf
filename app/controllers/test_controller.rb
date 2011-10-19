@@ -4,7 +4,7 @@
 class TestController < ApplicationController
   layout 'application'
   def index
-    @activities = Activity.all
+    @activities = Activity.active
     @categories = Category.all
     @regions = Region.all
   end
