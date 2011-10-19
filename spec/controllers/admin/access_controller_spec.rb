@@ -13,13 +13,13 @@ describe Admin::AccessController do
       @location = Fabricate(:location)
       sign_in Fabricate(:user, :location_id => @location.id)
       get :index
-      response.body.should == [@location.id.to_s].to_json
+      response.body.should == [{:access_id => @location.id.to_s}].to_json
     end
   
     it "returns a flag if user is super admin" do
       sign_in Fabricate(:user, :super_admin => true)
       get :index
-      response.body.should == "super"
+      response.body.should == {:access_id => "super"}.to_json
     end
   end
   
