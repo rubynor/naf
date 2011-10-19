@@ -87,7 +87,7 @@ describe ActivitiesController do
     search_results_for(response).should == json_decoded([activity2].to_json)
   end
   
-  it "finds activity based on when it is", :solr => true do
+  it "finds only activites starting after start date", :solr => true do
     activity1 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 4, 5), :dtend => DateTime.new(2011, 4, 8))
     activity2 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 6, 5), :dtend => DateTime.new(2011, 6, 8))
     Sunspot.commit
@@ -95,6 +95,16 @@ describe ActivitiesController do
     search_results_for(response).should == json_decoded([activity1, activity2].to_json)
     get :search, :text => "", :dtstart => "6.4.2011"
     search_results_for(response).should == json_decoded([activity2].to_json)
+  end
+  
+  it "finds only activites starting before end date", :solr => true do
+    activity1 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 4, 5), :dtend => DateTime.new(2011, 4, 8))
+    activity2 = Fabricate(:activity, :summary => "Learn stuff", :dtstart => DateTime.new(2011, 4, 10), :dtend => DateTime.new(2011, 6, 8))
+    Sunspot.commit
+    get :search, :text => "", :dtend => "10.4.2011"
+    search_results_for(response).should == json_decoded([activity1, activity2].to_json)
+    get :search, :text => "", :dtend => "9.4.2011"
+    search_results_for(response).should == json_decoded([activity1].to_json)
   end
   
   it "should order the search with closest in time first", :solr => true do

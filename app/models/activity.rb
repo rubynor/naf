@@ -60,7 +60,11 @@ class Activity
   scope :active, where(:active => true)
 
   searchable do
-    text :summary, :description, :tags, :vehicle
+    text :summary, :description, :vehicle
+
+    text :tags do
+      self.tags.split(",").join(" ")
+    end
 
     integer :age_from
     integer :age_to
@@ -115,6 +119,11 @@ class Activity
         if params[:dtstart]
           start = DateTime.new(params[:dtstart].split(".")[2].to_i, params[:dtstart].split(".")[1].to_i, params[:dtstart].split(".")[0].to_i)
           with(:dtstart).greater_than(start)
+        end
+
+        if params[:dtend]
+          start = DateTime.new(params[:dtend].split(".")[2].to_i, params[:dtend].split(".")[1].to_i, params[:dtend].split(".")[0].to_i)
+          with(:dtstart).less_than(start)
         end
 
         order_by :dtstart, :asc

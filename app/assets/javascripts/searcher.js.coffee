@@ -4,6 +4,8 @@ class window.Searcher extends Backbone.View
 		@category_criteria = new Array()
 		@target_criteria = new Array()
 		@region_id = ""
+		@start_date = null
+		@end_date = null
 		
 	render: ->
 		$(@el).html @template()
@@ -27,6 +29,9 @@ class window.Searcher extends Backbone.View
 		options["category_ids"] = @category_criteria unless window.searcher.category_criteria.length == 0
 		options["targets"] = @target_criteria unless window.searcher.target_criteria.length == 0
 		options["region_id"] = @region_id unless @region_id == ""
+		options["dtstart"] = @start_date if @start_date
+		options["dtend"] = @end_date if @end_date
+		
 		window.activities.search(options)
 	
 	searchString: ->
@@ -41,6 +46,14 @@ class window.Searcher extends Backbone.View
 	setStatus: (status) ->
 		$(@el).find("#status").html(status)
 	
+	setStartDate: (date) ->
+		@start_date = date
+		@search(true)
+		
+	setEndDate: (date) ->
+		@end_date = date
+		@search(true)
+		
 	setRegion: (id) ->
 		@region_id = id
 		@search(true)

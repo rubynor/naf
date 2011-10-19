@@ -17,25 +17,13 @@
         window.targets.reset(<%=Activity.targets.map{|t| {:name => t}}.to_json.html_safe%>)
         window.targets.render()
         window.regions.render()
-      $("#region_select").change(function(e){
-      window.searcher.setRegion($(e.currentTarget).val())
-      });
-    $("#date_selector").dateRangeSlider({
-      defaultValues:{min:new Date(2010,1,111), max:new Date(2011,1,11)},
-      bounds:{min:new Date(2010,0,1), max:new Date(2012,0,1)},
-      wheelMode: null,
-      wheelSpeed: 8,
-      arrows: true,
-      valueLabels: "show",
-      formatter: function(value){
-        var month = value.getMonth() + 1;
-        var day = value.getDate();
-        return "" + value.getFullYear() + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
-      },
-      durationIn: 0,
-      durationOut: 400,
-      delayOut: 200
-    });
+        $("#region_select").change(function(e){
+          window.searcher.setRegion($(e.currentTarget).val())
+        });
+        var monthNames = ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember']
+        var dayNamesMin = ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
+        $("#dtstart").datepicker({dateFormat: 'dd.mm.yy', dayNamesMin: dayNamesMin, monthNames: monthNames, onSelect: function(dateText, inst) { window.searcher.setStartDate(dateText)}})
+        $("#dtend").datepicker({dateFormat: 'dd.mm.yy', dayNamesMin: dayNamesMin, monthNames: monthNames, onSelect: function(dateText, inst) { window.searcher.setEndDate(dateText)}})
   })
 </script>
 
@@ -73,17 +61,20 @@
    </div>
 </div>
 
-<br/>
 <h3>Region</h3>
-
 <select name="regionSelect" id="region_select">
   <option value=''>Alle</option>
 </select>
 
 <br/><br/>
 <h3>Når</h3>
-<br/><br/>
-<div id='date_selector'></div>
+<table>
+  <th>Tidligst</th><th>Senest</th>
+  <tr>
+    <td><%=text_field_tag :dtstart, "", :class => "small"%></td>
+    <td><%=text_field_tag :dtend, "", :class => "small"%></td>
+  </tr>
+</table>
 </script>
 
 <script type='template', id='activity_tmpl'>
