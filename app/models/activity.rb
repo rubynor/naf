@@ -130,13 +130,16 @@ class Activity
         paginate :page => params[:page], :per_page => params[:limit] if params[:page] && params[:limit] #pagination is optional
       end
 
+      solr_response = search.instance_eval("@solr_result")
+      Rails.logger.warn solr_response['responseHeader']['response']
+
       return search.results, search.total
       rescue => e
 
         Rails.logger.warn "Error in search: #{e.message}"
         Rails.logger.warn e.backtrace
         solr_response = search.instance_eval("@solr_result")
-        Rails.logger.warn solr_response['responseHeader']['docs']
+        Rails.logger.warn solr_response['responseHeader']['response']
          Rails.logger.warn solr_response
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
