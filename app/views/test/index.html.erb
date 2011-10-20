@@ -97,60 +97,60 @@
     <div class="modal hide fade">
       <div class="modal-header">
         <a href="#" class="close">&times;</a>
-        <h3>{{summary}}</h3>
+        <h3>{{activity.summary}}</h3>
       </div>
       <div class="modal-body">
       <ul class="tabs">
-          <li class="active"><a href="#info_{{_id}}">Informasjon</a></li>
-          <li><a href="#contact_{{_id}}">Kontaktinformasjon</a></li>
-          <li><a href="#price_{{_id}}">Pris</a></li>
+          <li class="active"><a href="#info_{{uniq_id}}">Informasjon</a></li>
+          <li><a href="#contact_{{uniq_id}}">Kontaktinformasjon</a></li>
+          <li><a href="#price_{{uniq_id}}">Pris</a></li>
       </ul>
 
       <div class="pill-content">
-          <div class="active" id="info_{{_id}}" style='overflow:none;'>
+          <div class="active" id="info_{{uniq_id}}" style='overflow:none;'>
       <table>
-        <tr><td>{{description}}</td></tr>
+        <tr><td>{{activity.description}}</td></tr>
       <tr>
-        <td><b>Hvor:</b> {{location.name}}
-        {{address}}
+        <td><b>Hvor:</b> {{activity.location.name}}
+        {{activity.address}}
         </td>
       </tr>
   <tr>
-        <td><b>Når:</b> {{formatted_time dtstart}} - {{formatted_time dtend}}
+        <td><b>Når:</b> {{formatted_time activity.dtstart}} - {{formatted_time activity.dtend}}
         </td>
       </tr>
-      <tr><td><b>Husk:</b> {{responsibility}} Ta med {{downcase vehicle}}.</td></tr>
-      <tr><td colspan=2><a href={{video}} target='_blank'>Video</a></td></tr>
+      <tr><td><b>Husk:</b> {{activity.responsibility}} Ta med {{downcase activity.vehicle}}.</td></tr>
+      <tr><td colspan=2><a href={{activity.video}} target='_blank'>Video</a></td></tr>
       </table>
 
 
           </div>
-          <div id="contact_{{_id}}">
+          <div id="contact_{{uniq_id}}">
           <table>
-          <tr><td>Kontaktperson: </td><td>{{contact_name}}</td></tr>
-          <tr><td>Telefon: </td><td>{{contact_phone}}</td></tr>
-          <tr><td>E-post: </td><td>{{contact_mail}}</td></tr>
+          <tr><td>Kontaktperson: </td><td>{{activity.contact_name}}</td></tr>
+          <tr><td>Telefon: </td><td>{{activity.contact_phone}}</td></tr>
+          <tr><td>E-post: </td><td>{{activity.contact_mail}}</td></tr>
           </table>
           {{contact}}
           </div>
 
-          <div id="price_{{_id}}">
+          <div id="price_{{uniq_id}}">
       {{#if free}}
         Aktiviteten er gratis.
       {{else}}
             <table>
 
             <tr>
-              <td>Pris:</td><td>{{price}},-</td>
+              <td>Pris:</td><td>{{activity.price}},-</td>
             </tr>
 
-          {{#if member_price}}
+          {{#if activity.member_price}}
             <tr>
-              <td>Medlemspris:</td><td>{{member_price}},-</td>
+              <td>Medlemspris:</td><td>{{activity.member_price}},-</td>
             </tr>
           {{/if}}
             <tr>
-              <td>MVA:</td><td>{{#if mva}}inkludert{{else}}kommer i tillegg{{/if}}</td>
+              <td>MVA:</td><td>{{#if activity.mva}}inkludert{{else}}kommer i tillegg{{/if}}</td>
             </tr>
 
             </table>
@@ -161,7 +161,7 @@
 
      </div>
       <div class="modal-footer">
-        <a href="{{url}}" class="btn primary" target="_blank">Påmelding og mer informasjon</a>
+        <a href="{{activity.url}}" class="btn primary" target="_blank">Påmelding og mer informasjon</a>
       </div>
     </div>
 

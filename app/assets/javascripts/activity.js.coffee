@@ -6,7 +6,7 @@ class window.ActivityView extends Backbone.View
 		@viewCount = 0 #used for making tabs show everytime
 		
 	render: ->
-		$(@el).html @template(@model.toJSON())
+		$(@el).html @template({activity: @model.toJSON(), uniq_id: "#{@model.get("_id")}_#{Math.floor(Math.random()*1001)}"})
 		$(@el).find(".modal").modal({backdrop: true}) #used when clicking on a marker
 		$(@el).find(".tabs").tabs()
 		@showModal()
