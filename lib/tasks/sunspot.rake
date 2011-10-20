@@ -2,7 +2,6 @@
 namespace :sunspot do
   desc "indexes searchable models"
   task :index => :environment do
-    [Activity].each {|model| Sunspot.index(model.all)}
-    Sunspot.commit
+    [Activity].each {|model| Sunspot.index!(model.all)}
   end
 end
