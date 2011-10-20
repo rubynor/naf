@@ -129,7 +129,7 @@ class Activity
         end
 
         order_by :dtstart, :asc
-        paginate :page => params[:page], :per_page => params[:limit] if params[:page] && params[:limit] #pagination is optional
+        #paginate :page => params[:page], :per_page => params[:limit] if params[:page] && params[:limit] #pagination is optional
       end
       return search.results, search.total
       rescue => e
