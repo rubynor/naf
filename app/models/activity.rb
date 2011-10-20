@@ -62,7 +62,6 @@ class Activity
   searchable do
     text :summary, :description, :vehicle, :tags
 
-
     integer :age_from
     integer :age_to
 
@@ -91,7 +90,9 @@ class Activity
     def perform_search(params)
       begin
       search = Activity.search do
-        keywords params[:text]
+        keywords params[:text] do
+          fields :summary, :description, :vehicle, :tags, :location_name
+        end
 
         if params[:admin] && params[:admin].to_s == "true"
           with(:active).any_of [true, false]
