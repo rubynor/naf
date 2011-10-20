@@ -60,11 +60,7 @@ class Activity
   scope :active, where(:active => true)
 
   searchable do
-    text :summary, :description, :vehicle
-
-    text :tags do
-      self.tags.split(",").join(" ")
-    end
+    text :summary, :description, :vehicle, :tags
 
     integer :age_from
     integer :age_to
