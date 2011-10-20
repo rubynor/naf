@@ -8,6 +8,8 @@ Ext.application({
 
     onLaunch: function() {
         Ext.QuickTip.init();
+
     }
 
 });
+

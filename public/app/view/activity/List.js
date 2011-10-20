@@ -9,17 +9,14 @@ Ext.define('NAF.view.activity.List', {
     dockedItems: [
         {
             xtype: 'pagingtoolbar',
-            store: 'Activities',   // same store GridPanel is using
+            store: 'Activities',
             dock: 'bottom',
             displayInfo: true
         },
         {
             xtype: 'toolbar',
             dock: 'top',
-            disabled: false,
             items: [
-                '->',
-
                 {
                     xtype: 'combo',
                     store: 'ActivitiesSearch',
@@ -28,27 +25,19 @@ Ext.define('NAF.view.activity.List', {
                     typeAhead: false,
                     hideLabel: true,
                     hideTrigger:true,
-                    queryParam: 'admin:true&text',
+                    width: 300,
+                    queryParam: 'text',
                     emptyText: 'Søk etter aktiviteter...',
-//            matchFieldWidth: false,
-
                     listConfig: {
                         loadingText: 'Søker...',
                         emptyText: 'Ingen treff.',
-                        width: 400,
                         minHeight: 200,
                         autoScroll: true
-
                     }
-                },
+                }
 
-                {
-                    xtype: 'button',
-                    id: 'removeButton',
-                    text:'Slett',
-                    tooltip: 'Slett valgt aktivitet',
-                    action: 'delete'
-                },
+                ,
+                '->' ,
                 {
                     xtype: 'button',
                     id: 'createBtn',
@@ -58,16 +47,10 @@ Ext.define('NAF.view.activity.List', {
                 },
                 {
                     xtype: 'button',
-                    id: 'createButton',
+                    id: 'copyButton',
                     text:'Kopier',
                     tooltip: 'Kopier valgt aktivitet',
                     action: 'copy'
-                },
-                {
-                    xtype: 'button',
-                    id: 'activityDetailSaveButton',
-                    text:'Lagre',
-                    action: 'save'
                 }
             ]
         }
@@ -79,7 +62,9 @@ Ext.define('NAF.view.activity.List', {
             {header: 'Navn',  dataIndex: 'summary',  flex: 1},
             {header: 'Arrangør',  dataIndex: 'organizer',  flex: 1},
             {header: 'Sted',  dataIndex: 'location',  flex: 1},
-            {header: 'Kategori', dataIndex: 'category_id', flex: 1, renderer: this.findCategoryName}
+            {header: 'Kategori', dataIndex: 'category_id', flex: 1, renderer: this.findCategoryName},
+            {header: 'Tilgang',  dataIndex: 'organizer_id',  width: 42, renderer: this.renderAccessIcon},
+            {header: 'Aktiv',  dataIndex: 'active',  width: 35, renderer: this.renderIcon}
         ];
         this.callParent(arguments);
     },
@@ -87,8 +72,29 @@ Ext.define('NAF.view.activity.List', {
     findCategoryName: function(value) {
         var store = Ext.getStore('Categories');
         var category = store.getById(value);
-        if (typeof category !== 'undefined' && category  !== null)
+        if (typeof category !== 'undefined' && category !== null)
             return category.get('name');
         return '';
+    },
+
+    renderIcon: function (value) {
+        if (value) {
+            return '<img src="img/icon_true.gif">';
+        } else {
+            return ''
+        }
+    },
+
+    renderAccessIcon: function (organizer_id) {
+        var as = Ext.StoreManager.get('Accesses');
+        var accessIds = as.collect('access_id');
+
+        var access = (accessIds.indexOf(organizer_id) > -1 || as.find('access_id', 'super') > -1);
+        if (access) {
+            return '<img src="img/icon_true.gif">';
+        } else {
+            return ''
+        }
     }
+
 });

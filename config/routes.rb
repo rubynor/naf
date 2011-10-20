@@ -14,7 +14,11 @@ Naf::Application.routes.draw do
 
   #scope used by the ext.js app
   scope "/rest" do
-    resources :activities, :categories, :locations
+    resources :activities do
+      get :search, :on => :collection
+      post :file_upload, :on => :collection
+    end
+    resources :categories, :locations
   end
 
   resources :activities do

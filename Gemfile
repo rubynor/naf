@@ -7,6 +7,10 @@ gem 'bson_ext'
 gem 'kaminari' #for pagination
 gem 'sunspot_mongoid' #for search in mongoid
 gem 'devise'
+gem 'fog'
+gem 'carrierwave', '~> 0.5.3'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+gem 'rmagick', "~> 2.13.1", :require => 'RMagick'
 
 # Gems used only for assets and not required
 # in production environments by default.

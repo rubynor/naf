@@ -8,7 +8,46 @@ Ext.define('NAF.view.activity.Detail', {
 
     defaultType: 'textfield',
 
+    dockedItems: [
+        {
+            xtype: 'toolbar',
+            dock: 'top',
+            items: [
+                '->',
+                {
+                    xtype: 'button',
+                    id: 'removeButton',
+                    text:'Slett',
+                    disabled: true,
+                    tooltip: 'Slett valgt aktivitet',
+                    action: 'delete'
+                },
+                {
+                    xtype: 'button',
+                    id: 'saveButton',
+                    disabled: true,
+                    text:'Lagre',
+                    action: 'save'
+                }
+            ]
+        }
+    ],
+
     items: [
+        {
+            xtype: 'button',
+            id: 'toggleActiveButton',
+            text:'Aktiv',
+            enableToggle: true,
+            scale: 'large',
+            width: 350,
+            cls: 'activeButton',
+            tooltip: 'Skru av og på aktiviteten.'
+        },
+        {
+            xtype: 'splitter',
+            height: 10
+        },
         {
             xtype: 'combo',
             store: 'ActivitiesSearch',
@@ -20,7 +59,7 @@ Ext.define('NAF.view.activity.Detail', {
             emptyText: 'Aktivitets navn',
             width: 350,
             enableKeyEvents: true,
-            queryParam: 'admin:true&text',
+            queryParam: 'text',
             allowBlank: false,
             invalidText: 'Feltet må være utfylt.',
             fieldStyle: {'font-weight': 'bold', 'height' : 30, 'color' : 'black'},
@@ -92,45 +131,19 @@ Ext.define('NAF.view.activity.Detail', {
             layout: 'hbox',
             items: [
                 {
-                    xtype: 'checkboxfield',
-                    fieldLabel  : 'Aktiv',
-                    name      : 'active',
-                    inputValue: 'true',
-                    uncheckedValue : 'false',
-                    id        : 'active'
-                },
-                {
-                    xtype: 'splitter'
-                },
-                {
-                    xtype: 'label',
-                    text: 'Alder fra'
-                }
-                ,
-                {
-                    xtype: 'splitter'
-                }
-                ,
-                {
                     id: 'ageFrom',
                     xtype: 'numberfield',
                     name : 'age_from',
                     minValue:0,
                     maxValue:100,
-                    width: 50
-                }
-                ,
-                {
-                    xtype: 'splitter'
+                    width: 190,
+                    fieldLabel: 'Alder fra'
                 }
                 ,
                 {
                     xtype: 'label',
-                    text: 'til'
-                }
-                ,
-                {
-                    xtype: 'splitter'
+                    text: 'til',
+                    margins: '3 31 0 30'
                 }
                 ,
                 {
@@ -139,7 +152,7 @@ Ext.define('NAF.view.activity.Detail', {
                     name : 'age_to',
                     minValue:0,
                     maxValue:100,
-                    width: 50
+                    width: 90
                 }
             ]
         }
@@ -166,6 +179,18 @@ Ext.define('NAF.view.activity.Detail', {
         }
         ,
         {
+            xtype: 'splitter',
+            height: 10
+        }
+        ,
+        {
+            name: 'contact_name',
+            xtype: 'textfield',
+            width: 350,
+            fieldLabel: 'Kontakt navn'
+        }
+        ,
+        {
             name: 'contact_email',
             xtype: 'textfield',
             width: 350,
@@ -184,7 +209,12 @@ Ext.define('NAF.view.activity.Detail', {
             xtype: 'textareafield',
             grow: 'true',
             width: 350,
-            fieldLabel: 'Kontakt informasjon'
+            fieldLabel: 'Ytterligere info.'
+        }
+        ,
+        {
+            xtype: 'splitter',
+            height: 10
         }
         ,
         {
@@ -225,12 +255,36 @@ Ext.define('NAF.view.activity.Detail', {
         },
 
         {
-            name: 'tags',
-            fieldLabel: 'Stikkord',
-            id: 'tags',
-            emptyText: 'Stikkord',
-            width: 350
+            name: 'address',
+            xtype: 'textareafield',
+            grow: 'true',
+            width: 350,
+            fieldLabel: 'Adresse'
         },
+
+
+        {
+            xtype: 'fieldcontainer',
+            fieldLabel: 'Stikkord',
+            layout: 'hbox',
+            items: [
+                {
+                    name: 'tags',
+                    xtype: 'textfield',
+                    emptyText: 'Stikkord',
+                    width: 245
+                },
+                {
+                    xtype: 'image',
+                    html: '<h1>abc</h1>',
+                    id: 'tagsHelpImage',
+                    margins: '0 0 0 5',
+                    src: 'img/HelpIcon.gif'
+                }
+            ]
+        },
+
+
         {
             name: 'price',
             fieldLabel: 'Pris',
@@ -253,14 +307,13 @@ Ext.define('NAF.view.activity.Detail', {
         {
             xtype: 'checkboxgroup',
             fieldLabel: 'Annet',
-            // Arrange radio buttons into two columns, distributed vertically
             columns: 1,
             width: 350,
             vertical: true,
             items: [
-                { boxLabel: 'Inkl veileder', name: 'supervisor_included', inputValue: true, uncheckedValue: false },
                 { boxLabel: 'Gratis', name: 'free', inputValue: true, uncheckedValue: false },
-                { boxLabel: 'Inkl mva', name: 'mva', inputValue: true, uncheckedValue: false }
+                { boxLabel: 'Inkl mva', name: 'mva', inputValue: true, uncheckedValue: false },
+                { boxLabel: 'Inkl veileder', name: 'supervisor_included', inputValue: true, uncheckedValue: false }
             ]
         },
 
@@ -317,14 +370,6 @@ Ext.define('NAF.view.activity.Detail', {
             fieldLabel: 'Link til video'
 
         }
-// TODO: Finn ut av!
-//        ,
-//        {
-//            xtype: 'displayfield',
-//            value: 'video',
-//            tpl: new Ext.XTemplate(this.videoTpl)
-//        }
-
 
         ,
         {

@@ -14,6 +14,9 @@ class window.Searcher extends Backbone.View
 	
 	events: 
 		"keyup #search_field":"keyUp"	
+		"click #clear_dates":"clearDates"
+		"keyup #dtstart":"keyUpStartDate"
+		"keyup #dtend":"keyUpEndDate"
 		
 	keyUp: (e) ->
 		e.preventDefault()
@@ -46,12 +49,31 @@ class window.Searcher extends Backbone.View
 	setStatus: (status) ->
 		$(@el).find("#status").html(status)
 	
+	isDate: (str) ->
+		str.match(/^(\d{1,2}).(\d{1,2}).(\d{4})$/);
+		
+	keyUpStartDate: (e) ->
+		val = $(@el).find("#dtstart").val()
+		if val== "" || @isDate(val)
+			@setStartDate(val)
+	
+	keyUpEndDate: (e) ->
+		val = $(@el).find("#dtend").val()
+		if val=="" || @isDate(val)
+			@setEndDate(val)
+				
 	setStartDate: (date) ->
 		@start_date = date
 		@search(true)
 		
 	setEndDate: (date) ->
 		@end_date = date
+		@search(true)
+	
+	clearDates: (e) ->
+		e.preventDefault()	
+		$(@el).find("#dtstart").val("")
+		$(@el).find("#dtend").val("")
 		@search(true)
 		
 	setRegion: (id) ->

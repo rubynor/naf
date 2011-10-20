@@ -1,3 +1,12 @@
+//grabs auth-token if it exsists
+function authToken(){
+  try{
+    return FORM_AUTH_TOKEN;
+  }catch(e){
+    return ''
+  }
+}
+
 Ext.define('NAF.store.Activities', {
     extend: 'Ext.data.Store',
     model: 'NAF.model.Activity',
@@ -7,15 +16,16 @@ Ext.define('NAF.store.Activities', {
 
     proxy: {
         type: 'rest',
-//        url: '/aktivitets-admin/rest/activities',
         url: '/rest/activities',
-
+        extraParams: {
+          authenticity_token: authToken()
+        },
         api: {
             read: 'rest/activities',
 //            read: 'data/t.json',
             create: 'rest/activities',
-            update: 'rest/activities',
-            delete: 'rest/activities'
+            destroy: 'rest/activities',
+            update: 'rest/activities'
         },
 
         reader: {
@@ -25,7 +35,7 @@ Ext.define('NAF.store.Activities', {
         },
         writer: {
             type: 'json',
-            root: 'activities',
+            root: 'activity',
             successProperty: 'success',
             writeAllFields: false
         }

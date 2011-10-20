@@ -1,6 +1,11 @@
 # encoding: UTF-8
 class ActivitiesController < ApplicationController
 
+  def file_upload
+    photo = Photo.create(:photo => params[:photo])
+    render :text => {:file => photo, :success => true}.to_json, :layout => false
+  end
+
   def search
     @activities, @total = Activity.perform_search(params)
     render :json => {:activities => @activities, :total => @total }, :callback => params[:callback]
@@ -16,6 +21,8 @@ class ActivitiesController < ApplicationController
   end
 
   def create
+    Rails.logger.warn params
+    ap params
     @activity = Activity.new(params[:activity])
     if @activity.save
       render :json => @activity, :callback => params[:callback], :status => :ok
