@@ -136,8 +136,8 @@ class Activity
         Rails.logger.warn "Error in search: #{e.message}"
 
         solr_response = search.instance_eval("@solr_result")
-        retry_search = solr_response["responseHeader"]["partialResults"]
-        ap solr_response
+ #       retry_search = solr_response["responseHeader"]["partialResults"]
+#        ap solr_response
         Rails.logger.warn solr_response
         Rails.logger.warn solr_response["responseHeader"]
         Rails.logger.warn solr_response["responseHeader"]["partialResults"]
