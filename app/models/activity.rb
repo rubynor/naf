@@ -106,7 +106,9 @@ class Activity
           with(:region_id, params[:region_id])
         end
 
-        with(:category_id).any_of params[:category_ids].to_a if params[:category_ids] && !params[:category_ids].empty?
+        if params[:category_ids] && !params[:category_ids].empty?
+           with(:category_id).any_of params[:category_ids].to_a
+        end
 
         if params[:targets] && !params[:targets].empty?
           range = Activity.total_range_for_targets(params[:targets])
@@ -133,6 +135,9 @@ class Activity
       rescue => e
         Rails.logger.warn "Error in search: #{e.message}"
         Rails.logger.warn e.backtrace
+        Rails.logger.warn search.inspect
+        Rails.logger.warn search.results.inspect
+        Rails.logger.warn search.total
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else
