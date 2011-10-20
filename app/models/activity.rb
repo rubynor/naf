@@ -132,6 +132,7 @@ class Activity
       return search.results, search.total
       rescue => e
         Rails.logger.warn "Error in search: #{e.message}"
+        Rails.logger.warn e.backtrace
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else
