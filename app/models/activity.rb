@@ -136,7 +136,7 @@ class Activity
         Rails.logger.warn "Error in search: #{e.message}"
         Rails.logger.warn e.backtrace
         solr_response = search.instance_eval("@solr_result")
-        Rails.logger.warn solr_response['docs']
+        Rails.logger.warn solr_response['responseHeader']['docs']
          Rails.logger.warn solr_response
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
