@@ -11,7 +11,7 @@ class Activity
   field :contact_email, :type => String
   field :contact_phone, :type => String
   field :contact, :type => String #contact info
-
+  field :photo_id, :type => String
   field :attendee, :type => String #link to booking
   field :url, :type => String #link to website
   field :dtstart, :type => DateTime #start of event
@@ -49,10 +49,11 @@ class Activity
 
   embeds_one :location
   embeds_one :organizer, :class_name => "Location"
+  embeds_one :photo
   belongs_to :category
 
 
-  before_validation :embedd_the_location_and_organizer
+  before_validation :embedd_models
 
   validates_presence_of :summary, :organizer
 
@@ -79,7 +80,8 @@ class Activity
     end
   end
 
-  def embedd_the_location_and_organizer
+  def embedd_models
+    self.photo = Photo.find(self.photo_id) unless self.photo_id.blank?
     self.location = Location.find(self.location_id) unless self.location_id.blank?
     self.organizer = Location.find(self.organizer_id)
   end
