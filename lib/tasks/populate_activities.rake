@@ -32,5 +32,6 @@ task :populate_activities => :environment do
       :active => true
     )
   end
+  Sunspot.commit
 end
 
