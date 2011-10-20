@@ -75,11 +75,11 @@ class Activity
     time :dtstart, :trie => true
 
     text :location_name do
-      location.name
+      location.name if location
     end
 
     string :region_id do
-      self.location.region_id.to_s
+      self.location.region_id.to_s if location
     end
   end
 
