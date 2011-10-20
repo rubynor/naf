@@ -3,10 +3,12 @@ class window.ActivityView extends Backbone.View
 	initialize: (model) ->
 		@model = model
 		@template = Handlebars.compile $("#activity_tmpl").html()
+		@viewCount = 0 #used for making tabs show everytime
 		
 	render: ->
 		$(@el).html @template(@model.toJSON())
 		$(@el).find(".modal").modal({backdrop: true}) #used when clicking on a marker
+		$(@el).find(".tabs").tabs()
 		@showModal()
 		@
 		

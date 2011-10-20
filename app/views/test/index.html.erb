@@ -100,29 +100,32 @@
         <h3>{{summary}}</h3>
       </div>
       <div class="modal-body">
-      <ul class="tabs" data-tabs="tabs">
-          <li class="active"><a href="#info">Informasjon</a></li>
-          <li><a href="#contact">Kontaktinformasjon</a></li>
-          <li><a href="#price">Pris</a></li>
+      <ul class="tabs">
+          <li class="active"><a href="#info_{{_id}}">Informasjon</a></li>
+          <li><a href="#contact_{{_id}}">Kontaktinformasjon</a></li>
+          <li><a href="#price_{{_id}}">Pris</a></li>
       </ul>
 
       <div class="pill-content">
-          <div class="active" id="info" style='overflow:none;'>
+          <div class="active" id="info_{{_id}}" style='overflow:none;'>
       <table>
         <tr><td>{{description}}</td></tr>
       <tr>
-        <td><b>Hvor og når:</b> {{location.name}}
-        <div>{{address}} <i>{{formatted_time dtstart}} - {{formatted_time dtend}}</i></div>
+        <td><b>Hvor:</b> {{location.name}}
+        {{address}}
         </td>
       </tr>
-
-      <tr><td><b>Viktig:</b> {{responsibility}} Ta med {{downcase vehicle}}.</td></tr>
+  <tr>
+        <td><b>Når:</b> {{formatted_time dtstart}} - {{formatted_time dtend}}
+        </td>
+      </tr>
+      <tr><td><b>Husk:</b> {{responsibility}} Ta med {{downcase vehicle}}.</td></tr>
       <tr><td colspan=2><a href={{video}} target='_blank'>Video</a></td></tr>
       </table>
 
 
           </div>
-          <div id="contact">
+          <div id="contact_{{_id}}">
           <table>
           <tr><td>Kontaktperson: </td><td>{{contact_name}}</td></tr>
           <tr><td>Telefon: </td><td>{{contact_phone}}</td></tr>
@@ -131,7 +134,7 @@
           {{contact}}
           </div>
 
-          <div id="price">
+          <div id="price_{{_id}}">
       {{#if free}}
         Aktiviteten er gratis.
       {{else}}
