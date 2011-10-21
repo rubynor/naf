@@ -3,6 +3,8 @@ Fabricator :activity do
   location_id {Fabricate(:location).id}
   organizer_id {Fabricate(:location).id}
   category_id {Fabricate(:category).id}
+  dtstart Time.now
+  dtend Time.now + 3.days
   active true
 end
 

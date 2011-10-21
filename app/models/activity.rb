@@ -57,9 +57,9 @@ class Activity
   belongs_to :category
 
 
-  before_validation :embedd_models, :set_photo_urls
+  before_save :embedd_models, :set_photo_urls
 
-  validates_presence_of :summary, :organizer
+  validates_presence_of :summary, :organizer_id ,:dtstart, :dtend
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
