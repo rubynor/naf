@@ -37,7 +37,7 @@ class ActivitiesController < ApplicationController
     end
     rescue => e
       ap e
-      render :json => {:error => e.messsage, :backtrace => e.backtrace}.to_json
+      render :json => {:error => e.inspect}.to_json
     end
   end
 
@@ -51,7 +51,7 @@ class ActivitiesController < ApplicationController
     end
     rescue => e
       ap e
-      render :json => {:error => e.messsage, :backtrace => e.backtrace}.to_json
+      render :json => {:error => e.inspect}.to_json
     end
   end
 

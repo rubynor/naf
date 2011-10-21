@@ -59,7 +59,7 @@ class Activity
 
   before_save :embedd_models, :set_photo_urls
 
-  validates_presence_of :summary, :organizer_id ,:dtstart, :dtend
+  validates_presence_of :summary, :organizer_id
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
