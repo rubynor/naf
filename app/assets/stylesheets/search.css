@@ -28,3 +28,7 @@ html, body {
 #map_canvas {
   height: 100%;
 }
+
+table tr + tr td {
+  border-top: 0px solid #FFF;
+}

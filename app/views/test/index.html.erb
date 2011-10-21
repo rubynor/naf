@@ -34,6 +34,12 @@
           var curr_year = d.getFullYear();
           var curr_hour = d.getHours()
           var curr_min = d.getMinutes()
+
+          if(String(curr_hour).length==1)
+            curr_hour = "0"+curr_hour
+          if(String(curr_min).length==1)
+            curr_min = "0"+curr_min
+
           return curr_date + "." + curr_month + "." + curr_year + " kl. " + curr_hour + ":" + curr_min;
         });
   })

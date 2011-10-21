@@ -23,16 +23,20 @@ class window.Category extends Backbone.Model
 	icon: ->
 		name = @get("name")
 		name = name.toLowerCase()
-		if name.indexOf("opplæring") > -1
-			return "baner"	
+		if name.indexOf("kurs") > -1
+			return "skole_25"	
+		if name.indexOf("konkurranser") > -1
+			return "aksjoner2_25"
 		else if name.indexOf("motorsport") > -1
 			return "motorsport"	
-		else if name.indexOf("Trafikksenter") > -1
+		else if name.indexOf("trafikksenter") > -1
 			return "naf-senter"
 		else if name.indexOf("NAF MC") > -1
 			return "mc"
+		else if name.indexOf("politisk") > -1
+			return "politisk1_25"	
 		else if name.indexOf("foredrag") > -1
-			return "lokalavdeling"
+			return "seminar_25"
 		else					
 			return null
 		
