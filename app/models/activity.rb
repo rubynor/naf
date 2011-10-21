@@ -57,7 +57,7 @@ class Activity
   belongs_to :category
 
 
-  before_save :embedd_models, :set_photo_urls
+  before_validation :embedd_models, :set_photo_urls
 
   validates_presence_of :summary, :organizer_id
 
