@@ -2,8 +2,15 @@
 class ActivitiesController < ApplicationController
 
   def file_upload
+    begin
     photo = Photo.create(:photo => params[:photo])
     render :text => {:file => photo, :success => true}.to_json, :layout => false
+    rescue => e
+      Rails.logger.warn e.message
+      Rails.logger.warn e.backtrace
+      render :text => {:success => false}.to_json, :layout => false
+    end
+
   end
 
   def search
