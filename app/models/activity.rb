@@ -64,6 +64,12 @@ class Activity
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
 
+  attr_accessible :summary, :description, :dtstart, :dtend, :organizer_id, :location_id, :photo_id, :address,
+                  :contact_name, :contact_phone, :contact_email, :contact, :attendee, :url, :price, :member_price,
+                  :free, :mva, :video, :responsibility, :vehicle, :own_vehicle, :supervisor_included, :active, :tags,
+                  :age_from, :age_to, :score, :political_contact, :response_result, :volunteers_involved_count, :volunteers_used_count,
+                  :competence_needs, :participants_count, :result, :potential_improvements, :media_title, :media_outlet, :media_url
+
   searchable do
     text :summary, :description, :vehicle, :tags
 
