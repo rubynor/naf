@@ -29,6 +29,8 @@ class window.Category extends Backbone.Model
 			return "aksjoner2_25"
 		else if name.indexOf("motorsport") > -1
 			return "motorsport"	
+		else if name.indexOf("test") > -1
+			return "motorsport"	
 		else if name.indexOf("trafikksenter") > -1
 			return "naf-senter"
 		else if name.indexOf("NAF MC") > -1
