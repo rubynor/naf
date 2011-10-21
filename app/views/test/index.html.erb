@@ -110,7 +110,12 @@
       <div class="pill-content">
           <div class="active" id="info_{{uniq_id}}" style='overflow:none;'>
       <table>
-        <tr><td>{{activity.description}}</td></tr>
+        <tr><td>
+    {{activity.description}}
+  {{#if activity.photo_medium_url}}
+      <img src="{{photo_medium_url}}" style='float:right;padding-right:10px;' alt=""/>
+  {{/if}}
+    </td></tr>
       <tr>
         <td><b>Hvor:</b> {{activity.location.name}}
         {{activity.address}}

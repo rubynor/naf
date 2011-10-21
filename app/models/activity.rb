@@ -47,13 +47,17 @@ class Activity
   field :media_outlet, :type => String
   field :media_url, :type => String
 
+  field :photo_thumb_url, :type => String, :default => ""
+  field :photo_medium_url, :type => String, :default => ""
+  field :photo_large_url, :type => String, :default => ""
+
   embeds_one :location
   embeds_one :organizer, :class_name => "Location"
-  embeds_one :photo
+
   belongs_to :category
 
 
-  before_validation :embedd_models
+  before_validation :embedd_models, :set_photo_urls
 
   validates_presence_of :summary, :organizer
 
@@ -81,9 +85,17 @@ class Activity
   end
 
   def embedd_models
-    self.photo = Photo.find(self.photo_id) unless self.photo_id.blank?
     self.location = Location.find(self.location_id) unless self.location_id.blank?
     self.organizer = Location.find(self.organizer_id)
+  end
+
+  def set_photo_urls
+    unless self.photo_id.blank?
+      photo = Photo.find(self.photo_id)
+      self.photo_thumb_url = photo.photo.thumb
+      self.photo_medium_url = photo.photo.medium
+      self.photo_large_url = photo.photo.large
+    end
   end
 
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
