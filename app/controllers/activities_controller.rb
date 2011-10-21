@@ -36,6 +36,7 @@ class ActivitiesController < ApplicationController
       render :json => @activity.errors, :callback => params[:callback], status => :unprocessable_entity
     end
     rescue => e
+      ap e
       render :json => {:error => e.messsage, :backtrace => e.backtrace}.to_json
     end
   end
@@ -49,6 +50,7 @@ class ActivitiesController < ApplicationController
       render :json => @activity.errors, :status => :unprocessable_entity
     end
     rescue => e
+      ap e
       render :json => {:error => e.messsage, :backtrace => e.backtrace}.to_json
     end
   end
