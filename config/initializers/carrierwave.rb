@@ -14,7 +14,7 @@ else
     }
     config.fog_directory  = "naf-#{Rails.env}"                     # required
     #config.fog_host       = 'https://assets.example.com'            # optional, defaults to nil
-    config.fog_public     = false
+    config.fog_public     = true
   end
 end
 
