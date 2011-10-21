@@ -1,5 +1,5 @@
 task :post_test do
-  res = RestClient.put "http://naf.herokuapp.com/activities/4e9c076bfa67c70001000002", :activity => {:symmary => ""}
+  res = RestClient.post "http://naf.herokuapp.com/activities", :activity => {:summary => "Test", :organizer_id => "4e9d689a05e3370005000076"}, :content_type => 'image/jpg'
 
   ap res
 end

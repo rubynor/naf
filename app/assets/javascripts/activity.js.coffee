@@ -38,6 +38,7 @@ class window.Activities extends Backbone.Collection
 				window.searcher.hideLoader()
 				if data.activities.length == 0
 					window.searcher.setStatus("0 treff")
+					alert "Søket ga ingen treff"
 				else
 					window.searcher.setStatus("#{data.activities.length} treff")
 					window.activities = new window.Activities()

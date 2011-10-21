@@ -28,12 +28,13 @@
       return string.toLowerCase()
     });
         Handlebars.registerHelper('formatted_time', function(date_time) {
-      var d = new Date(date_time);
-        var curr_date = d.getDate();
-        var curr_month = d.getMonth() + 1; //months are zero based
-        var curr_year = d.getFullYear();
-        return curr_date + "." + curr_month + "." + curr_year;
-
+          var d = new Date(date_time);
+          var curr_date = d.getDate();
+          var curr_month = d.getMonth() + 1; //months are zero based
+          var curr_year = d.getFullYear();
+          var curr_hour = d.getHours()
+          var curr_min = d.getMinutes()
+          return curr_date + "." + curr_month + "." + curr_year + " kl. " + curr_hour + ":" + curr_min;
         });
   })
 </script>
@@ -121,10 +122,8 @@
         {{activity.address}}
         </td>
       </tr>
-  <tr>
-        <td><b>Når:</b> {{formatted_time activity.dtstart}} - {{formatted_time activity.dtend}}
-        </td>
-      </tr>
+        <tr><td><b>Start:</b> {{formatted_time activity.dtstart}} <b>Slutt:</b> {{formatted_time activity.dtend}}</td></tr>
+
       <tr><td><b>Husk:</b> {{activity.responsibility}} Ta med {{downcase activity.vehicle}}.</td></tr>
       <tr><td colspan=2><a href={{activity.video}} target='_blank'>Video</a></td></tr>
       </table>
@@ -136,6 +135,7 @@
           <tr><td>Kontaktperson: </td><td>{{activity.contact_name}}</td></tr>
           <tr><td>Telefon: </td><td>{{activity.contact_phone}}</td></tr>
           <tr><td>E-post: </td><td>{{activity.contact_mail}}</td></tr>
+          <tr><td>Arrangør: </td><td>{{activity.organizer.name}}</td></tr>
           </table>
           {{contact}}
           </div>
