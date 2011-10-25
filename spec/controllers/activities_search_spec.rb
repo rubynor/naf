@@ -13,7 +13,7 @@ def search_results_for(response)
 end
 
 describe ActivitiesController do
-  it "finds activities based on words in summary (this is real search)", :solr => true do
+ it "finds activities based on words in summary (this is real search)", :solr => true do
     get :search, :text => "dance"
     search_results_for(response).should == json_decoded([].to_json)
     activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle")

@@ -201,6 +201,8 @@ DEPENDENCIES
   rmagick (~> 2.13.1)
   rspec-rails (~> 2.6)
   sass-rails (~> 3.1.0)
+  sunspot
   sunspot_mongoid
+  sunspot_rails
   turn
   uglifier

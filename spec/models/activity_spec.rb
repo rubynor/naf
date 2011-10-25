@@ -11,7 +11,7 @@ describe Activity do
   
   it "should embed a location as organizer" do
     relation = Activity.relations['organizer']
-    relation.klass.should == (EmbeddedLocation)
+    relation.klass.should == (EmbeddedOrganizer)
     relation.relation.should == (Mongoid::Relations::Embedded::One)
   end
   

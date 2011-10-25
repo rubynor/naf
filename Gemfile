@@ -5,7 +5,9 @@ gem 'rails', '3.1.0'
 gem 'mongoid'
 gem 'bson_ext'
 gem 'kaminari' #for pagination
-gem 'sunspot_mongoid' #for search in mongoid
+gem "sunspot"
+gem "sunspot_rails"
+gem "sunspot_mongoid"
 gem 'devise'
 gem 'fog'
 gem 'carrierwave', '~> 0.5.3'

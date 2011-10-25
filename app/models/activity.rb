@@ -51,8 +51,8 @@ class Activity
   field :photo_medium_url, :type => String, :default => ""
   field :photo_large_url, :type => String, :default => ""
 
-  embeds_one :location, :class_name => "EmbeddedLocation"
-  embeds_one :organizer, :class_name => "EmbeddedOrganizer"
+  embeds_one :location, :class_name => "EmbeddedLocation", :cascade_callbacks => true
+  embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
   belongs_to :category
   before_validation :embedd_objects
@@ -94,11 +94,10 @@ class Activity
     loc = Location.find(self.location_id)
     new_loc = EmbeddedLocation.new(:name => loc.name, :latitude => loc.latitude, :longitude => loc.longitude, :region_id => loc.region_id)
     self.location = new_loc
-    self.location.save
+
     org = Location.find(self.organizer_id)
     new_org = EmbeddedOrganizer.new(:name => org.name, :latitude => org.latitude, :longitude => org.longitude, :region_id => org.region_id)
     self.organizer = new_org
-    self.organizer.save
   end
 
   def set_photo_urls
@@ -115,7 +114,7 @@ class Activity
   class << self
     def perform_search(params)
       begin
-      search = Activity.search do
+      search = Activity.solr_search do
         keywords params[:text] do
           fields :summary, :description, :vehicle, :tags, :location_name
         end
@@ -158,6 +157,8 @@ class Activity
 
       return search.results, search.total
       rescue => e
+        ap e.inspect
+        #ap e.backtrace
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else
