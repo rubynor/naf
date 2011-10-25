@@ -138,7 +138,6 @@ class Activity
           range = Activity.total_range_for_targets(params[:targets])
           min_age = range[0]
           max_age = range[1]
-          puts "looking for  #{min_age} < age_from < #{max_age} && age_to > #{min_age}"
           with(:age_from).greater_than min_age
           with(:age_from).less_than max_age
           with(:age_to).greater_than min_age
@@ -160,8 +159,6 @@ class Activity
 
       return search.results, search.total
       rescue => e
-        ap e.inspect
-        ap e.backtrace
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else
