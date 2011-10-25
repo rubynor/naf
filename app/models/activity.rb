@@ -115,6 +115,7 @@ class Activity
     def perform_search(params)
       begin
       search = Activity.solr_search do
+
         keywords params[:text] do
           fields :summary, :description, :vehicle, :tags, :location_name
         end

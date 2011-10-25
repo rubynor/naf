@@ -129,7 +129,6 @@
         </td>
       </tr>
         <tr><td><b>Start:</b> {{formatted_time activity.dtstart}} <b>Slutt:</b> {{formatted_time activity.dtend}}</td></tr>
-<tr><td><b>Age:</b> {{activity.age_from}} <b> - </b> {{activity.age_to}}</td></tr>
       <tr><td><b>Husk:</b> {{activity.responsibility}} Ta med {{downcase activity.vehicle}}.</td></tr>
       <tr><td colspan=2><a href={{activity.video}} target='_blank'>Video</a></td></tr>
       </table>
@@ -147,7 +146,7 @@
           </div>
 
           <div id="price_{{uniq_id}}">
-      {{#if free}}
+      {{#if activity.free}}
         Aktiviteten er gratis.
       {{else}}
             <table>
