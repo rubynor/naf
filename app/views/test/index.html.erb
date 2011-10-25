@@ -115,32 +115,46 @@
       </ul>
 
       <div class="pill-content">
-          <div class="active" id="info_{{uniq_id}}" style='overflow:none;'>
-      <table>
+          <div class="active" id="info_{{uniq_id}}">
+      <table style='display:block;'>
         <tr><td>
-    {{activity.description}}
 
-      <img src="{{activity.photo_medium_url}}" style='float:right;padding-right:10px;' alt=""/>
+
+    <p>
+
+   {{#if activity.photo_medium_url}}
+      <img src="{{activity.photo_medium_url}}" style='float:right;padding-left:10px;' alt=""/>
+    {{/if}}
+      {{activity.description}}
+    </p>
 
     </td></tr>
       <tr>
         <td><b>Hvor:</b> {{activity.location.name}}
-        {{activity.address}}
         </td>
-      </tr>
+      {{#if activity.address}}
+        <tr><td><b>Addresse:</b> {{activity.address}}</td></tr>
+      {{/if}}
         <tr><td><b>Start:</b> {{formatted_time activity.dtstart}} <b>Slutt:</b> {{formatted_time activity.dtend}}</td></tr>
-      <tr><td><b>Husk:</b> {{activity.responsibility}} Ta med {{downcase activity.vehicle}}.</td></tr>
-      <tr><td><b>Alder (testing):</b> {{activity.age_from}} - {{activity.age_to}}.</td></tr>
-      <tr><td colspan=2><a href={{activity.video}} target='_blank'>Video</a></td></tr>
+      {{#if activity.responsibility}}
+          <tr><td><b>Husk:</b> {{activity.responsibility}}</td></tr>
+      {{/if}}
+      {{#if activity.own_vehicle}}
+        <tr><td><b>Eget kjøretøy:</b> {{downcase activity.vehicle}}</td></tr>
+      {{/if}}
+      {{#if activity.video}}
+        <tr><td colspan=2><a href={{activity.video}} target='_blank'>Video</a></td></tr>
+      {{/if}}
+
       </table>
 
 
           </div>
           <div id="contact_{{uniq_id}}">
-          <table>
+          <table  style='display:block;'>
           <tr><td>Kontaktperson: </td><td>{{activity.contact_name}}</td></tr>
           <tr><td>Telefon: </td><td>{{activity.contact_phone}}</td></tr>
-          <tr><td>E-post: </td><td>{{activity.contact_mail}}</td></tr>
+          <tr><td>E-post: </td><td>{{activity.contact_email}}</td></tr>
           <tr><td>Arrangør: </td><td>{{activity.organizer.name}}</td></tr>
           </table>
           {{contact}}
@@ -150,12 +164,13 @@
       {{#if activity.free}}
         Aktiviteten er gratis.
       {{else}}
-            <table>
+            <table style='display:block;width:100%;'>
 
+          {{#if activity.price}}
             <tr>
               <td>Pris:</td><td>{{activity.price}},-</td>
             </tr>
-
+          {{/if}}
           {{#if activity.member_price}}
             <tr>
               <td>Medlemspris:</td><td>{{activity.member_price}},-</td>
@@ -173,7 +188,12 @@
 
      </div>
       <div class="modal-footer">
-        <a href="{{activity.url}}" class="btn primary" target="_blank">Mer informasjon</a>
+      {{#if activity.attendee}}
+         <a href="{{activity.attendee}}" class="btn" target="_blank">Påmelding</a>
+      {{/if}}
+       {{#if activity.url}}
+          <a href="{{activity.url}}" class="btn primary" target="_blank">Mer informasjon</a>
+      {{/if}}
       </div>
     </div>
 
