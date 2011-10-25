@@ -161,7 +161,7 @@ class Activity
       return search.results, search.total
       rescue => e
         ap e.inspect
-        #ap e.backtrace
+        ap e.backtrace
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else
