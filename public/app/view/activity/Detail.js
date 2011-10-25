@@ -58,8 +58,10 @@ Ext.define('NAF.view.activity.Detail', {
         {
             id: 'summary',
             name: 'summary',
-            xtype: 'textfield',
             allowBlank: false,
+            blankText: 'Aktivitetsnavnet må være utfylt.',
+            emptyText: 'Aktivitetens navn skal være her',
+            xtype: 'textfield',
             enableKeyEvents: true,
             fieldStyle: {'font-weight': 'bold', 'height' : 30, 'color' : 'black'},
             width: 350
@@ -139,6 +141,13 @@ Ext.define('NAF.view.activity.Detail', {
             ]
         }
         ,
+        {
+            xtype: 'checkboxfield',
+            name      : 'traffic_safety',
+            fieldLabel: 'Trafikksikkerhets-aktivitet',
+            uncheckedValue : false,
+            inputValue: true
+        },
 
         {
             xtype: 'fieldcontainer',
@@ -173,13 +182,12 @@ Ext.define('NAF.view.activity.Detail', {
         ,
 
         {
-            name: 'category2',
             id: 'categoryCombo',
             xtype: 'combo',
+            allowBlank: false,
             valueField: '_id',
             store: 'Categories',
             displayField: 'name',
-            allowBlank: false,
             typeAhead: true,
             width: 350,
             fieldLabel: 'Kategori'
@@ -193,6 +201,15 @@ Ext.define('NAF.view.activity.Detail', {
             fieldLabel: 'Beskrivelse'
         },
 
+        {
+            name: 'tags',
+            fieldLabel: 'Stikkord',
+            xtype: 'textareafield',
+            grow: true,
+            growMin: 25,
+            emptyText: 'er kommaseparerte beskrivende ord. Eks: bane, oslo, ungdom',
+            width: 350
+        },
 
         {
             xtype: 'fieldset',
@@ -217,8 +234,8 @@ Ext.define('NAF.view.activity.Detail', {
                 {
                     name: 'contact_email',
                     xtype: 'textfield',
-                    fieldLabel: 'Epost' ,
-                    vtype: 'email'
+                    vtype: 'email',
+                    fieldLabel: 'Epost'
                 }
                 ,
                 {
@@ -236,63 +253,63 @@ Ext.define('NAF.view.activity.Detail', {
                 }
             ]
         },
+        {
+            xtype: 'fieldset',
+            title: 'Arrangør, sted og adresse',
+            collapsible: true,
+            width: 361,
+            collapsed: false,
+            margin: '5 0 10 0 ',
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
+            items: [
+                {
+                    id: 'organizerCombo',
+                    xtype: 'combo',
+                    width: 350,
+                    allowBlank: false,
+                    valueField: '_id',
+                    store: 'Locations',
+                    displayField: 'name',
+                    typeAhead: false,
+                    fieldLabel: 'Arrangør',
+                    listConfig: {
+                        loadingText: 'Leter...'
+                    }
+                }
+                ,
+                {
+                    id: 'locationCombo',
+                    xtype: 'combo',
+                    width: 350,
+                    allowBlank: false,
+                    valueField: '_id',
+                    store: 'Locations',
+                    displayField: 'name',
+                    typeAhead: false,
+                    fieldLabel: 'Sted',
+                    listConfig: {
+                        loadingText: 'Leter...'
+                    }
+                },
 
-
-        {
-            name: 'attendee',
-            xtype: 'textfield',
-            width: 350,
-            fieldLabel: 'Påmeldingslink'
-        }
-        ,
-        {
-            name: 'organizer2',
-            id: 'organizerCombo',
-            allowBlank: false,
-            xtype: 'combo',
-            width: 350,
-            valueField: '_id',
-            store: 'Locations',
-            displayField: 'name',
-            typeAhead: false,
-            fieldLabel: 'Arrangør',
-            listConfig: {
-                loadingText: 'Leter...'
-            }
-        }
-        ,
-        {
-            name: 'location2',
-            id: 'locationCombo',
-            xtype: 'combo',
-            allowBlank: false,
-            width: 350,
-            valueField: '_id',
-            store: 'Locations',
-            displayField: 'name',
-            typeAhead: false,
-            fieldLabel: 'Sted',
-            listConfig: {
-                loadingText: 'Leter...'
-            }
+                {
+                    name: 'address',
+                    xtype: 'textareafield',
+                    grow: 'true',
+                    width: 350,
+                    fieldLabel: 'Adresse'
+                }
+            ]
         },
 
-        {
-            name: 'address',
-            xtype: 'textareafield',
-            grow: 'true',
-            width: 350,
-            fieldLabel: 'Adresse'
-        },
 
-
-        {
-            name: 'tags',
-            fieldLabel: 'Stikkord',
-            xtype: 'textfield',
-            emptyText: 'Stikkord',
-            width: 350
-        },
 //        {
 //            xtype: 'fieldcontainer',
 //            fieldLabel: 'Stikkord',
@@ -313,38 +330,61 @@ Ext.define('NAF.view.activity.Detail', {
 //            ]
 //        },
 
-
         {
-            name: 'price',
-            fieldLabel: 'Pris',
-            xtype: 'numberfield',
-            id: 'price',
-            emptyText: 'Pris',
-            width: 350
-        }
-
-        ,
-        {
-            name: 'member_price',
-            fieldLabel: 'Medlemspris',
-            xtype: 'numberfield',
-            emptyText: 'Medlemspris',
-            width: 350
-        }
-        ,
-
-        {
-            xtype: 'checkboxgroup',
-            fieldLabel: 'Annet',
-            columns: 1,
-            width: 350,
-            vertical: true,
+            xtype: 'fieldset',
+            title: 'Påmelding og pris',
+            collapsible: true,
+            width: 361,
+            collapsed: false,
+            margin: '5 0 10 0 ',
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
             items: [
-                { boxLabel: 'Gratis', name: 'free', inputValue: true, uncheckedValue: false },
-                { boxLabel: 'Inkl mva', name: 'mva', inputValue: true, uncheckedValue: false },
-                { boxLabel: 'Inkl veileder', name: 'supervisor_included', inputValue: true, uncheckedValue: false }
-            ]
-        },
+                {
+                    name: 'attendee',
+                    xtype: 'textfield',
+                    width: 350,
+                    fieldLabel: 'Påmeldingslink'
+                }
+                ,
+                {
+                    name: 'price',
+                    fieldLabel: 'Pris',
+                    xtype: 'numberfield',
+                    id: 'price',
+                    emptyText: 'Pris',
+                    width: 350
+                }
+
+                ,
+                {
+                    name: 'member_price',
+                    fieldLabel: 'Medlemspris',
+                    xtype: 'numberfield',
+                    emptyText: 'Medlemspris',
+                    width: 350
+                }
+                ,
+
+                {
+                    xtype: 'checkboxgroup',
+                    fieldLabel: 'Annet',
+                    columns: 1,
+                    width: 350,
+                    vertical: true,
+                    items: [
+                        { boxLabel: 'Gratis', name: 'free', inputValue: true, uncheckedValue: false },
+                        { boxLabel: 'Inkl mva', name: 'mva', inputValue: true, uncheckedValue: false, defaultValue: true },
+                        { boxLabel: 'Inkl veileder', name: 'supervisor_included', inputValue: true, uncheckedValue: false }
+                    ]
+                }
+            ]},
 
         {
             xtype: 'fieldcontainer',
@@ -409,10 +449,9 @@ Ext.define('NAF.view.activity.Detail', {
                     name: 'photo',
                     id: 'fileUpload',
                     fieldLabel: 'Finn bilde',
-                    tooltip: 'får vi noe her?',
                     msgTarget: 'side',
                     width: 350,
-                    allowBlank: false,
+                    allowBlank: true,
                     buttonText: 'Velg foto...'
                 },
                 {
