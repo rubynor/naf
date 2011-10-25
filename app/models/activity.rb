@@ -68,7 +68,7 @@ class Activity
                   :free, :mva, :video, :responsibility, :vehicle, :own_vehicle, :supervisor_included, :active, :tags,
                   :age_from, :age_to, :score, :political_contact, :response_result, :volunteers_involved_count, :volunteers_used_count,
                   :competence_needs, :participants_count, :result, :potential_improvements, :media_title, :media_outlet, :media_url,
-                  :category_id, :organizer, :location
+                  :category_id, :organizer, :location, :traffic_safety
 
   searchable do
     text :summary, :description, :vehicle, :tags
