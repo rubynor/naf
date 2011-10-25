@@ -23,3 +23,4 @@ class Location
     }
   end
 end
+

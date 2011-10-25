@@ -5,13 +5,13 @@ describe Activity do
   
   it "should embed a location" do
     relation = Activity.relations['location']
-    relation.klass.should == (Location)
+    relation.klass.should == (EmbeddedLocation)
     relation.relation.should == (Mongoid::Relations::Embedded::One)
   end
   
   it "should embed a location as organizer" do
     relation = Activity.relations['organizer']
-    relation.klass.should == (Location)
+    relation.klass.should == (EmbeddedLocation)
     relation.relation.should == (Mongoid::Relations::Embedded::One)
   end
   

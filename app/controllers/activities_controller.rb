@@ -28,29 +28,31 @@ class ActivitiesController < ApplicationController
   end
 
   def create
+    params[:activity].delete(:_id) if params[:activity][:_id]
     begin
     @activity = Activity.new(params[:activity])
+
     if @activity.save
       render :json => @activity, :callback => params[:callback], :status => :ok
     else
       render :json => @activity.errors, :callback => params[:callback], status => :unprocessable_entity
     end
     rescue => e
-      ap e
       render :json => {:error => e.inspect}.to_json
     end
   end
 
   def update
+    params[:activity].delete(:_id) if params[:activity][:_id]
     begin
     @activity = Activity.find(params[:id])
     if @activity.update_attributes(params[:activity])
+
       render :json => @activity, :callback => params[:callback], :status => :ok
     else
       render :json => @activity.errors, :status => :unprocessable_entity
     end
     rescue => e
-      ap e
       render :json => {:error => e.inspect}.to_json
     end
   end

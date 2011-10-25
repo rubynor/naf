@@ -10,10 +10,10 @@ Ext.define('NAF.model.Activity', {
         'contact_email',
         'contact_phone',
         'description',
-        {name: 'dtstart', type:'date'},
-        {name: 'dtstart-time', type:'date', persist: false},
-        {name: 'dtend', type:'date'},
-        {name: 'dtend-time', type:'date', persist: false},
+        {name: 'dtstart', type: 'date', dateFormat: 'c'},
+        {name: 'dtstart-time', type: 'date', dateFormat: 'c', persist: false},
+        {name: 'dtend', type: 'date', dateFormat: 'c'},
+        {name: 'dtend-time', type: 'date', dateFormat: 'c', persist: false},
         'own_vehicle',
         'price',
         'member_price',
@@ -31,10 +31,19 @@ Ext.define('NAF.model.Activity', {
         'photo_large_url',
         'photo_thumb_url',
         'location_id',
-        {name: 'location', convert: location},
+        {name: 'location', convert: function (v) {
+            'use strict';
+            var res = "må settes";
+            if (v.latitude != null) {
+                res = v.name;
+            } else if (v != null){
+                res = v;
+            }
+            return res;
+        }, persist: false},
         'address',
         'organizer_id',
-        {name: 'organizer', mapping: 'organizer.name'},
+        {name: 'organizer', mapping: 'organizer.name', persist: false},
         'active',
         'region',
         'age_from',
@@ -49,16 +58,6 @@ Ext.define('NAF.model.Activity', {
         'potential_improvements',
         'media_title',
         'media_outlet',
-        'media_url' ]
-
+        'media_url'
+    ]
 });
-
-function location(v, record) {
-    var locationId = record.location_id;
-    if (typeof locationId !== 'undefined' && locationId !== null) {
-        //todo slå opp i locationstore
-        return 'espenstad';
-    }
-    return '';
-
-}

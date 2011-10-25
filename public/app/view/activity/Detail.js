@@ -43,6 +43,8 @@ Ext.define('NAF.view.activity.Detail', {
             id: 'toggleActiveButton',
             text:'Aktiv',
             enableToggle: true,
+            emptyText: 'Aktivitets navn',
+            allowBlank: false,
             scale: 'large',
             width: 350,
             cls: 'activeButton',
@@ -52,29 +54,39 @@ Ext.define('NAF.view.activity.Detail', {
             xtype: 'splitter',
             height: 10
         },
+
         {
-            xtype: 'combo',
-            store: 'ActivitiesSearch',
-            id: 'activitiesSearchComboSummary',
-            displayField: 'summary',
-            typeAhead: false,
-            hideLabel: true,
-            hideTrigger:true,
-            emptyText: 'Aktivitets navn',
-            width: 350,
-            enableKeyEvents: true,
-            queryParam: 'text',
+            id: 'summary',
+            name: 'summary',
+            xtype: 'textfield',
             allowBlank: false,
-            invalidText: 'Feltet må være utfylt.',
+            enableKeyEvents: true,
             fieldStyle: {'font-weight': 'bold', 'height' : 30, 'color' : 'black'},
-            listConfig: {
-                loadingText: 'Søker...',
-                emptyText: 'Finner ikke aktivitet med angitt navn. Tryck "ESC" tast for å gå videre.',
-                width: 400,
-                minHeight: 200,
-                autoScroll: true
-            }
+            width: 350
         },
+//        {
+//            xtype: 'combo',
+//            store: 'ActivitiesSearch',
+//            id: 'activitiesSearchComboSummary',
+//            displayField: 'summary',
+//            typeAhead: false,
+//            hideLabel: true,
+//            hideTrigger:true,
+//            emptyText: 'Aktivitets navn',
+//            width: 350,
+//            enableKeyEvents: true,
+//            queryParam: 'text',
+//            allowBlank: false,
+//            invalidText: 'Feltet må være utfylt.',
+//            fieldStyle: {'font-weight': 'bold', 'height' : 30, 'color' : 'black'},
+//            listConfig: {
+//                loadingText: 'Søker...',
+//                emptyText: 'Finner ikke aktivitet med angitt navn. Tryck "ESC" tast for å gå videre.',
+//                width: 400,
+//                minHeight: 200,
+//                autoScroll: true
+//            }
+//        },
 
         {
             xtype: 'fieldcontainer',
@@ -84,44 +96,41 @@ Ext.define('NAF.view.activity.Detail', {
                     name: 'dtstart',
                     id: 'dtstart',
                     width: 95,
+                    allowBlank: false,
                     xtype: 'datefield'
                     ,
                     format: 'd.m.Y',
                     altFormats: 'c'
                 },
                 {
-                    xtype: 'splitter'
-                },
-                {
                     xtype: 'timefield',
                     width: 65,
+                    allowBlank: false,
+                    id: 'dtstart-time',
                     name: 'dtstart-time',
+                    margin: '0 0 0 2',
                     minValue: '07.00',
                     increment: 30,
                     format: 'H.i',
                     altFormats: 'c'
                 },
                 {
-                    xtype: 'splitter',
-                    width: 20
-                },
-                {
                     name: 'dtend',
+                    allowBlank: false,
                     id: 'dtend',
                     width: 95,
+                    margin: '0 0 0 11',
                     xtype: 'datefield',
                     format: 'd.m.Y',
                     altFormats: 'c'
-                }
-                ,
-                {
-                    xtype: 'splitter'
-                }
-                ,
+                },
                 {
                     xtype: 'timefield',
                     width: 65,
+                    allowBlank: false,
+                    margin: '0 0 0 2',
                     minValue: '07.00',
+                    id: 'dtend-time',
                     name: 'dtend-time',
                     increment: 30,
                     format: 'H.i',
@@ -170,6 +179,7 @@ Ext.define('NAF.view.activity.Detail', {
             valueField: '_id',
             store: 'Categories',
             displayField: 'name',
+            allowBlank: false,
             typeAhead: true,
             width: 350,
             fieldLabel: 'Kategori'
@@ -181,47 +191,53 @@ Ext.define('NAF.view.activity.Detail', {
             grow: 'true',
             width: 350,
             fieldLabel: 'Beskrivelse'
-        }
-        ,
+        },
+
+
         {
-            xtype: 'splitter',
-            height: 10
-        }
-        ,
-        {
-            name: 'contact_name',
-            xtype: 'textfield',
-            width: 350,
-            fieldLabel: 'Kontakt navn'
-        }
-        ,
-        {
-            name: 'contact_email',
-            xtype: 'textfield',
-            width: 350,
-            fieldLabel: 'Kontakt epost'
-        }
-        ,
-        {
-            name: 'contact_phone',
-            xtype: 'textfield',
-            width: 350,
-            fieldLabel: 'Kontakt tlf.'
-        }
-        ,
-        {
-            name: 'contact',
-            xtype: 'textareafield',
-            grow: 'true',
-            width: 350,
-            fieldLabel: 'Ytterligere info.'
-        }
-        ,
-        {
-            xtype: 'splitter',
-            height: 10
-        }
-        ,
+            xtype: 'fieldset',
+            title: 'Kontakt',
+            collapsible: true,
+            width: 361,
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
+            items: [
+                {
+                    name: 'contact_name',
+                    xtype: 'textfield',
+                    fieldLabel: 'Navn'
+                }
+                ,
+                {
+                    name: 'contact_email',
+                    xtype: 'textfield',
+                    fieldLabel: 'Epost' ,
+                    vtype: 'email'
+                }
+                ,
+                {
+                    name: 'contact_phone',
+                    xtype: 'textfield',
+                    fieldLabel: 'Telefon'
+                }
+                ,
+                {
+                    name: 'contact',
+                    xtype: 'textareafield',
+                    grow: 'true',
+//                    width: 340,
+                    fieldLabel: 'Ytterligere informasjon'
+                }
+            ]
+        },
+
+
         {
             name: 'attendee',
             xtype: 'textfield',
@@ -232,6 +248,7 @@ Ext.define('NAF.view.activity.Detail', {
         {
             name: 'organizer2',
             id: 'organizerCombo',
+            allowBlank: false,
             xtype: 'combo',
             width: 350,
             valueField: '_id',
@@ -248,6 +265,7 @@ Ext.define('NAF.view.activity.Detail', {
             name: 'location2',
             id: 'locationCombo',
             xtype: 'combo',
+            allowBlank: false,
             width: 350,
             valueField: '_id',
             store: 'Locations',
@@ -269,30 +287,37 @@ Ext.define('NAF.view.activity.Detail', {
 
 
         {
-            xtype: 'fieldcontainer',
+            name: 'tags',
             fieldLabel: 'Stikkord',
-            layout: 'hbox',
-            items: [
-                {
-                    name: 'tags',
-                    xtype: 'textfield',
-                    emptyText: 'Stikkord',
-                    width: 245
-                },
-                {
-                    xtype: 'image',
-                    id: 'tagsHelpImage',
-                    margins: '0 0 0 5',
-                    src: 'img/HelpIcon.gif'
-                }
-            ]
+            xtype: 'textfield',
+            emptyText: 'Stikkord',
+            width: 350
         },
+//        {
+//            xtype: 'fieldcontainer',
+//            fieldLabel: 'Stikkord',
+//            layout: 'hbox',
+//            items: [
+//                {
+//                    name: 'tags',
+//                    xtype: 'textfield',
+//                    emptyText: 'Stikkord',
+//                    width: 245
+//                },
+//                {
+//                    xtype: 'image',
+//                    id: 'tagsHelpImage',
+//                    margins: '0 0 0 5',
+//                    src: 'img/HelpIcon.gif'
+//                }
+//            ]
+//        },
 
 
         {
             name: 'price',
             fieldLabel: 'Pris',
-            xtype: 'textfield',
+            xtype: 'numberfield',
             id: 'price',
             emptyText: 'Pris',
             width: 350
@@ -302,7 +327,7 @@ Ext.define('NAF.view.activity.Detail', {
         {
             name: 'member_price',
             fieldLabel: 'Medlemspris',
-            xtype: 'textfield',
+            xtype: 'numberfield',
             emptyText: 'Medlemspris',
             width: 350
         }
@@ -412,11 +437,20 @@ Ext.define('NAF.view.activity.Detail', {
 
         ,
         {
-            xtype: 'form',
+            xtype: 'fieldset',
             title: 'Politisk aktivitet',
-            bodyPadding: 5,
             collapsible: true,
+            width: 361,
             collapsed: true,
+            margin: '5 0 0 0 ',
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
             items: [
                 {
                     name: 'political_contact',
@@ -429,20 +463,27 @@ Ext.define('NAF.view.activity.Detail', {
                     name: 'response_result',
                     xtype: 'textareafield',
                     width: 350,
-                    fieldLabel: 'Respons/Resultat'
+                    fieldLabel: 'Respons/ Resultat'
 
                 }
             ]
-        }
+        },
 
-        ,
         {
-            xtype: 'form',
-            title: 'Interninformasjon',
-            bodyPadding: 5,
+            xtype: 'fieldset',
+            title: 'Intern informasjon',
             collapsible: true,
             collapsed: true,
-
+            margin: '5 0 0 0 ',
+            width: 361,
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
             items: [
                 {
                     name: 'volunteers_involved_count',
@@ -462,7 +503,7 @@ Ext.define('NAF.view.activity.Detail', {
                     name: 'competence_needs',
                     xtype: 'textareafield',
                     width: 350,
-                    fieldLabel: 'Kompetansebehov'
+                    fieldLabel: 'Kompetanse-behov'
 
                 },
                 {
@@ -491,11 +532,20 @@ Ext.define('NAF.view.activity.Detail', {
 
         ,
         {
-            xtype: 'form',
+            xtype: 'fieldset',
             title: 'Media',
-            bodyPadding: 5,
-            collapsible: true,
             collapsed: true,
+            margin: '5 0 0 0 ',
+            collapsible: true,
+            width: 361,
+            defaults: {
+                labelWidth: 89,
+                anchor: '100%',
+                layout: {
+                    type: 'hbox',
+                    defaultMargins: {top: 0, right: 5, bottom: 0, left: 0}
+                }
+            },
             items: [
                 {
                     name: 'media_title',

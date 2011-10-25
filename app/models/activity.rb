@@ -19,13 +19,13 @@ class Activity
   field :price, :type => Float
   field :member_price, :type => Float
   field :free, :type => Boolean, :default => false
-  field :mva, :type => Boolean, :default => false
+  field :mva, :type => Boolean, :default => true
   field :video, :type => String #link to youtube
   field :responsibility, :type => String #what the attendee needs to be responsible for
   field :vehicle, :type => String #what kind of veichle is needed (predefined)
   field :own_vehicle, :type => Boolean, :default => false #the attendee needs veichle
   field :supervisor_included, :type => Boolean, :default => false
-
+  field :trafic_safety, :type => Boolean, :default => false
   field :location_id, :type => String #ref to #Location
   field :organizer_id, :type => String #ref to #Location
   field :tags, :type => String, :default => ""
@@ -51,15 +51,14 @@ class Activity
   field :photo_medium_url, :type => String, :default => ""
   field :photo_large_url, :type => String, :default => ""
 
-  embeds_one :location
-  embeds_one :organizer, :class_name => "Location"
+  embeds_one :location, :class_name => "EmbeddedLocation"
+  embeds_one :organizer, :class_name => "EmbeddedOrganizer"
 
   belongs_to :category
+  before_validation :embedd_objects
+  before_save :set_photo_urls
 
-
-  before_validation :embedd_models, :set_photo_urls
-
-  validates_presence_of :summary, :organizer_id
+  validates_presence_of :summary, :organizer_id, :location_id
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
@@ -69,7 +68,7 @@ class Activity
                   :free, :mva, :video, :responsibility, :vehicle, :own_vehicle, :supervisor_included, :active, :tags,
                   :age_from, :age_to, :score, :political_contact, :response_result, :volunteers_involved_count, :volunteers_used_count,
                   :competence_needs, :participants_count, :result, :potential_improvements, :media_title, :media_outlet, :media_url,
-                  :category_id
+                  :category_id, :organizer, :location
 
   searchable do
     text :summary, :description, :vehicle, :tags
@@ -91,9 +90,15 @@ class Activity
     end
   end
 
-  def embedd_models
-    self.location = Location.find(self.location_id) unless self.location_id.blank?
-    self.organizer = Location.find(self.organizer_id)
+  def embedd_objects
+    loc = Location.find(self.location_id)
+    new_loc = EmbeddedLocation.new(:name => loc.name, :latitude => loc.latitude, :longitude => loc.longitude, :region_id => loc.region_id)
+    self.location = new_loc
+    self.location.save
+    org = Location.find(self.organizer_id)
+    new_org = EmbeddedOrganizer.new(:name => org.name, :latitude => org.latitude, :longitude => org.longitude, :region_id => org.region_id)
+    self.organizer = new_org
+    self.organizer.save
   end
 
   def set_photo_urls

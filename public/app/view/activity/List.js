@@ -3,7 +3,7 @@ Ext.define('NAF.view.activity.List', {
     alias : 'widget.activitylist',
     store: 'Activities',
     collapsible: true,
-
+    resizable: true,
     title : 'Alle aktiviteter',
 
     dockedItems: [
@@ -62,7 +62,8 @@ Ext.define('NAF.view.activity.List', {
 
     initComponent: function() {
         this.columns = [
-            {header: 'Starter',  dataIndex: 'dtstart', xtype: 'datecolumn',  format: 'd.m.Y H.i', width: 110},
+            {header: 'Starter',  dataIndex: 'dtstart', xtype: 'datecolumn',  format: 'd.m.Y H.i', width: 105},
+            {header: 'Slutter',  dataIndex: 'dtend', xtype: 'datecolumn',  format: 'd.m.Y H.i', width: 105},
             {header: 'Navn',  dataIndex: 'summary',  flex: 1},
             {header: 'Arrangør',  dataIndex: 'organizer',  flex: 1},
             {header: 'Sted',  dataIndex: 'location',  flex: 1},
@@ -93,7 +94,7 @@ Ext.define('NAF.view.activity.List', {
         var as = Ext.StoreManager.get('Accesses');
         var accessIds = as.collect('access_id');
 
-        var access = (accessIds.indexOf(organizer_id) > -1 || as.find('access_id', 'super') > -1);
+        var access = (Ext.Array.indexOf(accessIds, organizer_id) > -1 || as.find('access_id', 'super') > -1);
         if (access) {
             return '<img src="img/icon_true.gif">';
         } else {
