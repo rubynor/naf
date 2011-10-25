@@ -57,7 +57,7 @@ describe ActivitiesController do
   it "finds activities based on target audience", :solr => true do
     activity1 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle1",:age_from => 0, :age_to => 14)
     activity2 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle2", :age_from => 25, :age_to => 40)
-    activity3 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :age_from => 65, :age_to => 100)
+    activity3 = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :age_from => 66, :age_to => 100)
     Sunspot.commit
     get :search, :text => "no match", :targets => []
     search_results_for(response).should == json_decoded([].to_json)
@@ -65,6 +65,19 @@ describe ActivitiesController do
     search_results_for(response).should == json_decoded([activity1].to_json)
     get :search, :text => "", :targets => ["Barn 0 - 14", "Voksen 25 - 65"]
     search_results_for(response).should == json_decoded([activity1, activity2].to_json)
+    get :search, :text => "", :targets => ["Eldre 65 +"]
+    search_results_for(response).should == json_decoded([activity3].to_json)
+  end
+  
+  it "finds activities based on target audience, with range over more intevals", :solr => true do
+    activity = Fabricate(:activity, :summary => "Learn to slow dance in the jungle3", :age_from => 15, :age_to => 70)
+    Sunspot.commit
+    get :search, :text => "no match", :targets => []
+    search_results_for(response).should == json_decoded([].to_json)
+    get :search, :text => "", :targets => ["Barn 0 - 14"]
+    search_results_for(response).should == json_decoded([].to_json)
+    get :search, :text => "", :targets => ["Ung 15 - 24"]
+    search_results_for(response).should == json_decoded([activity].to_json)
   end
   
   it "finds activities based on tags", :solr => true do

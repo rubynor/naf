@@ -138,7 +138,8 @@ class Activity
           min_age = range[0]
           max_age = range[1]
           with(:age_from).greater_than min_age
-          with(:age_to).less_than max_age
+          with(:age_from).less_than max_age
+          with(:age_to).greater_than min_age
         end
 
         if params[:dtstart]
