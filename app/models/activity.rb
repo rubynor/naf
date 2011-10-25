@@ -25,7 +25,7 @@ class Activity
   field :vehicle, :type => String #what kind of veichle is needed (predefined)
   field :own_vehicle, :type => Boolean, :default => false #the attendee needs veichle
   field :supervisor_included, :type => Boolean, :default => false
-  field :trafic_safety, :type => Boolean, :default => false
+  field :traffic_safety, :type => Boolean, :default => false
   field :location_id, :type => String #ref to #Location
   field :organizer_id, :type => String #ref to #Location
   field :tags, :type => String, :default => ""
