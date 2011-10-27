@@ -273,9 +273,7 @@ Ext.define('NAF.controller.Activities', {
     uploadPhoto: function(button) {
         var win = button.up('activitydetail');
         var form = win.getForm();
-        var hasUpload = form.hasUpload();
         var fu = this.getFileUpload();
-        var v = fu.getValue();
         var that = this;
         if (form.isValid()) {
             form.submit({
@@ -289,7 +287,6 @@ Ext.define('NAF.controller.Activities', {
                     var url = o.result.file.photo.medium.url;
                     that.getActivityImage().setSrc(url);
                     form.findField('photo_id').setValue(photo_id);
-                    //Ext.Msg.alert('Success', 'Your photo "' + o.result.file + '" has been uploaded.');
                 }
             });
         }
@@ -474,9 +471,12 @@ Ext.define('NAF.controller.Activities', {
         ad.loadRecord(record);
 
         var photoUrl = record.get('photo_medium_url');
-//        console.log(photoUrl);
-        this.getActivityImage().setSrc(photoUrl);
-
+        if (photoUrl == ''){
+            this.getActivityImage().hide();
+        } else {
+            this.getActivityImage().setSrc(photoUrl);
+            this.getActivityImage().show();
+        }
 
         var cat = this.getCategoryCombo();
         cat.setValue(record.get('category_id'));
