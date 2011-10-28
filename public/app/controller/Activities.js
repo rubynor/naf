@@ -68,10 +68,6 @@ Ext.define('NAF.controller.Activities', {
             selector: '#summary'
         },
         {
-            ref: 'activityImage',
-            selector: '#activityImage'
-        },
-        {
             ref: 'fileUpload',
             selector: '#fileUpload'
         }
@@ -81,8 +77,6 @@ Ext.define('NAF.controller.Activities', {
         this.control({
             'activitylist': {
                 select: this.changeDetail
-//                ,
-//                beforeselect: this.changeDetailCheck
             },
             'button[action=save]':{
                 click: this.saveActivity
@@ -166,6 +160,14 @@ Ext.define('NAF.controller.Activities', {
             var d = null;
             d = Ext.Date.parse(Ext.Date.format(dt, 'd.m.Y') + ' ' + Ext.Date.format(newValue, 'H.i'), 'd.m.Y H.i');
             record.set(dtid, d);
+            if (dtid = 'dtstart') {
+                var dtend = record.get('dtend');
+                if (dtend.getTime() < d.getTime()){
+                    var plusOneHour = Ext.Date.add(d, Ext.Date.HOUR, 1);
+                    record.set('dtend', plusOneHour);
+                    form.findField('dtend-time').setValue(Ext.Date.format(plusOneHour, 'H.i'));
+                }
+            }
         }
         record.commit();
     },
@@ -184,7 +186,16 @@ Ext.define('NAF.controller.Activities', {
             var d = null;
             d = Ext.Date.parse(Ext.Date.format(newValue, 'd.m.Y') + ' ' + Ext.Date.format(dt, 'H.i'), 'd.m.Y H.i');
             activity.set(id, d);
+            if (id = 'dtstart') {
+                var dtend = activity.get('dtend');
+                if (dtend.getTime() < d.getTime()){
+                    activity.set('dtend', d);
+                    form.findField('dtend').setValue(Ext.Date.format(d, 'd.m.Y'));
+                }
+            }
         }
+
+
         activity.commit();
     },
 
@@ -285,7 +296,7 @@ Ext.define('NAF.controller.Activities', {
                 success: function(fp, o) {
                     var photo_id = o.result.file._id;
                     var url = o.result.file.photo.medium.url;
-                    that.getActivityImage().setSrc(url);
+                    Ext.getCmp('actImg').getEl().dom.src = url;
                     form.findField('photo_id').setValue(photo_id);
                 }
             });
@@ -414,24 +425,6 @@ Ext.define('NAF.controller.Activities', {
         });
     },
 
-    changeDetailCheck: function(grid, activity) {
-
-        console.log('endret: ' + activity.dirty);
-
-
-        Ext.Msg.show({
-            title:'Lagre endringer?',
-            msg: this.getSummaryText(activity) + ' er endret. Lagre før du velger ny aktiviet?',
-            callback: this.saveActivityConfirm,
-            buttons: Ext.Msg.YESNOCANCEL,
-            icon: Ext.Msg.QUESTION
-        });
-
-//        return !activity.dirty;
-
-        return true;
-    },
-
     saveActivityConfirm: function(btn) {
         if (btn = 'yes') {
             console.log('da lagrer vi');
@@ -471,11 +464,12 @@ Ext.define('NAF.controller.Activities', {
         ad.loadRecord(record);
 
         var photoUrl = record.get('photo_medium_url');
-        if (photoUrl == ''){
-            this.getActivityImage().hide();
+
+        if (photoUrl == '') {
+            Ext.getCmp('actImg').hide();
         } else {
-            this.getActivityImage().setSrc(photoUrl);
-            this.getActivityImage().show();
+            Ext.getCmp('actImg').getEl().dom.src = photoUrl;
+            Ext.getCmp('actImg').show();
         }
 
         var cat = this.getCategoryCombo();
@@ -523,7 +517,7 @@ Ext.define('NAF.controller.Activities', {
     },
 
     selectLocation: function(combo, selectedRecords) {
-        var ad = combo.up();
+        var ad = this.getActivityDetail();
         if (ad != null) {
             var activity = ad.getRecord();
             var newId = selectedRecords[0].get('_id');
@@ -534,7 +528,7 @@ Ext.define('NAF.controller.Activities', {
         }
     },
     selectOrganizer: function(combo, selectedRecords) {
-        var ad = combo.up();
+        var ad = this.getActivityDetail();
         if (ad != null) {
             var activity = ad.getRecord();
             var newId = selectedRecords[0].get('_id');
