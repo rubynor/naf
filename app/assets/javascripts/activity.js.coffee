@@ -25,8 +25,10 @@ class window.Activities extends Backbone.Collection
   model: window.Activity
 
   showInMap: ->
+    gmap = window.map
     _.each @models, (activity) ->
-      window.map.placeActivity(activity)
+      gmap.placeActivity(activity)
+    gmap.countActivities()
 
   search: (params) ->
     window.searcher.showLoader()

@@ -1,13 +1,15 @@
 class window.Map extends Backbone.View
 
   mapOptions: ->
-    {zoom:1, center: new google.maps.LatLng(59.9, 10.7), mapTypeId: google.maps.MapTypeId.ROADMAP}
+    {zoom:13, center: new google.maps.LatLng(59.9, 10.7), mapTypeId: google.maps.MapTypeId.ROADMAP}
 
   initialize: ->
     @selector = $("#map_canvas")[0]
     @map = new google.maps.Map(@selector, @mapOptions());
     @bounds = new google.maps.LatLngBounds();
     @markers = new Array()
+    mcOptions = {gridSize: 5, maxZoom: 25}
+
   render: ->
 
   placeActivity: (activity) ->
@@ -27,6 +29,14 @@ class window.Map extends Backbone.View
   clear: ->
     _.each @markers, (marker) ->
       marker.setMap(null)
+    @markers.length = 0
+    @markerCluster.clearMarkers()
+
+
+  countActivities: ->
+    mcOptions = {gridSize: 5, maxZoom: 25}
+    @markerCluster = new MarkerClusterer(@map, @markers, mcOptions) #, @markers
+
 
   iconByCategory: (category_id) ->
     category = window.categories.get(category_id)
