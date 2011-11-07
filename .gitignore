@@ -3,6 +3,6 @@ db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
-solr/data
+solr/
 public/uploads
 .rvmrc
