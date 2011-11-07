@@ -15,7 +15,7 @@ class Activity
   field :attendee, :type => String #link to booking
   field :url, :type => String #link to website
   field :dtstart, :type => DateTime, :default => Time.zone.now #start of event
-  field :dtend, :type => DateTime, :defaut => Time.zone.now #end of event
+  field :dtend, :type => DateTime, :default => Time.zone.now #end of event
   field :price, :type => Float
   field :member_price, :type => Float
   field :free, :type => Boolean, :default => false
