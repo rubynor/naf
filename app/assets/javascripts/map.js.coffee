@@ -16,14 +16,13 @@ class window.Map extends Backbone.View
     summary = activity.get("summary")
     point = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude))
     @bounds.extend(point)
-    marker = new google.maps.Marker({position: point,map: window.map.map, title: summary})
+    marker = new google.maps.Marker({activity_id: activity.get("_id"), position: point,map: window.map.map, title: summary})
     icon_name = @iconByCategory(activity.get("category_id"))
     marker.setIcon("assets/icons/#{icon_name}.png") if icon_name
     @markers.push marker
     @map.fitBounds(@bounds)
 
     google.maps.event.addListener marker, 'click', () ->
-      console.log("clicked marker")
       activity.view.render()
 
   clear: ->

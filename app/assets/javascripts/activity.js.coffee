@@ -1,3 +1,6 @@
+class window.Modal extends Backbone.View
+
+
 class window.ActivityView extends Backbone.View
 
   initialize: (model) ->
@@ -16,24 +19,33 @@ class window.ActivityView extends Backbone.View
     $(@el).find(".modal").modal('show')
 
 class window.ActivityClusterView extends Backbone.View
-  initialize: (cluster)->
+  initialize: (cluster) ->
     @cluster = cluster
     @template = Handlebars.compile $("#activity_list_tmpl").html()
 
   render: ->
-    $(@el).html @template({})
+    $(@el).html @template()
+    that = @
+    table = $(@el).find("table")
+    _.each that.cluster.getMarkers(), (marker) ->
+      table.append "<tr><td><a href='#' class='cluster_list_item' id='#{marker.activity_id}'>#{marker.title}</a></td></tr>"
 
-    list = $(@el).find('ul.markerlist')
-    _.each @cluster.getMarkers(), (marker) ->
-      console.log("marker.title #{marker.title}, marker.clickable #{marker.getClickable()}")
-      console.log("content #{console.dir(marker)}")
-      list.append("<li>#{marker.title}</li>")
-      #CHRISTIAN: hvordan får jeg linket til disse markers?
+    $(@el).find(".modal").modal({backdrop: true})
 
-    $(@el).find(".modal").modal({backdrop: true}) #used when clicking on a marker
+    #we need to hook into the show-event of the modal in order to create new event-listeners inside it
+    $(@el).find(".modal").bind 'show', ->
+      _.each $(@).find("a.cluster_list_item"), (link) ->
+        $(link).bind 'click', (e) ->
+          e.preventDefault()
+          that.triggerActivity($(e.currentTarget).attr("id"))
+
     $(@el).find(".modal").modal('show')
-    console.log("done with #{@el}")
     @
+
+  triggerActivity: (id) ->
+    $(@el).remove()
+    activity = window.activities.get(id)
+    activity.view.render()
 
 class window.Activity extends Backbone.Model
   url: "/activities"
