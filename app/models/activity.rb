@@ -14,8 +14,8 @@ class Activity
   field :photo_id, :type => String
   field :attendee, :type => String #link to booking
   field :url, :type => String #link to website
-  field :dtstart, :type => DateTime #start of event
-  field :dtend, :type => DateTime #end of event
+  field :dtstart, :type => DateTime, :default => Time.zone.now #start of event
+  field :dtend, :type => DateTime, :defaut => Time.zone.now #end of event
   field :price, :type => Float
   field :member_price, :type => Float
   field :free, :type => Boolean, :default => false
@@ -33,6 +33,7 @@ class Activity
   field :age_from, :type => Integer, :default => 0
   field :age_to, :type => Integer, :default => 100
   field :active, :type => Boolean, :default => false
+
 
   field :score, :type => Integer, :default => 0
   field :political_contact, :type => String
@@ -55,20 +56,15 @@ class Activity
   embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
   belongs_to :category
-  before_validation :embedd_objects
-  before_save :set_photo_urls
+  belongs_to :user
 
-  validates_presence_of :summary, :organizer_id, :location_id
+  before_save :set_photo_urls, :embedd_objects
+
+  validates_presence_of :summary, :organizer_id, :location_id, :dtstart, :dtend, :category_id
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
 
-  attr_accessible :summary, :description, :dtstart, :dtend, :organizer_id, :location_id, :photo_id, :address,
-                  :contact_name, :contact_phone, :contact_email, :contact, :attendee, :url, :price, :member_price,
-                  :free, :mva, :video, :responsibility, :vehicle, :own_vehicle, :supervisor_included, :active, :tags,
-                  :age_from, :age_to, :score, :political_contact, :response_result, :volunteers_involved_count, :volunteers_used_count,
-                  :competence_needs, :participants_count, :result, :potential_improvements, :media_title, :media_outlet, :media_url,
-                  :category_id, :organizer, :location, :traffic_safety
 
   searchable do
     text :summary, :description, :vehicle, :tags
@@ -201,7 +197,7 @@ class Activity
 
     #list of possible veichles to choose from
     def veichles
-      ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel', 'Annet']
+      ['Bil', 'Moped', 'Motorsykkel', 'Tungt kjøretøy', 'ATV', 'Buss', 'Sykkel']
     end
 
     def regions

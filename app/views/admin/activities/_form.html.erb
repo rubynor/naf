@@ -1,0 +1,272 @@
+<script type='text/javascript'>
+  //uploader
+  var uploader = new window.Uploader({multiple: false})
+</script>
+
+<%= form_for(@activity, :url => (@activity.new_record? ? admin_activities_url : admin_activity_url(@activity))) do |f| %>
+  <% if @activity.errors.any? %>
+    <div id="error_explanation" class='alert-message block-message error'>
+      <h2><%= @activity.errors.count %> feil forhindret aktiviteten i å bli lagret:</h2>
+      <ul>
+      <% @activity.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+<fieldset>
+
+  <div class="clearfix">
+    <%= f.label :summary %>
+  <div class="input">
+    <%= f.text_field :summary, :title => "Aktivitetens navn/overskrift" %>
+  </div></div>
+
+<div class="clearfix">
+            <label>Valg</label>
+            <div class="input">
+              <ul class="inputs-list">
+                <li>
+                  <label>
+                    <%=f.check_box :active%>
+                    <span><span class="label warning">NB!</span> Velg denne for å vise aktiviteten på kartet <%=help_text("Aktiver", "Aktiviteten vises bare på kartet på app.naf.no dersom denne er huket av.")%></span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                  <%=f.check_box :traffic_safety%>
+                    <span>Velg denne om det er en trafikksikkerthets-aktivitet</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+  <div class="clearfix">
+    <%= f.label :description%>
+  <div class="input">
+    <%= f.text_area :description, :style => "height:100px;", :class => "xxlarge" %><%=help_text("Beskrivelse", "Beskriv aktiviteten i korte trekk.")%>
+  </div></div>
+
+</fieldset>
+
+<fieldset>
+  <legend>Tidspunkt</legend>
+  <div class="clearfix">
+            <label>Tidspunkt og varighet</label>
+            <div class="input">
+              <div class="inline-inputs">
+                fra
+                <%=text_field_tag :dtstart_date, start_date(@activity.dtstart), :class => "small date"%>
+                <%=text_field_tag :dtstart_time, start_time(@activity.dtstart), :class => "mini"%>
+                til
+                <%=text_field_tag :dtend_date, end_date(@activity.dtend), :class => "small date"%>
+                <%=text_field_tag :dtend_time, end_time(@activity.dtend), :class => "mini"%>
+                <span class="help-block">Trykk på feltene for å velge dato og klokkeslett</span>
+              </div>
+            </div>
+          </div>
+      <div class="clearfix" style='display:none;'>
+        <%= f.label :dtstart %>
+      <div class="input">
+        <%= f.text_field :dtstart %>
+      </div></div>
+      <div class="clearfix" style='display:none;'>
+        <%= f.label :dtend %>
+      <div class="input">
+        <%= f.text_field :dtend %>
+      </div></div>
+</fieldset>
+
+<fieldset>
+  <legend>Kategori og målgruppe</legend>
+  <div class="clearfix">
+      <%= f.label :category_id %>
+    <div class="input">
+      <%= f.select :category_id, Category.all.collect{|c| [c.name, c.id]}, :include_blank => false %>
+    </div></div>
+
+  <label>Målgruppe</label>
+    <div class="input">
+      <div class="inline-inputs">
+        fra
+        <%=f.select :age_from, (0..100).to_a, {:include_blank => false}, {:class => "mini"}%>
+        til
+        <%=f.select :age_to, (0..100).to_a, {:include_blank => false}, {:class => "mini"}%>
+
+        <span class="help-block">Velg aldersgruppen aktiviteten passer for <%=help_text("Målgruppe", "Kartet inneholder muligheten for å søke på målgruppe. La den være 0-100 dersom den passer for alle.")%></span>
+      </div>
+    </div>
+
+</fieldset>
+
+<fieldset>
+  <legend>Diverse</legend>
+  <div class="clearfix">
+    <%= f.label :tags, "Søkbare stikkord" %>
+  <div class="input">
+    <%= f.text_field :tags %>
+  <span class="help-block">Søkbare stikkord. Skilles med komma slik: stikkord1, stikkord2 <%=help_text("Stikkord", "Kartetsøket vil se etter blant annet stikkord. Fyll inn og separer med komma.")%></span>
+  </div></div>
+</fieldset>
+
+<fieldset>
+  <legend>Kontaktinformasjon</legend>
+  <div class="clearfix">
+      <%= f.label :contact_name %>
+    <div class="input">
+      <%= f.text_field :contact_name %>
+    </div></div>
+
+  <div class="clearfix">
+      <%= f.label :contact_email %>
+    <div class="input">
+      <%= f.text_field :contact_email %>
+    </div></div>
+
+  <div class="clearfix">
+      <%= f.label :contact_phone %>
+    <div class="input">
+      <%= f.text_field :contact_phone %>
+    </div></div>
+
+  <div class="clearfix">
+      <%= f.label :contact %>
+    <div class="input">
+      <%= f.text_area :contact, :class => "large", :style => "height:100px;" %>
+    </div></div>
+
+
+</fieldset>
+
+<fieldset>
+  <legend>Arrangør, sted og adresse</legend>
+  <div class="clearfix">
+      <%= f.label :organizer %>
+  <div class="input">
+      <%= f.select :organizer_id, current_user.editable_locations.all.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Arrangør", "Her velger du den avdelingen som står som arrangør.")%>
+  </div></div>
+
+<div class="clearfix">
+      <%= f.label :location %>
+  <div class="input">
+      <%= f.select :location_id, current_user.editable_locations.all.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp addresse under ved behov.")%>
+  </div></div>
+
+<div class="clearfix">
+      <%= f.label :address %>
+  <div class="input">
+      <%= f.text_area :address, :class => "xlarge", :style => "height:50px;" %><%=help_text("Addresse", "Fyll inn addresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateaddresse.")%>
+  </div></div>
+</fieldset>
+
+
+<fieldset>
+  <legend>Påmelding og pris</legend>
+  <div class="clearfix">
+    <%= f.label :attendee %>
+  <div class="input">
+    <%= f.text_field :attendee, :title => "http://" %> <%=help_text("Påmelding", "Lenk til nettside hvor påmelding gjøres.")%>
+  </div></div>
+  <div class="clearfix">
+    <%= f.label :price %>
+  <div class="input">
+    <%= f.text_field :price %>
+  </div></div>
+
+  <div class="clearfix">
+    <%= f.label :member_price %>
+  <div class="input">
+    <%= f.text_field :member_price%>
+  </div></div>
+
+<div class="clearfix">
+            <label>Annet</label>
+            <div class="input">
+              <ul class="inputs-list">
+                <li>
+                  <label for='free'>
+                    <%=f.check_box :free%>
+                    <span>Aktiviteten er gratis</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                  <%=f.check_box :mva%>
+                    <span>Mva. er inkludert i prisen</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                  <%=f.check_box :supervisor_included%>
+                    <span>Veileder er inkludert i prisen</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+          </div>
+</fieldset>
+<fieldset>
+  <legend>Kjøretøy</legend>
+    <label>Eget kjørtøy</label>
+  <div class="input">
+    <ul class="inputs-list">
+      <li>
+        <label>
+          <%=f.check_box :own_vehicle%>
+          <span>Deltaker må ha med eget kjøretøy <%=help_text("Eget kjøretøy", "Huk av denne dersom deltakerene må ha med egne kjøretøy. Kjøretøy angis under.")%></span>
+        </label>
+      </li>
+  </ul>
+  </div>
+ <div class="clearfix">
+    <%= f.label :vehicle %>
+  <div class="input">
+    <%= f.text_field :vehicle%> <%=select_tag :choose_veichle, options_for_select(Activity.veichles), :prompt => "Velg fra liste"%>
+    <span class="help-block">Skriv inn eget valg eller velg fra listen</span>
+  </div></div>
+</fieldset>
+
+<fieldset>
+  <legend>Annet</legend>
+
+  <div class="clearfix">
+    <%= f.label :responsibility %>
+  <div class="input">
+    <%= f.text_area :responsibility, :style=>"height:100px;"%>
+  <span class="help-block">Her kan du fylle inn f.eks. hva deltakerene må huske å ha med seg.</span>
+  </div></div>
+
+  <div class="clearfix">
+    <%= f.label :url %>
+  <div class="input">
+    <%= f.text_field :url, :title => "http://"%>
+  </div></div>
+
+  <div class="clearfix">
+    <%= f.label :video %>
+  <div class="input">
+    <%= f.text_field :video, :title => "http://"%>
+  </div></div>
+</fieldset>
+
+<fieldset>
+    <%= f.text_field :photo_id, :style => "display:none;"%>
+
+  <legend>Velg et bilde som skal brukes til denne aktiviteten</legend>
+  <div class="clearfix">
+    <div class='input'>
+    <div class='clearfix'>
+        <%=activity_image @activity%>
+    </div>
+<%=link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
+      <div class='clearfix' id='filelist'></div>
+      </div>
+    </div>
+</fieldset>
+
+  <div class="actions">
+
+    <%= f.submit "Lagre og vis", :class => "btn primary commit" %> <%= f.submit "Lagre og opprett ny", :class => "btn secondary commit" %> <%= f.submit "Lagre og opprett ny fra samme", :class => "btn secondary commit" %> <%= link_to "Avbryt", admin_activities_url, :class => "btn secondary" %>
+  </div>
+<% end %>

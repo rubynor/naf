@@ -1,36 +1,36 @@
 require 'spec_helper'
 
 describe "routing to activities" do
-  it "routes /activities to activities#index" do
-    { :get => "/activities" }.should route_to(
-      :controller => "activities",
+  it "routes /admin/activities to activities#index" do
+    { :get => "/admin/activities" }.should route_to(
+      :controller => "admin/activities",
       :action => "index"
     )
   end
-  it "routes /activities/:id to activities#show for id" do
-    { :get => "/activities/1" }.should route_to(
-      :controller => "activities",
+  it "routes /admin/activities/:id to activities#show for id" do
+    { :get => "/admin/activities/1" }.should route_to(
+      :controller => "admin/activities",
       :action => "show",
       :id => "1"
     )
   end
-  it "routes /activities/:id to activities#update for id" do
-    { :put => "/activities/1" }.should route_to(
-      :controller => "activities",
+  it "routes /admin/activities/:id to activities#update for id" do
+    { :put => "/admin/activities/1" }.should route_to(
+      :controller => "admin/activities",
       :action => "update",
       :id => "1"
     )
   end
-  it "routes /activities to activities#create for post" do
-    { :post => "/activities" }.should route_to(
-      :controller => "activities",
+  it "routes /admin/activities to activities#create for post" do
+    { :post => "/admin/activities" }.should route_to(
+      :controller => "admin/activities",
       :action => "create"
     )
   end
   
-  it "routes /activities to activities#destroy for id" do
-    { :delete => "/activities/1" }.should route_to(
-      :controller => "activities",
+  it "routes /admin/activities to activities#destroy for id" do
+    { :delete => "/admin/activities/1" }.should route_to(
+      :controller => "admin/activities",
       :action => "destroy",
       :id => "1"
     )

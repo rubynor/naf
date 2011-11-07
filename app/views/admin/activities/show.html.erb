@@ -1,0 +1,47 @@
+<div class="page-header">
+     <h1> <%=@activity.summary%> <small><%=@activity.active ? 'Aktiv' : 'Ikke aktiv'%></small></h1>
+</div>
+    <div class='well'>
+  <%=link_to "&larr; Tilbake til listen".html_safe, admin_activities_url, :class => "btn small"%>
+  <%=link_to "+ Opprett ny", new_admin_activity_url, :class => "btn small"%>
+  <%=link_to "Kopier", copy_admin_activity_url(@activity), :class => "btn small"%>
+    <%=link_to "Endre", edit_admin_activity_url(@activity), :class => "btn small"%> <%=link_to "Slett", edit_admin_activity_url(@activity), :method => :delete, :confirm => "Er du sikker på at du vil slette #{@activity.summary}".html_safe, :class => "btn small danger"%>
+    </div>
+
+   <div class='clearfix' style='overflow:hidden;padding-bottom:10px;'>
+      <%unless @activity.photo_id.blank?%>
+          <%=image_tag @activity.photo_medium_url, :style => "float:right;overflow:hidden;"%>
+        <%end%>
+
+      <%=@activity.description%>
+    </div>
+
+
+<div class='row'>
+<div class='span8'>
+   <table class='zebra-striped'>
+    <tr><td>Starter</td><td><%=@activity.dtstart.strftime("%d.%m.%y")%> kl. <%=@activity.dtstart.strftime("%H:%M")%></td></tr>
+    <tr><td>Avslutter</td><td><%=@activity.dtend.strftime("%d.%m.%y")%> kl. <%=@activity.dtend.strftime("%H:%M")%></td></tr>
+    <tr><td>Arrangør</td><td><%=@activity.organizer.name%></td></tr>
+    <tr><td>Sted</td><td><%=@activity.location.name%></td></tr>
+    <tr><td>Addresse</td><td><%=@activity.address%></td></tr>
+    <tr><td>Pris</td><td><%=@activity.price%></td></tr>
+    <tr><td>Medlemspris</td><td><%=@activity.member_price%></td></tr>
+    <tr><td>Kategori</td><td><%=@activity.category.name%></td></tr>
+    <tr><td>Stikkord</td><td><%=@activity.tags%></td></tr>
+   </table>
+</div>
+
+<div class='span8'>
+  <table class='zebra-striped'>
+    <tr><td>Mågruppe</td><td><%=@activity.age_from%> - <%=@activity.age_to%></td></tr>
+    <tr><td>Kjøretøy</td><td><%=@activity.vehicle%> <%=@activity.own_vehicle ? 'Ta med eget' : ''%></td></tr>
+  <tr><td>Ansvar</td><td><%=@activity.responsibility%> </td></tr>
+<tr><td>Kontakt navn</td><td><%=@activity.contact_name%> </td></tr>
+<tr><td>Kontakt e-post</td><td><%=@activity.contact_email%> </td></tr>
+<tr><td>Kontakt telefon</td><td><%=@activity.contact_phone%> </td></tr>
+<tr><td>Ytligere kontakt informasjon</td><td><%=@activity.contact%> </td></tr>
+   </table>
+</div>
+</div>
+

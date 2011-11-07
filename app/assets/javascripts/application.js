@@ -17,6 +17,10 @@
 //= require vendor/tabs
 //= require vendor/twipsy
 //= require vendor/popover
+//= require vendor/tablesorter
+//= require vendor/default.input
+//= require vendor/plupload.full
+
 
 //= require map
 //= require activity
@@ -24,4 +28,49 @@
 //= require region
 //= require target
 //= require searcher
+//= require uploader
 //= require app
+
+
+/*
+ *
+ * ACTIVITY FORM
+ *
+*/
+
+var monthNames = ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember']
+var dayNamesMin = ['Sø', 'Ma', 'Ti', 'On', 'To', 'Fr', 'Lø']
+
+function updateStartAndEndTime(){
+  start_time = $("#dtstart_date").val() + 'T' +  $("#dtstart_time").val()
+  end_time = $("#dtend_date").val() + 'T' + $("#dtend_time").val()
+  $("#activity_dtstart").val(start_time)
+  $("#activity_dtend").val(end_time)
+}
+
+$(document).ready(function(){
+
+
+  $("#dtstart_time, #dtend_time, .date").keyup(function(){updateStartAndEndTime()})
+
+  $(".date").datepicker({
+    dateFormat: 'dd.mm.yy',
+    dayNamesMin: dayNamesMin,
+    monthNames: monthNames,
+    onSelect: function(dateText, inst) {updateStartAndEndTime()}
+  })
+
+  //allow helper text in fields. Set the :title tag to use it
+  $.defaultText()
+
+  //auto select veichle from list
+  $("#choose_veichle").change(function(e){
+     $("#activity_vehicle").val($(e.currentTarget).val())
+  })
+
+  //help popover
+  $('a[rel=popover]').popover({placement:'right'})
+  $('a[rel=popover]').click(function(e){e.preventDefault();return false;})
+
+
+})

@@ -14,6 +14,8 @@
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= javascript_tag "var FORM_AUTH_TOKEN = '#{form_authenticity_token}';" %>
+  <%= favicon_link_tag %>
   <style>
     .content{padding-top:100px;}
   </style>
@@ -25,6 +27,11 @@
 
     <div class="container">
       <div class="content">
+
+        <%= content_tag(:div, flash[:error], :id => "flash_error", :class => "alert-message error") if flash[:error] %>
+        <%= content_tag(:div, flash[:notice], :id => "flash_notice", :class => "alert-message warning") if flash[:notice] %>
+        <%= content_tag(:div, flash[:alert], :id => "flash_alert", :class => "alert-message warning") if flash[:alert] %>
+
          <%=yield%>
       </div>
 

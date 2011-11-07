@@ -29,7 +29,7 @@ describe User do
       user = Fabricate(:user)
       location = Fabricate(:location)
       user = Fabricate(:user, :location => location)
-      user.editable_locations.should == [location.id.to_s]
+      user.editable_location_ids.should == [location.id.to_s]
     end
     
     it "is the location and the location children if the location has children" do
@@ -40,14 +40,14 @@ describe User do
       sub_location2 = Fabricate(:location, :location => location)
       
       user = Fabricate(:user, :location => location)
-      user.editable_locations.should == [location.id.to_s, sub_location1.id.to_s, sub_location2.id.to_s]
+      user.editable_location_ids.should == [location.id.to_s, sub_location1.id.to_s, sub_location2.id.to_s]
     end
     
     it "is the regions location ids if the user has a region" do
       region = Fabricate(:region)
       user = Fabricate(:user, :region => region)
       location = Fabricate(:location, :region => region)
-      user.editable_locations.should == [location.id.to_s]
+      user.editable_location_ids.should == [location.id.to_s]
     end
     
     it "is the regions location ids and the locations children ids if the location got children" do
@@ -55,7 +55,7 @@ describe User do
       user = Fabricate(:user, :region => region)
       location = Fabricate(:location, :region => region)
       sub_location = Fabricate(:location, :location => location)
-      user.editable_locations.should == [location.id.to_s, sub_location.id.to_s]
+      user.editable_location_ids.should == [location.id.to_s, sub_location.id.to_s]
     end
     
   end

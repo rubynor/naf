@@ -1,0 +1,32 @@
+<%if activities.empty?%>
+  <h4>Ingen aktiviteter</h4>
+<%end%>
+
+<table class="zebra-striped" id="activitiesList">
+  <thead>
+            <tr>
+              <th class="yellow header">Starter</th>
+              <th class="yellow header headerSortUp">Slutter</th>
+              <th class="blue header">Navn</th>
+              <th class="green header">Arrangør</th>
+              <th class="green header">Lokasjon</th>
+              <th class="green header">Kategori</th>
+              <th class="header">&nbsp;</th>
+              <th class="">&nbsp;</th>
+            </tr>
+          </thead>
+  <tbody>
+  <%for activity in activities%>
+  <tr>
+    <td><%=activity.dtstart.strftime("%d.%m.%y")%></td>
+    <td><%=activity.dtend.strftime("%d.%m.%y")%></td>
+    <td><%=link_to activity.summary, admin_activity_url(activity)%></td>
+    <td><%=activity.organizer.name%></td>
+    <td><%=activity.location.name%></td>
+    <td><%=activity.category.name%></td>
+    <td><%=activity.active ? 'Aktiv' : ''%></td>
+    <td style='width:160px;'><%=link_to "Endre", edit_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Kopier", copy_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Slett", admin_activity_url(activity), :method => :delete, :confirm => "Er du sikker på at du vil slette #{activity.summary}?", :class => "btn small danger"%></td>
+  </tr>
+  <%end%>
+</tbody>
+</table>

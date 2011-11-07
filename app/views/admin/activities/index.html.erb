@@ -1,0 +1,45 @@
+<script type='text/javascript'>
+  $(function() {
+  try{
+      $("table#activitiesList").tablesorter({ sortList: [[1,0]] });
+  }catch(e){}
+  $("#search_str").keyup(function(e){
+    if(e.keyCode && e.keyCode == 13)
+        $("#search_link").trigger("click")
+  })
+  $("#search_link").click(function(){
+    var str = $("#search_str").val()
+    window.location = "/admin/activities/search?text="+str;
+  });
+  });
+  $(function () {
+    $('.tabs').tabs()
+  })
+</script>
+
+
+<div class="page-header">
+     <h1> Aktiviteter <small>administrering</small></h1>
+</div>
+
+<div class='well'>
+<%=text_field_tag :search_str, params[:text]%> <%=link_to "Søk", "#", :id => "search_link", :class => "btn small secondary"%>   <%=link_to "+ Opprett ny aktivitet", new_admin_activity_url, :class => "btn primary", :style => "float:right;"%>
+</div>
+
+<%if @total%>
+  <h4><%=@total%> treff for <%=params[:text]%></h4>
+<%end%>
+
+<ul class="tabs">
+  <li class="active"><a href="#all_activities">Alle aktiviteter</a></li>
+  <li><a href="#my_activities">Mine aktiviteter</a></li>
+</ul>
+
+<div class="pill-content">
+  <div class="active" id="all_activities">
+  <%=render :partial => "activities", :locals => {:activities => @activities}%>
+  </div>
+  <div id="my_activities">
+    <%=render :partial => "activities", :locals => {:activities => current_user.activities}%>
+  </div>
+</div>

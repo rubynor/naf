@@ -3,3 +3,4 @@
 If you change to much of the search logic the solr index needs to be re-indexed. Since we are using mongoid the following thak will do the job:
 rake dmsunspot:reindex[false] - or on heroku: heroku run rake dmsunspot:reindex[false]
 
+rake dmsunspot:reindex[false,Activity]

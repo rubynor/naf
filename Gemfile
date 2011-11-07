@@ -30,6 +30,13 @@ gem 'awesome_print'
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
+
+  #Should spend:
+    #sunspot (1.2.1)
+    #sunspot_mongo (1.0.1)
+    #sunspot_mongoid (0.4.1)
+    #sunspot_rails (1.2.1)
+    #sunspot_solr (1.3.0.rc4)
 end
 
 group :test do

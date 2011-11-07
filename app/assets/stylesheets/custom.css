@@ -1,0 +1,4 @@
+.field_with_errors input, .field_with_errors textarea, .field_with_errors select {
+  color: #B94A48;
+  border-color: #EE5F5B;
+}
