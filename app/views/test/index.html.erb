@@ -3,7 +3,6 @@
 <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
 <script type='text/javascript'>
-
   Backbone.Model.prototype.idAttribute = "_id";
   $(document).ready(function(){
         window.activities = new window.Activities()
@@ -45,6 +44,7 @@
           return curr_date + "." + curr_month + "." + curr_year + " kl. " + curr_hour + ":" + curr_min;
         });
   })
+
 </script>
 
 <div id='searchbar'>
@@ -215,6 +215,19 @@
       <input type="checkbox" class='target_box' name="{{name}}">
       <span>{{name}}</span>
     </label>
+</script>
+
+<script type='template' id='activity_list_tmpl'>
+   <div class="modal hide fade">
+      <div class="modal-header">
+        <a href="#" class="close">&times;</a>
+        <h3>Liste over aktiviteter i området</h3>
+      </div>
+      <div class="modal-body">
+        <ul class="markerlist">
+        </ul>
+      </div>
+   </div>
 </script>
 
 
