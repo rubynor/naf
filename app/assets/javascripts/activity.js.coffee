@@ -64,7 +64,8 @@ class window.Activities extends Backbone.Collection
   search: (params) ->
     window.searcher.showLoader()
     $.ajax({
-      url: "/activities/search",
+      dataType: "json",
+      url: "/admin/activities/search",
       type: "GET",
       data: params,
       success: (data) ->

@@ -1,6 +1,7 @@
 <script type='text/javascript'>
-  //uploader
-  var uploader = new window.Uploader({multiple: false})
+  $(document).ready(function(){
+    var uploader = new window.Uploader({multiple: false})
+  })
 </script>
 
 <%= form_for(@activity, :url => (@activity.new_record? ? admin_activities_url : admin_activity_url(@activity))) do |f| %>

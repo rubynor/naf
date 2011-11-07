@@ -16,10 +16,6 @@ Naf::Application.routes.draw do
       get :search, :on => :collection
     end
   end
-
-  resources :activities do
-    get :search, :on => :collection
-  end
-
   resources :locations, :categories, :activities
+
 end
