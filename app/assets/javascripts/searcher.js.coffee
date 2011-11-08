@@ -28,14 +28,17 @@ class window.Searcher extends Backbone.View
 	
 	search: (forced) ->
 		return if (!forced && window.searcher.searchString().length < 3)
-		options = {text: window.searcher.searchString(), limit:2000, page:1}
-		options["category_ids"] = @category_criteria unless window.searcher.category_criteria.length == 0
-		options["targets"] = @target_criteria unless window.searcher.target_criteria.length == 0
-		options["region_id"] = @region_id unless @region_id == ""
-		options["dtstart"] = @start_date if @start_date
-		options["dtend"] = @end_date if @end_date
+		params = {}
+		params["text"] = window.searcher.searchString()
+		params["limit"] = "2000"
+		params["page"] = 1
+		params["category_ids"] = window.searcher.category_criteria unless window.searcher.category_criteria.length == 0
+		params["targets"] = window.searcher.target_criteria unless window.searcher.target_criteria.length == 0
+		params["region_id"] = @region_id unless @region_id == ""
+		params["dtstart"] = @start_date if @start_date
+		params["dtend"] = @end_date if @end_date
 		
-		window.activities.search(options)
+		window.activities.search(params)
 	
 	searchString: ->
 		$(@el).find("#search_field").val()
