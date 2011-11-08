@@ -145,13 +145,13 @@
   <div class="clearfix">
       <%= f.label :organizer %>
   <div class="input">
-      <%= f.select :organizer_id, current_user.editable_locations.all.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Arrangør", "Her velger du den avdelingen som står som arrangør.")%>
+      <%= f.select :organizer_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Arrangør", "Her velger du den avdelingen som står som arrangør.")%>
   </div></div>
 
 <div class="clearfix">
       <%= f.label :location %>
   <div class="input">
-      <%= f.select :location_id, current_user.editable_locations.all.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp addresse under ved behov.")%>
+      <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp addresse under ved behov.")%>
   </div></div>
 
 <div class="clearfix">
