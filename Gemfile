@@ -28,6 +28,10 @@ gem 'nokogiri'
 gem 'rest-client'
 gem 'awesome_print'
 
+group :production do
+  gem 'newrelic_rpm'
+end
+
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
 
