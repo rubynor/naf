@@ -4,8 +4,10 @@
     <div class='well'>
   <%=link_to "&larr; Tilbake til listen".html_safe, admin_activities_url, :class => "btn small"%>
   <%=link_to "+ Opprett ny", new_admin_activity_url, :class => "btn small"%>
+  <%if current_user.can_edit_activity?(@activity)%>
   <%=link_to "Kopier", copy_admin_activity_url(@activity), :class => "btn small"%>
     <%=link_to "Endre", edit_admin_activity_url(@activity), :class => "btn small"%> <%=link_to "Slett", edit_admin_activity_url(@activity), :method => :delete, :confirm => "Er du sikker på at du vil slette #{@activity.summary}".html_safe, :class => "btn small danger"%>
+<%end%>
     </div>
 
    <div class='clearfix' style='overflow:hidden;padding-bottom:10px;'>

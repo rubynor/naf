@@ -25,7 +25,11 @@
     <td><%=activity.location.name%></td>
     <td><%=activity.category.name%></td>
     <td><%=activity.active ? 'Aktiv' : ''%></td>
-    <td style='width:160px;'><%=link_to "Endre", edit_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Kopier", copy_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Slett", admin_activity_url(activity), :method => :delete, :confirm => "Er du sikker på at du vil slette #{activity.summary}?", :class => "btn small danger"%></td>
+    <td style='width:160px;'>
+    <%if current_user.can_edit_activity?(activity)%>
+  <%=link_to "Endre", edit_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Kopier", copy_admin_activity_url(activity), :class => "btn small"%> <%=link_to "Slett", admin_activity_url(activity), :method => :delete, :confirm => "Er du sikker på at du vil slette #{activity.summary}?", :class => "btn small danger"%>
+  <%end%>
+  </td>
   </tr>
   <%end%>
 </tbody>

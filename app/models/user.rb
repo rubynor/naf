@@ -40,6 +40,7 @@ class User
       []
     end
   end
+
   #get a list of location ids a user can manage
   def editable_location_ids
     return Location.all if is_super_admin?
@@ -56,4 +57,7 @@ class User
     end
   end
 
+  def can_edit_activity?(activity)
+    is_super_admin? || editable_location_ids.include?(activity.organizer_id)
+  end
 end
