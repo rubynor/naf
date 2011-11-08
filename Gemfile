@@ -29,6 +29,7 @@ gem 'rest-client'
 gem 'awesome_print'
 
 group :production do
+  gem 'rpm_contrib'
   gem 'newrelic_rpm'
 end
 

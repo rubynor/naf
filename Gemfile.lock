@@ -129,6 +129,9 @@ GEM
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rmagick (2.13.1)
+    rpm_contrib (2.1.6)
+      newrelic_rpm (>= 3.1.1)
+      newrelic_rpm (>= 3.1.1)
     rsolr (0.12.1)
       builder (>= 2.1.2)
     rspec (2.7.0)
@@ -201,6 +204,7 @@ DEPENDENCIES
   rails (= 3.1.0)
   rest-client
   rmagick (~> 2.13.1)
+  rpm_contrib
   rspec-rails (~> 2.6)
   sass-rails (~> 3.1.0)
   sunspot
