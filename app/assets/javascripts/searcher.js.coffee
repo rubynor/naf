@@ -32,9 +32,9 @@ class window.Searcher extends Backbone.View
     options = {text: search, limit:2000, page:1}
     options["category_ids"] = window.searcher.category_criteria unless window.searcher.category_criteria.length == 0
     options["targets"] = window.searcher.target_criteria unless window.searcher.target_criteria.length == 0
-    options["region_id"] = @region_id unless @region_id == ""
-    options["dtstart"] = @start_date if @start_date
-    options["dtend"] = @end_date if @end_date
+    options["region_id"] =  window.searcher.region_id unless  window.searcher.region_id == ""
+    options["dtstart"] =  window.searcher.start_date if  window.searcher.start_date
+    options["dtend"] =  window.searcher.end_date if  window.searcher.end_date
 
     window.activities.search(options)
 
