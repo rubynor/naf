@@ -27,15 +27,16 @@ class User
 
   #get a list of location ids a user can manage
   def editable_locations
-    return Location.all if is_super_admin?
-    if self.region
+    if is_super_admin?
+      Location.by_name
+    elsif self.region
       res = []
       region.locations.each do |lok|
         res += [lok] + lok.locations
       end
       res
     elsif self.location
-      location + self.location.locations
+      [location] + self.location.locations
     else
       []
     end
@@ -58,6 +59,7 @@ class User
   end
 
   def can_edit_activity?(activity)
+    #OMA code stench
     is_super_admin? || editable_location_ids.include?(activity.organizer_id)
   end
 end
