@@ -96,6 +96,7 @@ class Activity
     self.organizer = new_org
   end
 
+  #OMA Code smell. Why isn't this associated or better, embedded? the storage of photo url also statically stores the bucket name and storage url now.
   def set_photo_urls
     unless self.photo_id.blank?
       photo = Photo.find(self.photo_id)
