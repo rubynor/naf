@@ -6,13 +6,15 @@ if Rails.env.test? || Rails.env.development?
   end
 else
   CarrierWave.configure do |config|
+    aws_key, aws_secret, aws_region, aws_bucket = ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'], ENV['AWS_REGION'], ENV['AWS_BUCKET']
+    raise "AWS keys not configured" unless aws_key
     config.fog_credentials = {
       :provider               => 'AWS',       # required
-      :aws_access_key_id      => 'AKIAJFEHYG7AMC6UBMQQ',       # required
-      :aws_secret_access_key  => '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',       # required
-      :region                 => 'eu-west-1'  # optional, defaults to 'us-east-1'
+      :aws_access_key_id      => aws_key,       # required
+      :aws_secret_access_key  => aws_secret,       # required
+      :region                 => aws_region  # optional, defaults to 'us-east-1'
     }
-    config.fog_directory  = "naf-#{Rails.env}"                     # required
+    config.fog_directory  = aws_bucket                   # required
     #config.fog_host       = 'https://assets.example.com'            # optional, defaults to nil
     config.fog_public     = true
   end

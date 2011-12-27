@@ -1,3 +1,9 @@
+rake -T
+
+rake sunspot:solr:start
+
+
+
 == Reindex of search
 
 If you change to much of the search logic the solr index needs to be re-indexed. Since we are using mongoid the following thak will do the job:
