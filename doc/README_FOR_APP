@@ -1,2 +1,28 @@
 Use this README file to introduce your application and point to useful places in the API for learning more.
 Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
+
+
+
+
+#hacks because of wierd denormalization. Populators not made to be rerun, causing shit to hit the fan for locations
+
+heroku run console
+
+Activity.all.each do |a|
+  puts "searching for location of #{a.summary}"
+  o = Location.where({:name => a.organizer.name}).first
+  o = Location.where({:name => "NAF "+ a.organizer.name}).first unless o
+  puts "organization #{o.name} found"
+  a.organizer_id = o.id
+  if a.location && locname = a.location.name
+    l = Location.where({:name => locname}).first
+    l = Location.where({:name => "NAF "+ locname}).first unless l
+    puts "location found"
+    a.location_id = l.id
+  else
+    puts "location #{a.location_id}, #{a.location} not found"
+    a.location_id = o.id
+  end
+
+  a.save!
+end

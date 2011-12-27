@@ -10,7 +10,7 @@ task :populate_locations => :environment do
   Location.destroy_all
 
   locations["locations"].each do |location|
-    Location.create(:name => location["name"], :latitude => location["latitude"], :longitude => location["longitude"], :region_id => Region.find(location["region_id"]))
+    Location.create(:id => location["_id"], :name => location["name"], :latitude => location["latitude"], :longitude => location["longitude"], :region_id => Region.find(location["region_id"]))
   end
   puts "added #{Location.count} locations"
 end
