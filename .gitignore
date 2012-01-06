@@ -5,3 +5,4 @@ tmp/
 .sass-cache/
 solr/
 public/uploads
+.idea

@@ -32,9 +32,10 @@ class window.Map extends Backbone.View
     @markerCluster.clearMarkers()
 
   clusterActivities: () ->
-    mcOptions = {gridSize: 8}#, maxZoom: 15} #maxZoom is the zoom level where the MarkerClusterer disappear.
+    mcOptions = {gridSize: 8, maxZoom: 10} #maxZoom is the zoom level where the MarkerClusterer disappear.
+
     @markerCluster = new MarkerClusterer(@map, @markers, mcOptions) #, @markers
-    listZoom = 10
+    listZoom = 5
     google.maps.event.addListener @markerCluster, 'clusterclick', (cluster) ->
       #console.log("cluster onclick event on cluster, markers: #{cluster.getMarkers().length}, zoom: #{cluster.getMap().zoom}, listZoom: #{listZoom}")
       #console.log("cluster zoom on click #{console.dir(cluster)}")

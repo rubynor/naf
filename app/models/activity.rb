@@ -55,10 +55,12 @@ class Activity
   embeds_one :location, :class_name => "EmbeddedLocation", :cascade_callbacks => true
   embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
+  #mount_uploader :photo, PhotoUploader
+
   belongs_to :category
   belongs_to :user
 
-  before_save :set_photo_urls, :embedd_objects
+  before_save :embedd_objects, :set_photo_urls
 
   validates_presence_of :summary, :organizer_id, :location_id, :dtstart, :dtend, :category_id
 
@@ -105,7 +107,15 @@ class Activity
       self.photo_large_url = photo.photo.large
     end
   end
-
+#  def photo_thumb_url
+#    self.photo.thumb
+#  end
+#  def photo_medium_url
+#    self.photo.medium
+#  end
+#  def photo_large_url
+#    self.photo.large
+#  end
   #in search categories, summary, age, tag, location, dtstart, dtend, veichle,
 
   class << self

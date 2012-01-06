@@ -1,7 +1,7 @@
 <script type='text/javascript'>
   $(document).ready(function(){
     var uploader = new window.Uploader({multiple: false})
-  })
+  });
 </script>
 
 <%= form_for(@activity, :url => (@activity.new_record? ? admin_activities_url : admin_activity_url(@activity))) do |f| %>
@@ -260,7 +260,10 @@
     <div class='clearfix'>
         <%=activity_image @activity%>
     </div>
-<%=link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
+    <!-- image_tag(@activity.photo) if @activity.photo? >
+    < f.file_field :photo %>
+    < f.hidden_field :photo_cache % -->
+    <%=link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
       <div class='clearfix' id='filelist'></div>
       </div>
     </div>
