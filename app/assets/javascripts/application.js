@@ -19,8 +19,9 @@
 //= require vendor/popover
 //= require vendor/tablesorter
 //= require vendor/default.input
-//= require vendor/plupload.full
 
+// The uploaders should only be serve for admins, not the regular users
+//= require vendor/plupload.full
 
 //= require map
 //= require activity

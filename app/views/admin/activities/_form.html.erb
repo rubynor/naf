@@ -150,7 +150,7 @@
 
 <div class="clearfix">
       <%= f.label :location %>
-  <div class="input">
+  <div class="input" id>
       <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp addresse under ved behov.")%>
   </div></div>
 
@@ -255,7 +255,7 @@
     <%= f.text_field :photo_id, :style => "display:none;"%>
 
   <legend>Velg et bilde som skal brukes til denne aktiviteten</legend>
-  <div class="clearfix">
+  <div id="upload_container" class="clearfix">
     <div class='input'>
     <div class='clearfix'>
         <%=activity_image @activity%>

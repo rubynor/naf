@@ -1,12 +1,11 @@
 
-
 class window.Uploader extends Backbone.View
   initialize: (options) ->
     @doneIds = new Array() # keep track of done uploads
     @multiple = false
     @content_type = "application/octet-stream" # Videos would be binary/octet-stream
-    @filter_title = 'Images'
-    @filter_extentions = 'jpg,jpeg,gif,png,bmp'
+    filter_title = 'Images (*.jpg, *.gif, *.png, *.bmp)'
+    filter_extentions = 'jpg,jpeg,gif,png,bmp'
     @key = "temp"
     that = @
     if options
@@ -14,12 +13,14 @@ class window.Uploader extends Backbone.View
       @key = options.key if options.key
 
     @uploader = new plupload.Uploader({
-      runtimes : 'html5,flash,silverlight',
+      runtimes : 'flash,silverlight',    #html5,  'gears,html5,flash,silverlight,browserplus',
       browse_button : 'pickfiles',
-      #container: 'upload_container'
+      container: 'upload_container'
       max_file_size : '5mb',
       url : "/admin/upload",
-      flash_swf_url: '/javascripts/plupload/plupload.flash.swf',
+      flash_swf_url : '/lib/plupload.flash.swf',
+      silverlight_xap_url : '/lib/plupload.silverlight.xap',
+      filters : [ {title: "#{filter_title} ", extensions : "#{filter_extentions}"}]
       multi_selection: that.multiple,
       multipart: true,
       multipart_params: {
@@ -27,6 +28,8 @@ class window.Uploader extends Backbone.View
       },
       file_data_name: 'photo'
     })
+    @uploader.bind 'Init', (up, params) ->
+      $('#filelist').html("<div>Current runtime: #{params.runtime} </div>")
     @uploader.init();
     @setupBindings()
 
