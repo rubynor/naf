@@ -13,13 +13,13 @@ class window.Uploader extends Backbone.View
       @key = options.key if options.key
 
     @uploader = new plupload.Uploader({
-      runtimes : 'flash,silverlight',    #html5,  'gears,html5,flash,silverlight,browserplus',
+      runtimes : 'html5,gears,flash,silverlight,browserplus',
       browse_button : 'pickfiles',
       container: 'upload_container'
       max_file_size : '5mb',
       url : "/admin/upload",
-      flash_swf_url : '/lib/plupload.flash.swf',
-      silverlight_xap_url : '/lib/plupload.silverlight.xap',
+      flash_swf_url : '/publiclib/plupload.flash.swf',
+      silverlight_xap_url : '/publiclib/plupload.silverlight.xap',
       filters : [ {title: "#{filter_title} ", extensions : "#{filter_extentions}"}]
       multi_selection: that.multiple,
       multipart: true,
@@ -28,9 +28,10 @@ class window.Uploader extends Backbone.View
       },
       file_data_name: 'photo'
     })
+    # Print out runtime to test.
     @uploader.bind 'Init', (up, params) ->
       $('#filelist').html("<div>Current runtime: #{params.runtime} </div>")
-    @uploader.init();
+    @uploader.init()
     @setupBindings()
 
 
@@ -45,14 +46,14 @@ class window.Uploader extends Backbone.View
       _.each files, (file) ->
 
         $('#filelist').append('<div id="' + file.id + '"><small>' + file.name + ' (' + plupload.formatSize(file.size) + ') </small><b></b>' + '<div class=" percent label notice" style="width:10%;"><span>Laster opp</span></div></div>')
-      #up.refresh(); # Reposition Flash/Silverlight
+      #up.refresh() # Reposition Flash/Silverlight
 
       #$('#progress_bar .ui-progress').css('width', '5%')
       #$('span.ui-label').show()
 
       #start the uploader after the progress bar shows
       #$('#progress_bar').show 'fast', ->
-      that.uploader.start();
+      that.uploader.start()
 
     #binds progress to progress bar
     @uploader.bind 'UploadProgress', (uploader, file) ->
