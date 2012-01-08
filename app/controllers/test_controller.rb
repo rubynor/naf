@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #
 # used for testing some view stuff to help out Espen
 #

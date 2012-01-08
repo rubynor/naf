@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module ActivitiesHelper
 
   def start_date(datetime)

@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# -*- encoding : utf-8 -*-
 
 #
 # All specs for search on activities (sunspot is turned of in activities controller specs - here it is not)

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Admin::ActivitiesController < ApplicationController
   before_filter :authenticate_user!, :except => [:search, :file_upload]
   skip_before_filter :verify_authenticity_token, :only => [:file_upload]

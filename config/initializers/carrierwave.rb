@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 if Rails.env.test? || Rails.env.development?
   CarrierWave.configure do |config|

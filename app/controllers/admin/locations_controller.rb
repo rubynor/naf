@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class Admin::LocationsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :authenticate_super_admin!

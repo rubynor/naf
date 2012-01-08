@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Fabricator :activity do
   summary "Activity"
   location_id {Fabricate(:location).id}

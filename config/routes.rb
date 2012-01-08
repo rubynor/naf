@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Naf::Application.routes.draw do
   devise_for :user
 

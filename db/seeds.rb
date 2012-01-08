@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 raise "populate locations first, then rerun seeds." if Location.count == 0
 
 begin

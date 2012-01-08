@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class EmbeddedOrganizer
   include Mongoid::Document
   field :name, :type => String

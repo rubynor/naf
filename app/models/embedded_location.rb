@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 class EmbeddedLocation
   include Mongoid::Document
   field :name, :type => String
