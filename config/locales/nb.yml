@@ -55,6 +55,14 @@ nb:
         dtstart: Start-tidspunkt
         dtend: Slutt-tidspunkt
 
+      internal_information:
+        competence: Kompetansebehov
+        participants_count: Antall deltakere
+        volunteers_count: Antall frivillige involvert
+        volunteers_hours: Antall frivilligtimer brukt totalt
+        retrospect_good: Dette gikk bra
+        retrospect_improve: Enda bedre om
+
       location:
         name: Navn
         longitude: Lengdegrad

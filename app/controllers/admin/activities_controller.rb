@@ -53,7 +53,6 @@ class Admin::ActivitiesController < ApplicationController
 
   def create
     @activity = Activity.new(params[:activity].merge({:user => current_user}))
-
     if @activity.save
       redirect_to admin_activity_url(@activity), :notice => "Aktivitet opprettet"
     else

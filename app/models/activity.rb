@@ -55,6 +55,8 @@ class Activity
   embeds_one :location, :class_name => "EmbeddedLocation", :cascade_callbacks => true
   embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
+  embeds_one :internal_information, cascade_callbacks: true
+  accepts_nested_attributes_for :internal_information
   #mount_uploader :photo, PhotoUploader
 
   belongs_to :category
@@ -166,6 +168,7 @@ class Activity
 
       return search.results, search.total
       rescue => e
+        logger.error "something went wrong with search #{e}"
         if params[:admin] && params[:admin].to_s == "true"
           return Activity.all, Activity.all.size
         else

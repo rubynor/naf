@@ -21,6 +21,17 @@ describe Activity do
     activity.location.name.should == "NAF track Oslo"
   end
 
+  it "should embed internal_information - interninformasjon" do
+    ii = Fabricate(:activity).internal_information
+    ii.volunteers_count.should == 5
+    ii.volunteers_hours.should == 43
+    ii.competence.should == "Kompetanse på bil"
+    ii.participants_count.should == 39
+    ii.retrospect_good.should == "godt testede biler"
+    ii.retrospect_improve.should == "må ha nok kaffe!"
+
+  end
+
   it "should belongs to a" do
     relation = Activity.relations['category']
     relation.klass.should == (Category)

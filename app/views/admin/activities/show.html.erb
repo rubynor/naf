@@ -10,7 +10,7 @@
 <%end%>
     </div>
 
-   <div class='clearfix' style='overflow:hidden;padding-bottom:10px;'>
+   <div class='clearfix tabletitle' style='overflow:hidden;padding-bottom:10px;'>
       <%unless @activity.photo_id.blank?%>
           <%=image_tag @activity.photo_medium_url, :style => "float:right;overflow:hidden;"%>
         <%end%>
@@ -46,4 +46,20 @@
    </table>
 </div>
 </div>
-
+  <div class='clearfix tabletitle'  style='overflow:hidden;padding-bottom:10px;'>
+    Interninformasjon
+</div>
+ <div class='row'>
+    <div class='span16'>
+     <table class='zebra-striped'>
+       <% ii = @activity.internal_information %>
+       <% iit = {:scope => [:mongoid, :attributes, :internal_information]} %>
+       <tr><td><%= t :competence, iit %></td><td><%=ii.competence%> </td></tr>
+       <tr><td><%= t :volunteers_count, iit %></td><td><%=ii.volunteers_count%></td></tr>
+       <tr><td><%= t :volunteers_hours, iit %></td><td><%=ii.volunteers_hours%></td></tr>
+       <tr><td><%= t :participants_count, iit %></td><td><%=ii.participants_count%></td></tr>
+       <tr><td><%= t :retrospect_good, iit %></td><td><%=ii.retrospect_good%></td></tr>
+       <tr><td><%= t :retrospect_improve, iit %></td><td><%=ii.retrospect_improve%></td></tr>
+   </table>
+   </div>
+</div>

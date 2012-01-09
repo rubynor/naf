@@ -46,7 +46,7 @@
   <div class="clearfix">
     <%= f.label :description%>
   <div class="input">
-    <%= f.text_area :description, :style => "height:100px;", :class => "xxlarge" %><%=help_text("Beskrivelse", "Beskriv aktiviteten i korte trekk.")%>
+    <%= f.text_area :description, :class => "xxlarge" %><%=help_text("Beskrivelse", "Beskriv aktiviteten i korte trekk.")%>
   </div></div>
 
 </fieldset>
@@ -102,6 +102,24 @@
 </fieldset>
 
 <fieldset>
+    <%= f.text_field :photo_id, :style => "display:none;"%>
+
+  <legend>Velg et bilde som skal brukes til denne aktiviteten</legend>
+  <div id="upload_container" class="clearfix">
+    <div class='input'>
+    <div class='clearfix'>
+        <%=activity_image @activity%>
+    </div>
+    <!-- image_tag(@activity.photo) if @activity.photo? >
+    < f.file_field :photo %>
+    < f.hidden_field :photo_cache % -->
+    <%=link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
+      <div class='clearfix' id='filelist'></div>
+      </div>
+    </div>
+</fieldset>
+
+<fieldset>
   <legend>Diverse</legend>
   <div class="clearfix">
     <%= f.label :tags, "Søkbare stikkord" %>
@@ -134,7 +152,7 @@
   <div class="clearfix">
       <%= f.label :contact %>
     <div class="input">
-      <%= f.text_area :contact, :class => "large", :style => "height:100px;" %>
+      <%= f.text_area :contact, :class => "large" %>
     </div></div>
 
 
@@ -151,13 +169,13 @@
 <div class="clearfix">
       <%= f.label :location %>
   <div class="input" id>
-      <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp addresse under ved behov.")%>
+      <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp adresse under ved behov.")%>
   </div></div>
 
 <div class="clearfix">
       <%= f.label :address %>
   <div class="input">
-      <%= f.text_area :address, :class => "xlarge", :style => "height:50px;" %><%=help_text("Addresse", "Fyll inn addresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateaddresse.")%>
+      <%= f.text_area :address, :class => "large" %><%=help_text("Adresse", "Fyll inn adresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateaddresse.")%>
   </div></div>
 </fieldset>
 
@@ -234,7 +252,7 @@
   <div class="clearfix">
     <%= f.label :responsibility %>
   <div class="input">
-    <%= f.text_area :responsibility, :style=>"height:100px;"%>
+    <%= f.text_area :responsibility, class: 'large' %>
   <span class="help-block">Her kan du fylle inn f.eks. hva deltakerene må huske å ha med seg.</span>
   </div></div>
 
@@ -252,22 +270,43 @@
 </fieldset>
 
 <fieldset>
-    <%= f.text_field :photo_id, :style => "display:none;"%>
+  <legend>Interninformasjon</legend>
+  <%= f.fields_for :internal_information do |ii| %>
+    <div class="clearfix">
+      <%= ii.label :competence %>
+      <div class="input">
+        <%= ii.text_area :competence, class: 'large' %>
+    </div></div>
+    <div class="clearfix">
+      <%= ii.label :volunteers_count %>
+      <div class="input">
+        <%= ii.text_field :volunteers_count %>
+    </div></div>
+    <div class="clearfix">
+      <%= ii.label :volunteers_hours %>
+      <div class="input">
+        <%= ii.text_field :volunteers_hours %>
+    </div></div>
+    <div class="clearfix">
+      <%= ii.label :participants_count %>
+      <div class="input">
+        <%= ii.text_field :participants_count %>
+    </div></div>
+    <div class="clearfix">
+      <%= ii.label :retrospect_good %>
+      <div class="input">
+        <%= ii.text_area :retrospect_good, class: 'xxlarge' %>
+    </div></div>
+    <div class="clearfix">
+      <%= ii.label :retrospect_improve %>
+      <div class="input">
+        <%= ii.text_area :retrospect_improve, class: 'xxlarge' %>
+    </div></div>
 
-  <legend>Velg et bilde som skal brukes til denne aktiviteten</legend>
-  <div id="upload_container" class="clearfix">
-    <div class='input'>
-    <div class='clearfix'>
-        <%=activity_image @activity%>
-    </div>
-    <!-- image_tag(@activity.photo) if @activity.photo? >
-    < f.file_field :photo %>
-    < f.hidden_field :photo_cache % -->
-    <%=link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
-      <div class='clearfix' id='filelist'></div>
-      </div>
-    </div>
+  <% end %>
+
 </fieldset>
+
 
   <div class="actions">
 
