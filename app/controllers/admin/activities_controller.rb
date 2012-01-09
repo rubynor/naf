@@ -12,10 +12,12 @@ class Admin::ActivitiesController < ApplicationController
 
   def new
     @activity = Activity.new
+    @activity.internal_information = InternalInformation.new unless @activity.internal_information
   end
 
   def edit
     @activity = Activity.find(params[:id])
+    @activity.internal_information = InternalInformation.new unless @activity.internal_information
   end
 
   def copy
