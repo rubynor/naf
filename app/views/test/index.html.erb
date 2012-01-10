@@ -29,17 +29,19 @@
       return string.toLowerCase()
     });
         Handlebars.registerHelper('formatted_time', function(date_time) {
-          var d = new Date(date_time);
-          var curr_date = d.getDate();
-          var curr_month = d.getMonth() + 1; //months are zero based
-          var curr_year = d.getFullYear();
-          var curr_hour = d.getHours()
-          var curr_min = d.getMinutes()
 
-          if(String(curr_hour).length==1)
-            curr_hour = "0"+curr_hour
-          if(String(curr_min).length==1)
-            curr_min = "0"+curr_min
+          //This solution is crap, should have used millis for date_times!!
+          //console.log("date time is " + date_time);  date time is 2012-01-1T00:09:53+00:00
+
+          var re = /(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)/
+          var d = [];
+          d = date_time.match(re);
+          var curr_year = d[1];
+          var curr_month = d[2];
+          var curr_date = d[3];
+
+          var curr_hour = d[4];
+          var curr_min = d[5];
 
           return curr_date + "." + curr_month + "." + curr_year + " kl. " + curr_hour + ":" + curr_min;
         });
