@@ -61,7 +61,6 @@ class window.Uploader extends Backbone.View
           that.upload_100_file_id = file.id
 #        unless $.inArray(file.id, that.doneIds) > -1
 #          that.doneIds.push file.id
-          console.log "here"
           $("#filelist ##{file.id} .percent").css('width', '100%')
           $("#filelist ##{file.id} .percent").removeClass("notice").addClass("success")
           $("#filelist ##{file.id} .percent span").text('Ferdig opplastet. Vent...')
