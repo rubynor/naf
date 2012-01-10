@@ -13,3 +13,9 @@
 
 textarea.xxlarge{height:100px}
 textarea.large{height:50px}
+
+/* for uploader upload_container*/
+.runtime{
+    /*font-weight: lighter; */
+    color: #888888;
+}
