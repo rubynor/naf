@@ -107,16 +107,17 @@
   <legend>Velg et bilde som skal brukes til denne aktiviteten</legend>
 
     <div class='input'>
-     <%=activity_image @activity%>
-    <div id="upload_container">
+      <%=activity_image @activity%>
+
       <div id='filelist'>
         Bildeopplasting vil ikke fungere. Installer <a href='http://get.adobe.com/flashplayer'>flash</a>. Du har ikke støtte for hverken html5, flash, eller silverlight
         <%= help_text("Filopplasting", "Alle nettlesere utenom Internet Explorer støtter html5. Det anbefales å også installere firefox eller chrome, for bedre sikkerhet, ytelse og penere nettsider. På IE8 og IE9 virker opplastingsfunksjonen med flash. ")%>
       </div>
-      <br />
-      <%= link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
-      <div class='clearfix'></div>
-    </div>
+      <div id="upload_container">
+        <br />
+        <%= link_to "Velg bilde", '#', :id => "pickfiles", :class => "btn small"%> <%=help_text("Bilde", "Bildet vil vises i infoboksen når man trykker på aktivteten på kartet.")%>
+        <div class='clearfix'></div>
+      </div>
 
     </div>
 </fieldset>
