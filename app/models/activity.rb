@@ -36,7 +36,7 @@ class Activity
 
 
   field :score, :type => Integer, :default => 0
-
+  field :extra_info_result, :type => String
   field :photo_thumb_url, :type => String, :default => ""
   field :photo_medium_url, :type => String, :default => ""
   field :photo_large_url, :type => String, :default => ""

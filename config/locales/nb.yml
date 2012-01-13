@@ -68,8 +68,8 @@ nb:
         title: Politisk aktivitet
         contact_with: Kontakt med
 
-      extra_information:
-        result: Respons/Resultat
+      extra_info: Ekstrainfo
+      extra_info_result: Respons/Resultat
 
       media_coverage:
         subject_title: Tittel på sak

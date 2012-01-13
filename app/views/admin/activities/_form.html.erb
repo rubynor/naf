@@ -311,13 +311,22 @@
 </fieldset>
 <fieldset>
   <legend>Politiskt aktivitet</legend>
-  <%= f.fields_for :political_activity do |ii| %>
+  <%= f.fields_for :political_activity do |pa| %>
     <div class="clearfix">
-      <%= ii.label :contact_with %>
+      <%= pa.label :contact_with %>
       <div class="input">
-        <%= ii.text_area :contact_with, class: 'large' %>
+        <%= pa.text_area :contact_with, class: 'large' %>
     </div></div>
   <% end %>
+</fieldset>
+
+<fieldset>
+  <legend>Ekstrainfo</legend>
+  <div class="clearfix">
+    <%= f.label :extra_info_result %>
+    <div class="input">
+      <%= f.text_area :extra_info_result, class: 'large' %>
+  </div></div>
 </fieldset>
 
 
