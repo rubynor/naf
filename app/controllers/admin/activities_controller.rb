@@ -10,14 +10,16 @@ class Admin::ActivitiesController < ApplicationController
     render :json => {:photo => photo}.to_json
   end
 
+
+
   def new
     @activity = Activity.new
-    @activity.internal_information = InternalInformation.new unless @activity.internal_information
+    build_embedded
   end
 
   def edit
     @activity = Activity.find(params[:id])
-    @activity.internal_information = InternalInformation.new unless @activity.internal_information
+    build_embedded
   end
 
   def copy
@@ -86,5 +88,12 @@ class Admin::ActivitiesController < ApplicationController
       format.html{redirect_to admin_activities_url, :notice => "Aktiviteten ble slettet"}
       format.json{render :json => "true", :callback => params[:callback]}
     end
+  end
+
+  private
+
+  def build_embedded
+    @activity.internal_information = InternalInformation.new unless @activity.internal_information
+    @activity.political_activity = PoliticalActivity.new unless @activity.political_activity
   end
 end
