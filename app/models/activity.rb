@@ -36,17 +36,6 @@ class Activity
 
 
   field :score, :type => Integer, :default => 0
-  field :political_contact, :type => String
-  field :response_result, :type => String
-  field :volunteers_involved_count, :type => Integer, :default => 0
-  field :volunteers_used_count, :type => Integer, :default => 0
-  field :competence_needs, :type => String
-  field :participants_count, :type => Integer, :default => 0
-  field :result, :type => String
-  field :potential_improvements, :type => String
-  field :media_title, :type => String
-  field :media_outlet, :type => String
-  field :media_url, :type => String
 
   field :photo_thumb_url, :type => String, :default => ""
   field :photo_medium_url, :type => String, :default => ""
@@ -56,7 +45,9 @@ class Activity
   embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
   embeds_one :internal_information, cascade_callbacks: true
+  embeds_one :political_activity, cascade_callbacks: true
   accepts_nested_attributes_for :internal_information
+  accepts_nested_attributes_for :political_activity
   #mount_uploader :photo, PhotoUploader
 
   belongs_to :category

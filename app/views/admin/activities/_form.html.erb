@@ -309,6 +309,20 @@
   <% end %>
 
 </fieldset>
+<fieldset>
+  <legend>Politiskt aktivitet</legend>
+  <%= f.fields_for :political_activity do |ii| %>
+    <div class="clearfix">
+      <%= ii.label :contact_with %>
+      <div class="input">
+        <%= ii.text_area :contact_with, class: 'large' %>
+    </div></div>
+  <% end %>
+</fieldset>
+
+
+
+
 
 
   <div class="actions">

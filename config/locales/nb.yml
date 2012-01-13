@@ -56,12 +56,26 @@ nb:
         dtend: Slutt-tidspunkt
 
       internal_information:
+        title: Interninformasjon
         competence: Kompetansebehov
         participants_count: Antall deltakere
         volunteers_count: Antall frivillige involvert
         volunteers_hours: Antall frivilligtimer brukt totalt
         retrospect_good: Dette gikk bra
         retrospect_improve: Enda bedre om
+
+      political_activity:
+        title: Politisk aktivitet
+        contact_with: Kontakt med
+
+      extra_information:
+        result: Respons/Resultat
+
+      media_coverage:
+        subject_title: Tittel på sak
+        media: Medie
+        subject_link: Link til sak
+
 
       location:
         name: Navn
