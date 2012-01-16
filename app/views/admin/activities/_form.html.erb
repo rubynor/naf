@@ -178,7 +178,7 @@
 <div class="clearfix">
       <%= f.label :address %>
   <div class="input">
-      <%= f.text_area :address, :class => "large" %><%=help_text("Adresse", "Fyll inn adresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateaddresse.")%>
+      <%= f.text_area :address, :class => "large" %><%=help_text("Adresse", "Fyll inn adresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateadresse.")%>
   </div></div>
 </fieldset>
 
@@ -310,7 +310,7 @@
 
 </fieldset>
 <fieldset>
-  <legend>Politiskt aktivitet</legend>
+  <legend><%= t 'mongoid.attributes.political_activity.title' %></legend>
   <%= f.fields_for :political_activity do |pa| %>
     <div class="clearfix">
       <%= pa.label :contact_with %>
@@ -321,7 +321,7 @@
 </fieldset>
 
 <fieldset>
-  <legend>Ekstrainfo</legend>
+  <legend><%= t 'mongoid.attributes.extra_info' %></legend>
   <div class="clearfix">
     <%= f.label :extra_info_result %>
     <div class="input">
@@ -329,6 +329,26 @@
   </div></div>
 </fieldset>
 
+<fieldset>
+  <legend><%= t 'mongoid.attributes.media_coverage.title' %></legend>
+  <%= f.fields_for :media_coverage do |mc| %>
+    <div class="clearfix">
+      <%= mc.label :subject_title %>
+      <div class="input">
+        <%= mc.text_field :subject_title, class: 'xlarge' %>
+    </div></div>
+    <div class="clearfix">
+      <%= mc.label :media %>
+      <div class="input">
+        <%= mc.text_area :media, class: 'large wide' %>
+    </div></div>
+    <div class="clearfix">
+      <%= mc.label :subject_link %>
+      <div class="input">
+        <%= mc.text_field :subject_link, class: 'xlarge' %>
+    </div></div>
+  <% end %>
+</fieldset>
 
 
 

@@ -26,7 +26,7 @@
     <tr><td>Avslutter</td><td><%=@activity.dtend.strftime("%d.%m.%y")%> kl. <%=@activity.dtend.strftime("%H:%M")%></td></tr>
     <tr><td>Arrangør</td><td><%=@activity.organizer.name%></td></tr>
     <tr><td>Sted</td><td><%=@activity.location.name%></td></tr>
-    <tr><td>Addresse</td><td><%=@activity.address%></td></tr>
+    <tr><td>Adresse</td><td><%=@activity.address%></td></tr>
     <tr><td>Pris</td><td><%=@activity.price%></td></tr>
     <tr><td>Medlemspris</td><td><%=@activity.member_price%></td></tr>
     <tr><td>Kategori</td><td><%=@activity.category.name%></td></tr>
@@ -42,7 +42,7 @@
 <tr><td>Kontakt navn</td><td><%=@activity.contact_name%> </td></tr>
 <tr><td>Kontakt e-post</td><td><%=@activity.contact_email%> </td></tr>
 <tr><td>Kontakt telefon</td><td><%=@activity.contact_phone%> </td></tr>
-<tr><td>Ytligere kontakt informasjon</td><td><%=@activity.contact%> </td></tr>
+<tr><td>Ytterligere kontaktinformasjon</td><td><%=@activity.contact%> </td></tr>
    </table>
 </div>
 </div>
@@ -53,7 +53,7 @@
     <%= t :title, iit %>
 </div>
  <div class='row'>
-    <div class='span16'>
+   <div class='span16'>
      <table class='zebra-striped'>
        <tr><td><%= t :competence, iit %></td><td><%=ii.competence%> </td></tr>
        <tr><td><%= t :volunteers_count, iit %></td><td><%=ii.volunteers_count%></td></tr>
@@ -62,30 +62,34 @@
        <tr><td><%= t :retrospect_good, iit %></td><td><%=ii.retrospect_good%></td></tr>
        <tr><td><%= t :retrospect_improve, iit %></td><td><%=ii.retrospect_improve%></td></tr>
    </table>
-   </div>
+ </div>
 </div>
 
-<div class='clearfix tabletitle'  style='overflow:hidden;padding-bottom:10px;'>
-  <% pa = @activity.political_activity %>
-  <% pa = PoliticalActivity.new unless pa %>
-  <% pat = {:scope => [:mongoid, :attributes, :political_activity]} %>
-    <%= t :title, pat %>
-</div>
- <div class='row'>
-    <div class='span8'>
+<div class='row'>
+  <div class='span8'>
      <table class='zebra-striped'>
+       <% pa = @activity.political_activity %>
+       <% pa = PoliticalActivity.new unless pa %>
+       <% pat = {:scope => [:mongoid, :attributes, :political_activity]} %>
+
+       <tr><td><b><%= t :title, pat %></b></td><td></td></tr>
        <tr><td><%= t :contact_with, pat %></td><td><%=pa.contact_with%> </td></tr>
-   </table>
-   </div>
-</div>
-
-<div class='clearfix tabletitle'  style='overflow:hidden;padding-bottom:10px;'>
-    <%= t 'mongoid.attributes.extra_info' %>
-</div>
- <div class='row'>
-    <div class='span8'>
-     <table class='zebra-striped'>
+       <tr><td><b><%= t 'mongoid.attributes.extra_info' %></b></td><td></td></tr>
        <tr><td><%= t 'mongoid.attributes.extra_info_result' %></td><td><%=@activity.extra_info_result%> </td></tr>
    </table>
-   </div>
+  </div>
+
+
+  <div class='span8'>
+    <table class='zebra-striped'>
+      <% mc = @activity.media_coverage %>
+      <% mc = MediaCoverage.new unless mc %>
+      <% mct = {:scope => [:mongoid, :attributes, :media_coverage]} %>
+
+      <tr><td><b><%= t :title, mct %></b></td><td></td></tr>
+      <tr><td><%= t :subject_title, mct %></td><td><%=mc.subject_title%> </td></tr>
+      <tr><td><%= t :media, mct %></td><td><%=mc.media%> </td></tr>
+      <tr><td><%= t :subject_link, mct %></td><td><%= link_to mc.subject_link, mc.subject_link unless mc.subject_link.nil? %></td></tr>
+    </table>
+  </div>
 </div>

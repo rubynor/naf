@@ -37,13 +37,13 @@ nb:
         location: Sted
         organizer_id: Arrangør
         organizer: Arrangør
-        address: Addresse
+        address: Adresse
         category_id: Kategori
         category: Kategori
         contact_name: Kontakt Navn
         contact_phone: Kontakt Telefon
         contact_email: Kontakt E-post
-        contact: Ytligere kontaktinfo.
+        contact: Ytterligere kontaktinfo.
         attendee: Lenke til påmelding
         price: Pris
         member_price: Medlemspris
@@ -72,6 +72,7 @@ nb:
       extra_info_result: Respons/Resultat
 
       media_coverage:
+        title: Medieomtale
         subject_title: Tittel på sak
         media: Medie
         subject_link: Link til sak

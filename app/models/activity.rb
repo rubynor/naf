@@ -46,8 +46,10 @@ class Activity
 
   embeds_one :internal_information, cascade_callbacks: true
   embeds_one :political_activity, cascade_callbacks: true
+  embeds_one :media_coverage, cascade_callbacks: true
   accepts_nested_attributes_for :internal_information
   accepts_nested_attributes_for :political_activity
+  accepts_nested_attributes_for :media_coverage
   #mount_uploader :photo, PhotoUploader
 
   belongs_to :category

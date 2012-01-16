@@ -13,6 +13,7 @@
 
 textarea.xxlarge{height:100px}
 textarea.large{height:50px}
+textarea.wide{width:270px}
 
 /* for uploader upload_container*/
 .runtime{

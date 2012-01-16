@@ -95,5 +95,6 @@ class Admin::ActivitiesController < ApplicationController
   def build_embedded
     @activity.internal_information = InternalInformation.new unless @activity.internal_information
     @activity.political_activity = PoliticalActivity.new unless @activity.political_activity
+    @activity.media_coverage = MediaCoverage.new unless @activity.media_coverage
   end
 end
