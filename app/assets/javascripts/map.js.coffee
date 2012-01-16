@@ -1,7 +1,7 @@
 class window.Map extends Backbone.View
 
   mapOptions: ->
-    {zoom: 12, center: new google.maps.LatLng(59.9, 10.7), mapTypeId: google.maps.MapTypeId.ROADMAP} #ROADMAP, TERRAIN}
+    {zoom: 5, maxZoom: 18, center: new google.maps.LatLng(65.0, 13.0), mapTypeId: google.maps.MapTypeId.ROADMAP} #ROADMAP, TERRAIN}
 
   initialize: ->
     @selector = $("#map_canvas")[0]
@@ -12,15 +12,18 @@ class window.Map extends Backbone.View
   render: ->
 
   placeActivity: (activity) ->
+#    console.log "placeActivity"
     location = activity.get("location")
     summary = activity.get("summary")
     point = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude))
     @bounds.extend(point)
-    marker = new google.maps.Marker({activity_id: activity.get("_id"), position: point,map: window.map.map, title: summary})
+    markershape = {type: 'circle', coords: [location.latitude, location.longitude, 500]}
+    #shape: markershape
+    marker = new google.maps.Marker({activity_id: activity.get("_id"), position: point,  map: window.map.map, title: summary})
     icon_name = @iconByCategory(activity.get("category_id"))
     marker.setIcon("assets/icons/#{icon_name}.png") if icon_name
     @markers.push marker
-    @map.fitBounds(@bounds)
+    #@map.fitBounds(@bounds)
 
     google.maps.event.addListener marker, 'click', () ->
       activity.view.render()
@@ -28,17 +31,18 @@ class window.Map extends Backbone.View
   clear: ->
     _.each @markers, (marker) ->
       marker.setMap(null)
+#    console.log "clearing markers and map"
     @markers.length = 0
     @markerCluster.clearMarkers()
 
   clusterActivities: () ->
-    mcOptions = {gridSize: 8}#, maxZoom: 15} #maxZoom is the zoom level where the MarkerClusterer disappear.
-
+    mcOptions = {gridSize: 25, maxZoom: 50} #maxZoom is the zoom level where the MarkerClusterer disappear.
+#    console.log "creating clusters"
     @markerCluster = new MarkerClusterer(@map, @markers, mcOptions) #, @markers
     listZoom = 10
     google.maps.event.addListener @markerCluster, 'clusterclick', (cluster) ->
       #console.log("cluster onclick event on cluster, markers: #{cluster.getMarkers().length}, zoom: #{cluster.getMap().zoom}, listZoom: #{listZoom}")
-      #console.log("cluster zoom on click #{console.dir(cluster)}")
+#      console.log "cluster zoom on click #{cluster.getMap().zoom}"
       #console.log("is zoom on click #{cluster.getMarkerClusterer().isZoomOnClick()}")
       if (cluster.getMap().zoom >= listZoom && cluster.getMarkers().length > 1)
         new window.ActivityClusterView(cluster).render()
