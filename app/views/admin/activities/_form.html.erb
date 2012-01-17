@@ -1,6 +1,11 @@
+<!-- script type="text/javascript" src="https://www.google.com/jsapi?autoload=%7B%22modules%22%3A%5B%7B%22name%22%3A%22maps%22%2C%22version%22%3A%223%22%7D%5D%7D&key=ABQIAAAAuzlchGKWpDt8G_edYZlZCxRmSB67FeqAvcVRJYzvWh44iL3a-hR-WcBPsY2uUkp-udZjPckgZyTG_Q&sensor=false"></script>
+-->
+
 <script type='text/javascript'>
+
   $(document).ready(function(){
-    var uploader = new window.Uploader({multiple: false})
+    var uploader = new window.Uploader({multiple: false});
+
   });
 </script>
 
@@ -169,17 +174,37 @@
       <%= f.select :organizer_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Arrangør", "Her velger du den avdelingen som står som arrangør.")%>
   </div></div>
 
+
 <div class="clearfix">
-      <%= f.label :location %>
-  <div class="input" id>
-      <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => false}, {:class => "xlarge"} %><%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp adresse under ved behov.")%>
+
+     <%= f.label "Sted/Adresse/Annet" %>
+  <div class="input" id='official_loc_div' >
+     <!-- input type="radio" name="radio1" class="toggle_loc" value="location" -->
+    <%= f.select :location_id, current_user.editable_locations.collect{|c| [c.name, c.id]}, {:include_blank => '-- Velg sted --'}, {:class => "xlarge"} %>
+    <%=help_text("Sted", "Her velger du avdelingen der arrangementet skal være. Dette er feltet som bestemmer hvor på norgeskartet aktiviteten vil vises. Utdyp adresse under ved behov.")%>
+
   </div></div>
 
 <div class="clearfix">
-      <%= f.label :address %>
-  <div class="input">
-      <%= f.text_area :address, :class => "large" %><%=help_text("Adresse", "Fyll inn adresse dersom det ikke er oppmøte på sted angitt over. F.eks. oppmøte på Statoil + gateadresse.")%>
-  </div></div>
+
+
+  <%= f.fields_for :location do |loc| %>
+    <div class="input">
+
+      <!-- input type="radio" name="radio1" class="toggle_loc" value="address" -->
+      <div id='address_loc_div'>
+
+      <%= loc.text_field :name, :class => "large" %>
+      <%=help_text("Adresse/Annet", "Husk å fjerne valget om sted over, om du ønsker å oppgi adresse/annet. Skal aktiviteten vises i kart må du oppgi bredde- og lengdegrad (foreløpig). Du kan finne dette selv på maps.google.no ved høyreklikk->Plassér markør for lengde- og breddegrad <br/>(NB: tallene viser bredde-,lengdegrad)<br/><em>Eks Mosjøen bredde 65,84 lengde 13,19.</em><br/><br/>Oppgir du verken sted (dropdown) eller angir koordinater vil aktiviteten deaktivers (vil ikke vises i kartet).", '<span class="label warning">NB!</span> [?]') %>
+      breddegrad
+      <%= loc.text_field :latitude, :class =>'mini' %>
+      lengdegrad
+      <%= loc.text_field :longitude,  :class =>'mini nofloat' %>
+        </div>
+    </div>
+  <% end %>
+</div>
+
 </fieldset>
 
 
@@ -349,9 +374,6 @@
     </div></div>
   <% end %>
 </fieldset>
-
-
-
 
 
   <div class="actions">

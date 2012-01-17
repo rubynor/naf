@@ -33,8 +33,8 @@ module ActivitiesHelper
     end
   end
 
-  def help_text(title="", content="")
-    "<a data-placement='below' href='#' rel='popover' title='#{title}' data-content='#{content}'>[?]</a>".html_safe
+  def help_text(title="", content="", help_icon="[?]")
+    "<a data-placement='below' href='#' rel='popover' title='#{title}' data-content='#{content}'>#{help_icon}</a>".html_safe
   end
 
   def activity_image(activity)

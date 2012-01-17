@@ -25,8 +25,7 @@
     <tr><td>Starter</td><td><%=@activity.dtstart.strftime("%d.%m.%y")%> kl. <%=@activity.dtstart.strftime("%H:%M")%></td></tr>
     <tr><td>Avslutter</td><td><%=@activity.dtend.strftime("%d.%m.%y")%> kl. <%=@activity.dtend.strftime("%H:%M")%></td></tr>
     <tr><td>Arrangør</td><td><%=@activity.organizer.name%></td></tr>
-    <tr><td>Sted</td><td><%=@activity.location.name%></td></tr>
-    <tr><td>Adresse</td><td><%=@activity.address%></td></tr>
+    <tr><td>Sted/Adresse</td><td><%=@activity.location.name%></td></tr>
     <tr><td>Pris</td><td><%=@activity.price%></td></tr>
     <tr><td>Medlemspris</td><td><%=@activity.member_price%></td></tr>
     <tr><td>Kategori</td><td><%=@activity.category.name%></td></tr>
@@ -43,6 +42,7 @@
 <tr><td>Kontakt e-post</td><td><%=@activity.contact_email%> </td></tr>
 <tr><td>Kontakt telefon</td><td><%=@activity.contact_phone%> </td></tr>
 <tr><td>Ytterligere kontaktinformasjon</td><td><%=@activity.contact%> </td></tr>
+<tr><td>Vises i kart?</td><td><%=@activity.active ? 'Ja' : 'Nei' %> </td></tr>
    </table>
 </div>
 </div>

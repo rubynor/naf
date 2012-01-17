@@ -6,7 +6,6 @@ class Activity
 
   field :summary, :type => String #summary of the event
   field :description, :type => String #description of the event
-  field :address, :type => String
   field :contact_name, :type => String
   field :contact_email, :type => String
   field :contact_phone, :type => String
@@ -41,7 +40,11 @@ class Activity
   field :photo_medium_url, :type => String, :default => ""
   field :photo_large_url, :type => String, :default => ""
 
+  # The embedded location may be set directly or through the before_save where it finds the location_id
   embeds_one :location, :class_name => "EmbeddedLocation", :cascade_callbacks => true
+  accepts_nested_attributes_for :location
+
+
   embeds_one :organizer, :class_name => "EmbeddedOrganizer", :cascade_callbacks => true
 
   embeds_one :internal_information, cascade_callbacks: true
@@ -55,9 +58,9 @@ class Activity
   belongs_to :category
   belongs_to :user
 
-  before_save :embedd_objects, :set_photo_urls
+  before_save :embedd_objects, :set_photo_urls, :deactivate_on_missing_latlong
 
-  validates_presence_of :summary, :organizer_id, :location_id, :dtstart, :dtend, :category_id
+  validates_presence_of :summary, :organizer_id, :dtstart, :dtend, :category_id
 
   scope :by_start_date, all(sort: [[ :dtstart, :asc ]])
   scope :active, where(:active => true)
@@ -75,22 +78,25 @@ class Activity
     time :dtstart, :trie => true
 
     text :location_name do
-      location.name if location
+      self.location.name if self.location
     end
 
     string :region_id do
-      self.location.region_id.to_s if location
+      self.location.region_id.to_s if self.location && self.location.region_id
     end
   end
 
   def embedd_objects
-    loc = Location.find(self.location_id)
-    new_loc = EmbeddedLocation.new(:name => loc.name, :latitude => loc.latitude, :longitude => loc.longitude, :region_id => loc.region_id)
-    self.location = new_loc
+
+    #If official location was selected, copy the location info to the embedded document
+    self.location_id = nil if self.location_id.blank?
+
+    if self.location_id && loc = Location.find(self.location_id)
+      self.location = EmbeddedLocation.new(:name => loc.name, :latitude => loc.latitude, :longitude => loc.longitude, :region_id => loc.region_id)
+    end
 
     org = Location.find(self.organizer_id)
-    new_org = EmbeddedOrganizer.new(:name => org.name, :latitude => org.latitude, :longitude => org.longitude, :region_id => org.region_id)
-    self.organizer = new_org
+    self.organizer = EmbeddedOrganizer.new(:name => org.name, :latitude => org.latitude, :longitude => org.longitude, :region_id => org.region_id)
   end
 
   #OMA Code smell. Why isn't this associated or better, embedded? the storage of photo url also statically stores the bucket name and storage url now.
@@ -101,6 +107,19 @@ class Activity
       self.photo_medium_url = photo.photo.medium
       self.photo_large_url = photo.photo.large
     end
+  end
+
+  def deactivate_on_missing_latlong
+    self.active = false if self.active && !has_latlonglocation?
+    true
+  end
+
+  def has_location_by_address?
+    self.location && !self.location_id #location_id == official location, not by address
+  end
+  def has_latlonglocation?
+    return false if self.location.nil?
+    self.location.latitude && self.location.longitude
   end
 #  def photo_thumb_url
 #    self.photo.thumb

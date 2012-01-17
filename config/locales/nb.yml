@@ -34,7 +34,7 @@ nb:
         summary: Navn
         description: Beskrivelse
         location_id: Sted
-        location: Sted
+        location: Sted/Adresse
         organizer_id: Arrangør
         organizer: Arrangør
         address: Adresse

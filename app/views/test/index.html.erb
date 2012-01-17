@@ -105,7 +105,7 @@
 </table>
 </script>
 
-<script type='template', id='activity_tmpl'>
+<script type='template' id='activity_tmpl'>
     <div class="modal hide fade">
       <div class="modal-header">
         <a href="#" class="close">&times;</a>
@@ -136,9 +136,6 @@
       <tr>
         <td><b>Hvor:</b> {{activity.location.name}}
         </td>
-      {{#if activity.address}}
-        <tr><td><b>Adresse:</b> {{activity.address}}</td></tr>
-      {{/if}}
         <tr><td><b>Start:</b> {{formatted_time activity.dtstart}} <b>Slutt:</b> {{formatted_time activity.dtend}}</td></tr>
       {{#if activity.responsibility}}
           <tr><td><b>Husk:</b> {{activity.responsibility}}</td></tr>
@@ -197,9 +194,11 @@
           <a href="{{activity.url}}" class="btn primary" target="_blank">Mer informasjon</a>
       {{/if}}
       </div>
+
     </div>
 
 </script>
+
 
 <script type='template' id='category_tmpl'>
     <label>

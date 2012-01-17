@@ -70,7 +70,7 @@ $(document).ready(function(){
   });
 
   //help popover
-  $('a[rel=popover]').popover({placement:'right'});
+  $('a[rel=popover]').popover({placement:'right', html:true});
   $('a[rel=popover]').click(function(e){e.preventDefault();return false;})
 
 

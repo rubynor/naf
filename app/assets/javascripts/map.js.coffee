@@ -1,7 +1,7 @@
 class window.Map extends Backbone.View
 
   mapOptions: ->
-    {zoom: 5, maxZoom: 18, center: new google.maps.LatLng(65.0, 13.0), mapTypeId: google.maps.MapTypeId.ROADMAP} #ROADMAP, TERRAIN}
+    {zoom: 5, minzoom: 2, maxZoom: 18, center: new google.maps.LatLng(65.0, 13.0), mapTypeId: google.maps.MapTypeId.ROADMAP} #ROADMAP, TERRAIN}
 
   initialize: ->
     @selector = $("#map_canvas")[0]
