@@ -25,7 +25,7 @@
     <tr><td>Starter</td><td><%=@activity.dtstart.strftime("%d.%m.%y")%> kl. <%=@activity.dtstart.strftime("%H:%M")%></td></tr>
     <tr><td>Avslutter</td><td><%=@activity.dtend.strftime("%d.%m.%y")%> kl. <%=@activity.dtend.strftime("%H:%M")%></td></tr>
     <tr><td>Arrangør</td><td><%=@activity.organizer.name%></td></tr>
-    <tr><td>Sted/Adresse</td><td><%=@activity.location.name%></td></tr>
+    <tr><td>Sted/Adresse</td><td><%=@activity.location.name rescue nil%></td></tr>
     <tr><td>Pris</td><td><%=@activity.price%></td></tr>
     <tr><td>Medlemspris</td><td><%=@activity.member_price%></td></tr>
     <tr><td>Kategori</td><td><%=@activity.category.name%></td></tr>

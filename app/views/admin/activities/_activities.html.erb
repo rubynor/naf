@@ -22,7 +22,7 @@
     <td><%=activity.dtend.strftime("%d.%m.%y")%></td>
     <td><%=link_to activity.summary, admin_activity_url(activity)%></td>
     <td><%=activity.organizer.name%></td>
-    <td><%=activity.location.name%></td>
+    <td><%=activity.location.name rescue nil %></td>
     <td><%=activity.category.name%></td>
     <td><%=activity.active ? 'Aktiv' : ''%></td>
     <td style='width:160px;'>
