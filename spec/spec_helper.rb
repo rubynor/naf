@@ -9,12 +9,13 @@ require 'sunspot/rails/spec_helper'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+def clean_db
+  Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+end
+
 RSpec.configure do |config|
   config.mock_with :rspec
-
-  config.before(:each) do
-    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
-  end
+  config.before(:each) { clean_db }
 
   config.include Devise::TestHelpers, :type => :controller
 

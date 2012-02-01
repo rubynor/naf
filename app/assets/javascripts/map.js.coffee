@@ -15,6 +15,7 @@ class window.Map extends Backbone.View
 #    console.log "placeActivity"
     location = activity.get("location")
     summary = activity.get("summary")
+
     point = new google.maps.LatLng(parseFloat(location.latitude), parseFloat(location.longitude))
     @bounds.extend(point)
     markershape = {type: 'circle', coords: [location.latitude, location.longitude, 500]}

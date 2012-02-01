@@ -23,7 +23,7 @@ class Admin::ActivitiesController < ApplicationController
   end
 
   def copy
-    @activity = Activity.find(params[:id]).dup
+    @activity = Activity.find(params[:id]).freeze.dup
     render "new"
   end
 

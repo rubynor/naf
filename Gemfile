@@ -33,6 +33,10 @@ group :production do
   gem 'newrelic_rpm'
 end
 
+#group :development do
+#  gem 'sunspot_solr'
+#end
+
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
 
