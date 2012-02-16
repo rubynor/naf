@@ -36,7 +36,7 @@
 
   <div class="clearfix">
      <%= f.label :location %>
-     <div class="input"><%= f.select :location_id, Location.all.collect{|location| [location.name, location.id.to_s]}, :include_blank => true %></div>
+     <div class="input"><%= f.select :location_id, Location.by_name.collect{|location| [location.name, location.id.to_s]}, :include_blank => true %></div>
   </div>
 
   <div class="clearfix">
