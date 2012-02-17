@@ -1,12 +1,12 @@
 # -*- encoding : utf-8 -*-
 class Location
   include Mongoid::Document
-
+  include NafLocations
   field :name, :type => String
   field :longitude, :type => Float
   field :latitude, :type => Float
 
-  validates_presence_of :longitude, :latitude, :name, :region
+  validates_presence_of :longitude, :latitude, :name#, :region
 
   belongs_to :region
   belongs_to :location
@@ -23,5 +23,6 @@ class Location
       :lng => longitude
     }
   end
+
 end
 

@@ -7,7 +7,7 @@ class LocationsController < ApplicationController
         render :json => { :locations => Location.by_name },  :callback => params[:callback]
       end
       format.xml do
-        render :xml => {:markers => Location.by_region.map{|location| location.to_marker} },  :callback => params[:callback]
+        render :xml => {:markers => Location.by_name.map{|location| location.to_marker} },  :callback => params[:callback]
       end
     end
   end
