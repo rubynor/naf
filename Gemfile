@@ -13,7 +13,7 @@ gem 'fog'
 gem 'carrierwave', '~> 0.5.3'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
 gem 'rmagick', "~> 2.13.1", :require => 'RMagick'
-gem 'hirefireapp'
+gem 'hirefireapp' #for autoscaling heroku
 
 # Gems used only for assets and not required
 # in production environments by default.
