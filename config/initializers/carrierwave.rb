@@ -8,7 +8,7 @@ if Rails.env.test? || Rails.env.development?
 else
   CarrierWave.configure do |config|
     aws_key, aws_secret, aws_region, aws_bucket = ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'], ENV['AWS_REGION'], ENV['AWS_BUCKET']
-    raise "Error: AWS keys not configured" unless aws_key
+    raise "Error: AWS keys not configured" unless aws_key && !Rails.env.production?
     config.fog_credentials = {
       :provider               => 'AWS',       # required
       :aws_access_key_id      => aws_key,       # required
