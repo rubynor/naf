@@ -34,6 +34,7 @@ module NafLocations
            #1
            name = "NAF Senter Harstad" if name == "NAF Senter Harstadt"
            #2
+           name.gsub!("avd.", "Lokalavdeling")
            unless name == "Navn lokalavdeling"
              # OK - getting real. add location names to list and prepend NAF if missing.
              key = (name.starts_with?("NAF") ? name : "NAF " + name)
