@@ -1,18 +1,18 @@
 source 'http://rubygems.org'
-
+ruby '1.9.3'
 gem 'rails', '3.1.10'
 
 gem 'mongoid'
 gem 'bson_ext'
 gem 'kaminari' #for pagination
 gem "sunspot"
-gem "sunspot_rails"
+gem "sunspot_rails", '~> 2.1.1'
 gem "sunspot_mongoid"
 gem 'devise'
 gem 'fog'
 gem 'carrierwave', '~> 0.5.3'
 gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
-gem 'rmagick', "~> 2.13.1", :require => 'RMagick'
+gem 'rmagick', "~> 2.13.3", :require => 'RMagick'
 gem 'hirefireapp' #for autoscaling heroku
 
 # Gems used only for assets and not required
@@ -34,9 +34,9 @@ group :production do
   gem 'newrelic_rpm'
 end
 
-#group :development do
-#  gem 'sunspot_solr'
-#end
+group :development do
+  gem 'sunspot_solr'
+end
 
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
