@@ -1,3 +1,7 @@
 development:
   solr:
     solr_home: solr
+
+production:
+  solr:
+    solr_home: solr
